@@ -1,3 +1,7 @@
+CREATE table palavra_chave(
+  nome VARCHAR (64) PRIMARY KEY
+);
+
 CREATE table usuario(
   cod INTEGER PRIMARY KEY, 
   nome VARCHAR (64),
@@ -10,25 +14,101 @@ CREATE table usuario(
   cidade VARCHAR (32),
   bairro VARCHAR (32),
   rua VARCHAR (132),
-  num_casa INTEGER
+  num_casa INTEGER,
+  palavra VARCHAR (64),
+  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
 );
-CREATE table palavra_chave(
-  nome VARCHAR (64) PRIMARY KEY
-);  
+
 CREATE table livro (
-  id_livro INTEGER PRIMARY KEY,
+  id_prod INTEGER PRIMARY KEY,
   nome VARCHAR (72),
   valor INTEGER,
   condicao VARCHAR (16),
   descricao VARCHAR (591),
   autor VARCHAR (32),
-  
-
-);
-CREATE table usuario(
-  id_livro INTEGER PRIMARY KEY,
+  edicao VARCHAR (32),
+  qtd_pag INTEGER,
+  palavra VARCHAR (64),
+  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+ );
+ 
+ CREATE table disco(
+  id_prod INTEGER PRIMARY KEY,
   nome VARCHAR (72),
   valor INTEGER,
   condicao VARCHAR (16),
   descricao VARCHAR (591),
-)
+  artista VARCHAR (32),
+  ano INTEGER,
+  gravadora VARCHAR (32),
+  palavra VARCHAR (64),
+  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+);
+
+CREATE TABLE carrinho_livro(
+  cod_usuario INTEGER,
+  id_prod INTEGER,
+  FOREIGN KEY (cod_usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (id_prod) REFERENCES livro (id_prod),
+  PRIMARY KEY (cod_usuario, id_prod)
+);
+
+CREATE TABLE carrinho_disco(
+  cod_usuario INTEGER,
+  id_prod INTEGER,
+  FOREIGN KEY (cod_usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (id_prod) REFERENCES disco (id_prod),
+  PRIMARY KEY (cod_usuario, id_prod)
+);
+
+CREATE TABLE desejos_livro(
+  cod_usuario INTEGER,
+  id_prod INTEGER,
+  FOREIGN KEY (cod_usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (id_prod) REFERENCES livro (id_prod),
+  PRIMARY KEY (cod_usuario, id_prod)
+);
+
+CREATE TABLE desejos_disco(
+  cod_usuario INTEGER,
+  id_prod INTEGER,
+  FOREIGN KEY (cod_usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (id_prod) REFERENCES disco (id_prod),
+  PRIMARY KEY (cod_usuario, id_prod)
+);
+
+CREATE TABLE avaliacao_livro(
+  cod_usuario INTEGER,
+  id_prod INTEGER,
+  nota INTEGER,
+  descricao VARCHAR (512),
+  FOREIGN KEY (cod_usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (id_prod) REFERENCES livro (id_prod),
+  PRIMARY KEY (cod_usuario, id_prod)
+);
+
+CREATE TABLE avaliacao_disco(
+  cod_usuario INTEGER,
+  id_prod INTEGER,
+  nota INTEGER,
+  descricao VARCHAR (512),
+  FOREIGN KEY (cod_usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (id_prod) REFERENCES disco (id_prod),
+  PRIMARY KEY (cod_usuario, id_prod)
+);
+
+CREATE TABLE denuncia(
+  denunciante INTEGER,
+  denunciado INTEGER,
+  PRIMARY KEY (denunciante, denunciado),
+  FOREIGN key (denunciante) REFERENCES usuario (cod),
+  FOREIGN KEY (denunciado) REFERENCES usuario (cod)
+);
+
+CREATE TABLE segue(
+  seguinte INTEGER,
+  seguido INTEGER,
+  PRIMARY KEY (seguinte, seguido),
+  FOREIGN key (seguinte) REFERENCES usuario (cod),
+  FOREIGN KEY (seguido) REFERENCES usuario (cod)
+);
