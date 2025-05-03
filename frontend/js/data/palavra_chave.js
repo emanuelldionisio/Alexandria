@@ -76,7 +76,7 @@ export const palavra_chave = [
     },
 
     {
-        "nome": "Invanto-Juvenil"
+        "nome": "Infanto-Juvenil"
     },
 
     {
