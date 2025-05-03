@@ -1,4 +1,4 @@
-[
+export const usuario = [
     {
         "cod": 1,
         "nome": "Emanuel Dionisio",

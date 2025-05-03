@@ -1,4 +1,4 @@
-[
+export const livro = [
     {
         "id_prod": 5,
         "nome": "Crime e Castigo",

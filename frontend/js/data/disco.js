@@ -1,4 +1,4 @@
-[
+export const disco = [
     {
         "id_prod": 1,
         "nome": "A Day At The Races - CD",
