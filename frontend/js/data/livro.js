@@ -1,6 +1,7 @@
 export const livro = [
     {
         "id_prod": 1,
+        "id_usuario": 1,
         "nome": "Crime e Castigo",
         "valor": 2390, // 23.90
         "condicao": "Bom - Manchas", 
@@ -12,6 +13,7 @@ export const livro = [
 
     {
         "id_prod": 2,
+        "id_usuario": 2,
         "nome": "Quarta Asa",
         "valor": 4590, // 45.90
         "condicao": "Excelente", 
@@ -23,6 +25,7 @@ export const livro = [
 
     {
         "id_prod": 3,
+        "id_usuario": 2,
         "nome": "A Canção de Aquiles",
         "valor": 2260, // 22.60
         "condicao": "Avariado", 
@@ -34,6 +37,7 @@ export const livro = [
 
     {
         "id_prod": 4,
+        "id_usuario": 1,
         "nome": "O Hobbit",
         "valor": 2830, // 28.30
         "condicao": "Excelente", 
@@ -41,5 +45,18 @@ export const livro = [
         "autor": "J.R.R Tolkien",
         "edicao": "3° - Harper Collins Brasil",
         "qtd_pag": 331
-    }
+    },
+    
+    {
+        "id_prod": 10,
+        "id_usuario": 2,
+        "nome": "Torto Arado",
+        "valor": 3010, // 30.10
+        "condicao": "Excelente", 
+        "descricao": "Sem danos",
+        "autor": "Itamar Vieira Junior",
+        "edicao": "1° - Todavia",
+        "qtd_pag": 331
+    },
+
 ]

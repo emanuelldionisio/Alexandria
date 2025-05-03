@@ -1,6 +1,7 @@
 export const disco = [
     {
         "id_prod": 1,
+        "id_usuario": 1,
         "nome": "A Day At The Races - CD",
         "valor": 6540, // 65.40
         "condicao": "Ótimo", 
@@ -12,6 +13,7 @@ export const disco = [
 
     {
         "id_prod": 2,
+        "id_usuario": 1,
         "nome": "Three Cheers For Sweet Revenge - CD",
         "valor": 5960, // 59.60
         "condicao": "Ótimo", 
@@ -23,6 +25,7 @@ export const disco = [
 
     {
         "id_prod": 3,
+        "id_usuario": 2,
         "nome": "Ciano - Vinil",
         "valor": 23000, // 230.00
         "condicao": "Bom", 
@@ -34,6 +37,7 @@ export const disco = [
 
     {
         "id_prod": 4,
+        "id_usuario": 1,
         "nome": "Xou da Xuxa - Vinil",
         "valor": 58600, // 586.00
         "condicao": "Bom", 
@@ -41,5 +45,17 @@ export const disco = [
         "artista": "Xuxa",
         "ano": 1986,
         "gravadora": "Som Livre"
+    },
+
+    {
+        "id_prod": 9,
+        "id_usuario": 2,
+        "nome": "Não Deixe o Samba Morrer",
+        "valor": 3290, // 3290
+        "condicao": "Excelente", 
+        "descricao": "Excelente estado",
+        "artista": "Alcione",
+        "ano": 1975,
+        "gravadora": "Sony"
     },
 ]
