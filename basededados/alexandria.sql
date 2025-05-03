@@ -15,7 +15,6 @@ CREATE table usuario(
   bairro VARCHAR (32),
   rua VARCHAR (128),
   num_casa INTEGER,
-  palavra VARCHAR (64)
 );
 
 CREATE table livro (
@@ -27,7 +26,6 @@ CREATE table livro (
   autor VARCHAR (32),
   edicao VARCHAR (32),
   qtd_pag INTEGER,
-  palavra VARCHAR (64)
  );
  
  CREATE table disco(
@@ -39,7 +37,6 @@ CREATE table livro (
   artista VARCHAR (32),
   ano INTEGER,
   gravadora VARCHAR (32),
-  palavra VARCHAR (64)
 );
 
 CREATE TABLE carrinho_livro(
