@@ -15,8 +15,7 @@ CREATE table usuario(
   bairro VARCHAR (32),
   rua VARCHAR (128),
   num_casa INTEGER,
-  palavra VARCHAR (64),
-  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+  palavra VARCHAR (64)
 );
 
 CREATE table livro (
@@ -28,8 +27,7 @@ CREATE table livro (
   autor VARCHAR (32),
   edicao VARCHAR (32),
   qtd_pag INTEGER,
-  palavra VARCHAR (64),
-  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+  palavra VARCHAR (64)
  );
  
  CREATE table disco(
@@ -41,8 +39,7 @@ CREATE table livro (
   artista VARCHAR (32),
   ano INTEGER,
   gravadora VARCHAR (32),
-  palavra VARCHAR (64),
-  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+  palavra VARCHAR (64)
 );
 
 CREATE TABLE carrinho_livro(
@@ -112,3 +109,27 @@ CREATE TABLE segue(
   FOREIGN key (seguinte) REFERENCES usuario (cod),
   FOREIGN KEY (seguido) REFERENCES usuario (cod)
 );
+
+CREATE TABLE palavra_usuario(
+  usuario INTEGER,
+  palavra VARCHAR(64),
+  PRIMARY KEY (usuario, palavra),
+  FOREIGN KEY (usuario) REFERENCES usuario (cod),
+  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+ );
+ 
+ CREATE TABLE palavra_livro(
+  prod INTEGER,
+  palavra VARCHAR(64),
+  PRIMARY KEY (prod, palavra),
+  FOREIGN KEY (prod) REFERENCES livro (id_prod),
+  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+ );
+ 
+ CREATE TABLE palavra_disco(
+  prod INTEGER,
+  palavra VARCHAR(64),
+  PRIMARY KEY (prod, palavra),
+  FOREIGN KEY (prod) REFERENCES disco (id_prod),
+  FOREIGN KEY (palavra) REFERENCES palavra_chave (nome)
+ ); 
