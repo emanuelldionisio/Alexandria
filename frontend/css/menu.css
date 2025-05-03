@@ -1,6 +1,10 @@
 body {
-    background-color: #e6cf98;
+    background-color: #E6DDC6;
     margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .menu-header {
@@ -21,4 +25,64 @@ button {
     font-size: 25px;
 }
 
+.menu-usuario {
 
+    display: flex;
+    align-items: center;
+    justify-content:left;
+    gap: 30px;
+}
+
+.botao-edicao i {
+    font-size: 20px;
+}
+
+.menu-usuario__mensagem {
+    font-size: 30px;
+}
+
+
+.menu-usuario__foto-perfil img {
+    height: 125px;
+    border-radius: 10px;
+}
+
+.menu-usuario__informacoes__nome {
+    display: flex;
+}
+
+.menu-usuario__informacoes__seg {
+    font-size: 16px;
+}
+
+.menu-palavras-chave {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+}
+
+.menu-palavras-chave__palavra {
+    height: 22px;
+}
+
+.botao_adicionar i {
+    color: white;
+}
+
+.botao_adicionar {
+    background-color: #709465;
+    height: 22px;
+    width: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+}
+
+.menu-navegacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
