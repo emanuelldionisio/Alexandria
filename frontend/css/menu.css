@@ -152,6 +152,9 @@ button {
 
 .menu-produtos__produtos_produto h5 {
     font-size: 13px;
+    height: 30px;
+    overflow-y:scroll;
+    scrollbar-width: none;
     font-weight: bold;
     text-align: justify;
     margin: 0;

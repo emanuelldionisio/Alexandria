@@ -1,6 +1,8 @@
 import { usuario } from './data/usuario.js';
 import { segue } from './data/segue.js';
 import { palavra_usuario } from './data/palavra_usuario.js';
+import { disco } from './data/disco.js';
+import { livro } from './data/livro.js';
 
 function carregarMenu() {
     let id = 2;
@@ -40,7 +42,23 @@ function carregarMenu() {
     </button>`);
 
     //Adicionar os produtos
-    
+    let meus_discos = disco.filter(obj => obj.id_usuario == id);
+    let meus_livros = livro.filter(obj => obj.id_usuario == id);
+    let container_produtos = document.getElementById("menu-produtos__produtos");
+
+    for (let i of meus_discos) {
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto">
+                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
+                <div>
+                    <h5>${i.nome}</h5>
+                    <h6>R$ ${(i.valor/100).toFixed(2)}</h6>
+                </div>
+            </div>`)
+    }
+
+    container_produtos.insertAdjacentHTML('beforeend', `<button class="menu-produtos__produtos_adicionar">
+                <i class="bi bi-plus-lg"></i>
+            </button>`);
 }
 
 carregarMenu()
