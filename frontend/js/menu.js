@@ -5,7 +5,7 @@ import { disco } from './data/disco.js';
 import { livro } from './data/livro.js';
 
 function carregarMenu() {
-    let id = 1;
+    let id = 2;
     
     const coresBootstrap = [
         'primary', 'secondary', 'success', 'danger',
