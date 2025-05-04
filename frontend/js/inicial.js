@@ -3,7 +3,7 @@ import { disco } from "./data/disco.js";
 import { livro } from "./data/livro.js";
 
 function carregarInicial() {
-    let id = 1;
+    let id = 2;
 
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
@@ -18,16 +18,16 @@ function carregarInicial() {
 
     for (let i of discos_disponiveis) {
         grid_discos.insertAdjacentHTML("beforeend", `<div class="grid_discos">
-                <img src="img/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
+                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
-                    <h5>${i.nome} </h5>
+                    <h5> ${i.nome} </h5>
                 </div>
             </div>`)
     }
 
     for (let i of livros_disponiveis) {
         grid_livros.insertAdjacentHTML("beforeend", `<div class="grid_livros">
-                <img src="img/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
+                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
                 </div>
