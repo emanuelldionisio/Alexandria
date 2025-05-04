@@ -6,6 +6,11 @@ header {
     width: 150px;
 }
 
+button {
+    border: 0px;
+    background: none;
+}
+
 .inicial_navbar {
     display: flex;
     gap: 30px;
@@ -43,14 +48,16 @@ header {
 
 .destaques {
     display: flex;
-    position: absolute;
-    width: 100vh;
     flex-direction: row-reverse;
+    position: absolute;
+    width: 100%;
     margin-right: 10vh;
+    justify-content: space-around;
 }
 
 .destaques_texto {
     font-size: 40px;
+    font-family: fantasy;
 }
 
 .inicial_discos{
@@ -60,6 +67,7 @@ header {
     position: absolute;
     margin-top: 10vh;
     width: 100vh;
+    font-family: fantasy;
 }
 
 .inicial_livros{
@@ -69,36 +77,41 @@ header {
     position: absolute;
     margin-top: 48vh;
     width: 100vh;
+    font-family: fantasy;
 }
 
 #grid_discos{
     display: flex;
     margin-left: 30vh;
     position: absolute;
-    margin-top: 18vh;
+    margin-top: 22vh;
     width: 100vh;
     height: 25vh;
     flex-direction: row;
     gap: 40px;
+    overflow-x: visible;
 }
 
 #grid_livros{
     display: flex;
     margin-left: 30vh;
     position: absolute;
-    margin-top: 56vh;
+    margin-top: 60vh;
     width: 100vh;
     height: 28vh;
     flex-direction: row;
     gap: 40px;
+    overflow-x: visible;
 }
 
 .grid_discos {
     height: 120px;
     width: 120px;
+    font-family: fantasy;
 }
 
 .grid_livros {
     height: 120px;
     width: 120px;
+    font-family: fantasy;
 }

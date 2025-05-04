@@ -12,7 +12,7 @@
 <body>
     
     <div class="destaques">
-        <p class="destaques_texto"> Destaques </p>
+        <h2 class="destaques_texto"> Destaques <h2>
     </div>
     
     <h2 class="inicial_discos"> Discos </h2>
@@ -23,8 +23,12 @@
     </div>
     <header> 
         <div class="inicial_navbar">
-            <img id="inicial_perfil" alt="Sua foto de perfil">
+            <button class="botao-perfil" onclick="window.location.href = 'perfil.html'"> 
+                <img id="inicial_perfil" alt="Sua foto de perfil">
+            </button>
+            <button class="botao-explorar" onclick="window.location.href = 'explorar.html'"> 
             <img class="inicial_icon" src="imgs/icones/bussola.png" alt="">
+            </button>
             <img class="inicial_icon" src="imgs/icones/config.png" alt="">
         </div>
     </header>
