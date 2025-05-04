@@ -7,8 +7,8 @@ import { avaliacao_disco } from './data/avaliacao_disco.js';
 import { avaliacao_livro } from './data/avaliacao_livro.js';
 
 function carregarPerfil() {
-    let id_user = 2;
-    let id = 1;
+    let id_user = 1;
+    let id = 5;
     
     const coresBootstrap = [
         'primary', 'secondary', 'success', 'danger',
@@ -69,18 +69,20 @@ function carregarPerfil() {
     //Adicionar avaliação
     let soma = 0, qt = 0;
     for (let i of avaliacao_disco) {
-        if (meus_discos.find(obj => obj.id_prod = i.id_prod)) {
+        if (meus_discos.find(obj => obj.id_prod == i.id_prod)) {
             soma += i.nota
             qt++;
         }
     }
     
     for (let i of avaliacao_livro) {
-        if (meus_livros.find(obj => obj.id_prod = i.id_prod)) {
+        if (meus_livros.find(obj => obj.id_prod == i.id_prod)) {
             soma += i.nota
             qt++;
         }
     }
+
+    if (! qt) qt = 1;
 
     let container_avaliacao = document.getElementById("menu-usuario__avaliacao");
     container_avaliacao.insertAdjacentHTML('beforeend', `<p>${(soma/qt).toFixed(1)}</p>`);
