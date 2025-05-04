@@ -7,7 +7,7 @@ function carregarInicial() {
 
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
-    img_perfil.src = `imgs/usuario/${id}.png`;
+    img_perfil.src = `imgs/usuario/${id}.jpg`;
     
     
     // exibição de produtos
