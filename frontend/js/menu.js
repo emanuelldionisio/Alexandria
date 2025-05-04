@@ -4,8 +4,10 @@ import { palavra_usuario } from './data/palavra_usuario.js';
 import { disco } from './data/disco.js';
 import { livro } from './data/livro.js';
 
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id_user");
+
 function carregarMenu() {
-    let id = 1;
     
     const coresBootstrap = [
         'primary', 'secondary', 'success', 'danger',

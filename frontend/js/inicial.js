@@ -2,9 +2,9 @@ import { usuario } from "./data/usuario.js";
 import { disco } from "./data/disco.js";
 import { livro } from "./data/livro.js";
 
-function carregarInicial() {
-    let id = 5;
+let id = 2;
 
+function carregarInicial() { 
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
     img_perfil.src = `imgs/usuario/${id}.jpg`;
@@ -35,4 +35,9 @@ function carregarInicial() {
 }
 }
 
-carregarInicial()
+export function irParaMenu() {
+    window.location.href = `menu.html?id_user=${id}`;
+}
+
+window.irParaMenu = irParaMenu;
+carregarInicial();
