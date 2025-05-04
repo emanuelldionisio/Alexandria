@@ -45,7 +45,7 @@ function carregarMenu() {
     let container_produtos = document.getElementById("menu-produtos__produtos");
 
     for (let i of meus_discos) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
@@ -55,7 +55,7 @@ function carregarMenu() {
     }
 
     for (let i of meus_livros) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
