@@ -7,6 +7,7 @@ body {
     gap: 30px;
     flex-direction: column;
     width: 150px;
+    height: 100vh;
     align-items: center;
     background-color: #3a0102;
 }
@@ -21,4 +22,5 @@ body {
 .inicial_icon {
     height: 60px;
     width: 60px;
+    color: #e6ddc6;
 }
