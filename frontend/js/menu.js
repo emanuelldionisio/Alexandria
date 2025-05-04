@@ -29,17 +29,13 @@ function carregarMenu() {
 
     //Adicionar as palavras chave
     let palavras = palavra_usuario.filter(obj => obj.usuario == id);
-    let menu_palavras = document.getElementById("menu-palavras-chave");
+    let menu_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
     for (let palavra of palavras) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
-        menu_palavras.insertAdjacentHTML("beforeend", `
-        <span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
+        menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
             ${palavra.nome}
         </span>`);
     }
-    menu_palavras.insertAdjacentHTML('beforeend', `<button class="botao_adicionar">
-        <i class="bi bi-plus-lg"></i>
-    </button>`);
 
     //Adicionar os produtos
     let meus_discos = disco.filter(obj => obj.id_usuario == id);
@@ -65,10 +61,6 @@ function carregarMenu() {
                 </div>
             </div>`)
     }
-
-    container_produtos.insertAdjacentHTML('beforeend', `<button class="menu-produtos__produtos_adicionar">
-                <i class="bi bi-plus-lg"></i>
-            </button>`);
 }
 
 carregarMenu()

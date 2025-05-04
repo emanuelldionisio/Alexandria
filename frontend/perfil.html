@@ -51,14 +51,38 @@
         </div>
     </div>
     <div class="menu-palavras-chave" id="menu-palavras-chave">
+        <button class="menu-palavras-chave__controle" onclick="scroll_x('menu-palavras-chave__palavras-chave', -30)">
+            <i class="bi bi-caret-left-square-fill"></i>
+        </button>
+        <div class="menu-palavras-chave__palavras-chave" id="menu-palavras-chave__palavras-chave">
+    
+        </div>
+        <button class="botao_adicionar">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+        <button class="menu-palavras-chave__controle" onclick="scroll_x('menu-palavras-chave__palavras-chave', 30)">
+            <i class="bi bi-caret-right-square-fill"></i>
+        </button>
     </div>
-    <div class="menu-produtos">
+   <div class="menu-produtos">
         <h2>Produtos</h2>
-        <div class="menu-produtos__produtos" id="menu-produtos__produtos">
-
+        <div class="menu-produtos__container">
+            <button class="menu-palavras-chave__controle" onclick="scroll_x('menu-produtos__produtos', -30)">
+                <i class="bi bi-caret-left-square-fill vermelho"></i>
+            </button>
+            <div class="menu-produtos__produtos" id="menu-produtos__produtos">
+                
+            </div>
+            <button class="menu-produtos__produtos_adicionar">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+            <button class="menu-palavras-chave__controle" onclick="scroll_x('menu-produtos__produtos', 30)">
+                <i class="bi bi-caret-right-square-fill vermelho"></i>
+            </button>
         </div>
     </div>
 
     <script src="js/perfil.js" type="module"></script>
+    <script src="js/lib/scroll_x.js"></script>
 </body>
 </html>
