@@ -21,7 +21,7 @@ function carregarMenu() {
 
     //Adicionar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");
-    img_fotodeperfil.src = `imgs/usuario/${id}.png`;
+    img_fotodeperfil.src = `imgs/usuario/${id}.jpg`;
 
     //Adicionar o nome do user
     let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
