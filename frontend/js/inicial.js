@@ -18,7 +18,7 @@ function carregarInicial() {
 
     for (let i of discos_disponiveis) {
         grid_discos.insertAdjacentHTML("beforeend", `<div class="grid_discos">
-                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
+                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="..." >
                 <div>
                     <h5> ${i.nome} </h5>
                 </div>
@@ -40,4 +40,10 @@ export function irParaMenu() {
 }
 
 window.irParaMenu = irParaMenu;
+
+export function IrParaProduto() {
+    window.location.href = `.html?id_user=${id_prod}`;
+}
+
+window.IrParaProduto = IrParaProduto;
 carregarInicial();
