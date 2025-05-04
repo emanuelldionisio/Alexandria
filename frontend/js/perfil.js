@@ -48,17 +48,17 @@ function carregarPerfil() {
     let container_produtos = document.getElementById("menu-produtos__produtos");
 
     for (let i of meus_discos) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
-                    <h6>R$ ${(i.valor/100).toFixed(2)}</h6>
+                    <h6>R$ ${(i.valor / 100).toFixed(2)}</h6>
                 </div>
             </div>`)
     }
 
     for (let i of meus_livros) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
@@ -95,5 +95,11 @@ function carregarPerfil() {
     }
       
 }
+
+export function irParaInicial() {
+    window.location.href = `inicial.html?id_user=${id}`;
+}
+
+window.irParaInicial = irParaInicial;
 
 carregarPerfil()

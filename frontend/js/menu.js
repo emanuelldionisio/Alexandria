@@ -65,4 +65,10 @@ function carregarMenu() {
     }
 }
 
+export function irParaInicial() {
+    window.location.href = `inicial.html?id_user=${id}`;
+}
+
+window.irParaInicial = irParaInicial;
+
 carregarMenu()
