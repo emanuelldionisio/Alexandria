@@ -92,6 +92,18 @@ h1 {
     cursor: pointer;
 }
 
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    border: 0px;
+    background: none;
+}
+.botao-de-voltar i {
+    font-size: 30px;
+}
 .carrinho {
     background-color: #7a2f16;
     color: white;

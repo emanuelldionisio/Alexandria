@@ -4,7 +4,8 @@ import { livro } from './data/livro.js';
 import { usuario } from './data/usuario.js';
 
 
-const id = 2;
+const params = new URLSearchParams(window.location.search);
+const id = parseInt(params.get("id_prod"));
 
 function carregaproduto() {
     // busca produto
