@@ -2,7 +2,7 @@ import { usuario } from "./data/usuario.js";
 import { disco } from "./data/disco.js";
 import { livro } from "./data/livro.js";
 
-let id = 2;
+let id = 4;
 
 function carregarInicial() { 
     // foto do usuário
