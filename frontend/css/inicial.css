@@ -2,12 +2,16 @@ body {
     background-color: #e6ddc6;
 }
 
+header {
+    width: 150px;
+}
+
 .inicial_navbar {
     display: flex;
     gap: 30px;
     flex-direction: column;
     width: 150px;
-    height: 100vh;
+    height: 96vh;
     align-items: center;
     background-color: #3a0102;
 }
@@ -22,5 +26,35 @@ body {
 .inicial_icon {
     height: 60px;
     width: 60px;
+}
+
+.inicial_rodape {
+    display: flex;
+    background-color: #3a0102;
+    flex-direction: row-reverse;
+    height: 4vh;
+}
+
+.inicial_contato {
+    font-size: 10px;
     color: #e6ddc6;
+    margin-right: 10px;
+}
+
+.destaques {
+    display: flex;
+    position: absolute;
+    width: 200vh;
+    flex-direction: row-reverse;
+}
+
+.destaques_texto {
+    font-size: 60px;
+}
+
+.inicial_conteudo {
+    display: flex;
+    flex-direction: row-reverse;
+    border-right: 40px;
+    border-left: 40px;
 }
