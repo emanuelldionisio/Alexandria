@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evermore - Taylor Swift</title>
+    <title id="page-titulo"></title>
     <link rel="stylesheet" href="css/produto.css">
 </head>
 <body>
     <a href="#" class="voltar">←</a>
     <div class="container">
         <div class="left">
-            <img src="imgs/prod/2.jpg" alt="produto">
+            <img id="produto-img" src="" alt="produto">
             <div class="descricao">
                 <h2>Descrição</h2>
-                <p>Cd deluxe do álbum de estúdio Evermore de Taylor Swift. Apresenta leves ranhuras na case acrílica</p>
+                <p id="produto-desc"></p>
             </div>
 
             <div class="info">
                 <h2>Informações adicionais</h2>
-                <p><b>Tipo de mídia:</b> disco, CD</p>
-                <p><b>Título:</b> Evermore</p>
-                <p><b>Artista:</b> Taylor Swift</p>
-                <p><b>Gravadora:</b> Republic Records</p>
-                <p><b>Gênero:</b> Folk</p>
-                <p><b>Estado:</b> Conservado</p>
+                <div id="produto-info"></div>
             </div>   
         </div>
         <div class="right">
-            <h1>Evermore</h1>
-            <p class="vendedor">Vendido por: <span style="font-weight: 400">Nico Rosberg</span></p>
-            <p class="preco">R$ 50</p>
+            <h1 id="produto-titulo"></h1>
+            <p class="vendedor">Vendido por: <span id="vendedor-nome" style="font-weight: 400"></span></p>
+            <p class="preco" id="produto-preco"></p>
 
             <a href="#" class="botao carrinho">Adicionar ao carrinho 🛒</a>
             <a href="#" class="botao conversa">Iniciar uma conversa 💬</a>
         </div>
         </div>
     </div>
+    <script type="module" src="js/produto.js"> </script>
 </body>
 </html>
