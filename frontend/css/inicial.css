@@ -1,4 +1,24 @@
 body {
     background-color: #e6ddc6;
+}
+
+.inicial_navbar {
     display: flex;
+    gap: 30px;
+    flex-direction: column;
+    width: 150px;
+    align-items: center;
+    background-color: #3a0102;
+}
+
+.inicial_perfil {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.inicial_icon {
+    height: 60px;
+    width: 60px;
 }
