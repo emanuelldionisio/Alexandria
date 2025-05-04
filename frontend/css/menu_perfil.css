@@ -26,7 +26,8 @@ button {
 }
 
 .menu-usuario {
-
+    overflow-x: scroll;
+    scrollbar-width: none;
     display: flex;
     align-items: center;
     justify-content:left;
@@ -179,4 +180,31 @@ button {
 .menu-produtos__produtos_adicionar i {
     color: white;
     font-size: 60px;
+}
+
+.menu-usuario__opcoes__botao {
+    background-color: #44593E;
+    border-radius: 15px;
+    width: 125px;
+    height: 30px;
+    color: white;
+}
+
+.laranja {
+    background-color: #722D14;
+}
+
+.menu-usuario__opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.menu-usuario__avaliacao {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+    justify-content: end;
+    margin-top: 55px;
 }

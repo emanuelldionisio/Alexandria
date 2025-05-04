@@ -3,8 +3,11 @@ import { segue } from './data/segue.js';
 import { palavra_usuario } from './data/palavra_usuario.js';
 import { disco } from './data/disco.js';
 import { livro } from './data/livro.js';
+import { avaliacao_disco } from './data/avaliacao_disco.js';
+import { avaliacao_livro } from './data/avaliacao_livro.js';
 
-function carregarMenu() {
+function carregarPerfil() {
+    let id_user = 2;
     let id = 1;
     
     const coresBootstrap = [
@@ -25,7 +28,7 @@ function carregarMenu() {
 
     //Adicionar o nome do user
     let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
-    mensagem_boasvindas.innerHTML = `Olá, ${usuario.find(obj => obj.cod == id).nome}`;
+    mensagem_boasvindas.innerHTML = `${usuario.find(obj => obj.cod == id).nome}`;
 
     //Adicionar as palavras chave
     let palavras = palavra_usuario.filter(obj => obj.usuario == id);
@@ -37,9 +40,6 @@ function carregarMenu() {
             ${palavra.nome}
         </span>`);
     }
-    menu_palavras.insertAdjacentHTML('beforeend', `<button class="botao_adicionar">
-        <i class="bi bi-plus-lg"></i>
-    </button>`);
 
     //Adicionar os produtos
     let meus_discos = disco.filter(obj => obj.id_usuario == id);
@@ -66,9 +66,31 @@ function carregarMenu() {
             </div>`)
     }
 
-    container_produtos.insertAdjacentHTML('beforeend', `<button class="menu-produtos__produtos_adicionar">
-                <i class="bi bi-plus-lg"></i>
-            </button>`);
+    //Adicionar avaliação
+    let soma = 0, qt = 0;
+    for (let i of avaliacao_disco) {
+        if (meus_discos.find(obj => obj.id_prod = i.id_prod)) {
+            soma += i.nota
+            qt++;
+        }
+    }
+    
+    for (let i of avaliacao_livro) {
+        if (meus_livros.find(obj => obj.id_prod = i.id_prod)) {
+            soma += i.nota
+            qt++;
+        }
+    }
+
+    let container_avaliacao = document.getElementById("menu-usuario__avaliacao");
+    container_avaliacao.insertAdjacentHTML('beforeend', `<p>${(soma/qt).toFixed(1)}</p>`);
+
+    if (segue.find(obj => obj.seguido == id_user && obj.seguinte == id) != undefined) {
+        let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
+        container_seguir.innerHTML = "Seguindo";
+        container_seguir.style = "background-color: #595336; color: lightgrey";
+    }
+      
 }
 
-carregarMenu()
+carregarPerfil()
