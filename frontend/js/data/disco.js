@@ -1,7 +1,7 @@
 export const disco = [
     {
         "id_prod": 1,
-        "id_usuario": 1,
+        "id_usuario": 4,
         "nome": "A Day At The Races - CD",
         "valor": 6540, // 65.40
         "condicao": "Ótimo", 
@@ -13,7 +13,7 @@ export const disco = [
 
     {
         "id_prod": 2,
-        "id_usuario": 1,
+        "id_usuario": 5,
         "nome": "Three Cheers For Sweet Revenge - CD",
         "valor": 5960, // 59.60
         "condicao": "Ótimo", 
@@ -49,7 +49,7 @@ export const disco = [
 
     {
         "id_prod": 9,
-        "id_usuario": 2,
+        "id_usuario": 3,
         "nome": "Não Deixe o Samba Morrer",
         "valor": 3290, // 3290
         "condicao": "Excelente", 

@@ -1,7 +1,7 @@
 export const livro = [
     {
         "id_prod": 1,
-        "id_usuario": 1,
+        "id_usuario": 4,
         "nome": "Crime e Castigo",
         "valor": 2390, // 23.90
         "condicao": "Bom - Manchas", 
@@ -25,7 +25,7 @@ export const livro = [
 
     {
         "id_prod": 3,
-        "id_usuario": 2,
+        "id_usuario": 5,
         "nome": "A Canção de Aquiles",
         "valor": 2260, // 22.60
         "condicao": "Avariado", 
@@ -37,7 +37,7 @@ export const livro = [
 
     {
         "id_prod": 4,
-        "id_usuario": 1,
+        "id_usuario": 4,
         "nome": "O Hobbit",
         "valor": 2830, // 28.30
         "condicao": "Excelente", 
@@ -49,7 +49,7 @@ export const livro = [
     
     {
         "id_prod": 10,
-        "id_usuario": 2,
+        "id_usuario": 3,
         "nome": "Torto Arado",
         "valor": 3010, // 30.10
         "condicao": "Excelente", 
