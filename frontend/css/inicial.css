@@ -44,7 +44,7 @@ header {
 .destaques {
     display: flex;
     position: absolute;
-    width: 200vh;
+    width: 100vh;
     flex-direction: row-reverse;
     margin-right: 10vh;
 }
