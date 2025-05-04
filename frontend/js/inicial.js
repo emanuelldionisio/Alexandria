@@ -3,7 +3,7 @@ import { disco } from "./data/disco.js";
 import { livro } from "./data/livro.js";
 
 function carregarInicial() {
-    let id = 1;
+    let id = 5;
 
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");

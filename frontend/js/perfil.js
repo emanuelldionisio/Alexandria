@@ -7,8 +7,8 @@ import { avaliacao_disco } from './data/avaliacao_disco.js';
 import { avaliacao_livro } from './data/avaliacao_livro.js';
 
 function carregarPerfil() {
-    let id_user = 2;
-    let id = 1;
+    let id_user = 1;
+    let id = 5;
     
     const coresBootstrap = [
         'primary', 'secondary', 'success', 'danger',
