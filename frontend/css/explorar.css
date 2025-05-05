@@ -11,6 +11,18 @@ button {
     border: 0px;
     background: none;
 }
+.explorar__imagem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    gap: 20px;
+    margin-top: 20px;
+
+}
+
+
+
         .menu-header {
             display: flex;
             justify-content: space-between;
