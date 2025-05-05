@@ -10,7 +10,7 @@ body {
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background: url('./img/wp10395041-dark-library-wallpapers.jpg');
+        background: url(../imgs/wp10395041-dark-library-wallpapers.jpg);
         background-size: cover;
         background-position: center;
     }
