@@ -10,7 +10,7 @@ body {
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background: url(../imgs/wp10395041-dark-library-wallpapers.jpg);
+        background: url('./img/wp10395041-dark-library-wallpapers.jpg');
         background-size: cover;
         background-position: center;
     }
@@ -39,11 +39,6 @@ body {
     margin: 30px 0;
 }
 
-a {
-    color:#ffffff;
-    text-decoration: none;
-}
-
 .input-box input {
     width: 100%;
     height: 100%;
@@ -53,14 +48,9 @@ a {
     outline: none;
     font-size: 16px;
     color: #fff;
-    padding: 0 45px 0 20px; 
+    padding: 0 45px 0 20px;
     line-height: 1; 
     box-sizing: border-box; 
-}
-
-.input-box input::placeholder {
-    color: #c1c1c1;
-
 }
 
 .input-box .bx {
@@ -70,6 +60,13 @@ a {
     transform: translateY(-50%);
     font-size: 20px;
 }
+
+a {
+    color:#ffffff;
+    text-decoration: none;
+}
+
+
 
 .remember-forgot {
     display: flex;
