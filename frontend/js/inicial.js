@@ -2,7 +2,8 @@ import { usuario } from "./data/usuario.js";
 import { disco } from "./data/disco.js";
 import { livro } from "./data/livro.js";
 
-let id = 4;
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id_user");
 
 function carregarInicial() { 
     // foto do usuário
