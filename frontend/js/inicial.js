@@ -47,4 +47,5 @@ export function IrParaProduto() {
 }
 
 window.IrParaProduto = IrParaProduto;
+
 carregarInicial();

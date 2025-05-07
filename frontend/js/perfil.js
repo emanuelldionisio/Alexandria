@@ -96,10 +96,10 @@ function carregarPerfil() {
       
 }
 
-export function irParaInicial() {
+const botao_ir_para_inicial = document.querySelector(".botao-pagina-inicial");
+
+botao_ir_para_inicial.onclick = function () {
     window.location.href = `inicial.html?id_user=${id}`;
 }
-
-window.irParaInicial = irParaInicial;
 
 carregarPerfil()
