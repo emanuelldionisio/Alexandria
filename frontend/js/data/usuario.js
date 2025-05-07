@@ -4,7 +4,7 @@ export const usuario = [
         "nome": "Emanuel Dionisio",
         "tel1": "(83) 99830-7031",
         "tel2": null,
-        "email": "emanuel.dionisio@academico.ifpb.edu.br",
+        "email": "emanuel.eduardo@academico.ifpb.edu.br",
         "dt_nascimento": "17/12/2007",
         "pais": "Brasil",
         "estado": "Bahia",
