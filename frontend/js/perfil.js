@@ -50,7 +50,7 @@ function carregarPerfil() {
 const botao_ir_para_inicial = document.querySelector(".botao-pagina-inicial");
 
 botao_ir_para_inicial.onclick = function () {
-    window.location.href = `inicial.html?id_user=${id}`;
+    window.location.href = `inicial.html?id_user=${id_user}`;
 }
 
 carregarPerfil()
