@@ -1,5 +1,5 @@
 import { usuario } from './data/usuario.js';
-import { menu_perfil } from './menu_perfil.js';
+import { menu_perfil } from './lib/menu_perfil.js';
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");

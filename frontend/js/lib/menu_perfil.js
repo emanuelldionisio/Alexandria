@@ -1,7 +1,7 @@
-import { segue } from './data/segue.js';
-import { palavra_usuario } from './data/palavra_usuario.js';
-import { disco } from './data/disco.js';
-import { livro } from './data/livro.js';
+import { segue } from '../data/segue.js';
+import { palavra_usuario } from '../data/palavra_usuario.js';
+import { disco } from '../data/disco.js';
+import { livro } from '../data/livro.js';
 
 export function menu_perfil(id) {
     const coresBootstrap = [
@@ -9,7 +9,6 @@ export function menu_perfil(id) {
             'warning', 'info', 'dark'
     ];
     
-    //Ajustar a quantidade de seguidores
     let container_seguidores = document.getElementById("menu-usuario__informacoes__seguidores");
     container_seguidores.innerHTML = segue.filter(obj => obj.seguido == id).length + " seguidores";
 

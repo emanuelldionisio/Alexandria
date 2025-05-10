@@ -2,7 +2,7 @@ import { usuario } from './data/usuario.js';
 import { segue } from './data/segue.js';
 import { avaliacao_disco } from './data/avaliacao_disco.js';
 import { avaliacao_livro } from './data/avaliacao_livro.js';
-import { menu_perfil } from './menu_perfil.js';
+import { menu_perfil } from './lib/menu_perfil.js';
 
 const params = new URLSearchParams(window.location.search);
 const id_user = params.get("id_user");
