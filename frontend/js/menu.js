@@ -16,10 +16,10 @@ function carregarMenu() {
 
     //Ajustar a quantidade de seguidores
     let container_seguidores = document.getElementById("menu-usuario__informacoes__seguidores");
-    container_seguidores.innerHTML = segue.filter(obj => obj["seguido"] == id).length + " seguidores";
+    container_seguidores.innerHTML = segue.filter(obj => obj.seguindo == id).length + " seguidores";
 
     let container_segue = document.getElementById("menu-usuario__informacoes__seguindo");
-    container_segue.innerHTML = segue.filter(obj => obj["seguinte"] == id).length + " seguindo";
+    container_segue.innerHTML = segue.filter(obj => obj.seguinte == id).length + " seguindo";
 
     //Adicionar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");
