@@ -77,7 +77,7 @@ export function irParaInicial() {
     window.location.href = `inicial.html?id_user=${id}`;
 }
 export function irParaPerfil() {
-    window.location.href = `perfil.html?id_user=${id}`;
+    window.location.href = `menu.html?id_user=${id}`;
 }
 
 window.irParaInicial = irParaInicial;
