@@ -14,7 +14,7 @@ export const disco = [
     {
         "id_prod": 2,
         "id_usuario": 5,
-        "nome": "Three Cheers For Sweet Revenge - CD",
+        "nome": "Three Cheers... - CD",
         "valor": 5960, // 59.60
         "condicao": "Ótimo", 
         "descricao": "CD bem conservado, faço teste antes do pagamento",
@@ -50,7 +50,7 @@ export const disco = [
     {
         "id_prod": 9,
         "id_usuario": 3,
-        "nome": "Não Deixe o Samba Morrer",
+        "nome": "Não Deixe o Samba Morrer - Vinil",
         "valor": 3290, // 3290
         "condicao": "Excelente", 
         "descricao": "Excelente estado",
