@@ -1,8 +1,7 @@
 import 'express-async-errors';
 import express from 'express';
 import morgan from 'morgan';
-import cors from 'cors';
-import router from './router.js';
+import router from './routes.js';
 
 const server = express();
 
