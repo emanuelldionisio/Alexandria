@@ -4,12 +4,12 @@ const params = new URLSearchParams(window.location.search);
 const id_user = params.get("id_user");
 const id = params.get("id_visitado");
 
-const usuario = await fetch(`data/usuario?id=${id}`).then(response => response.json());
-const segue = await fetch(`data/segue?id=${id}`).then(response => response.json());
-const meus_discos = await fetch(`data/avaliacao_disco?id=${id}`).then(response => response.json());
-const meus_livros = await fetch(`data/avaliacao_livro?id=${id}`).then(response => response.json());
-const avaliacao_disco = await fetch(`data/avaliacao_disco?id=${id}`).then(response => response.json());
-const avaliacao_livro = await fetch(`data/avaliacao_livro?id=${id}`).then(response => response.json());
+const usuario = await fetch(`data/usuario?id_user=${id}`).then(response => response.json());
+const segue = await fetch(`data/segue?id_user=${id}`).then(response => response.json());
+const meus_discos = await fetch(`data/avaliacao_disco?id_user=${id}`).then(response => response.json());
+const meus_livros = await fetch(`data/avaliacao_livro?id_user=${id}`).then(response => response.json());
+const avaliacao_disco = await fetch(`data/avaliacao_disco?id_user=${id}`).then(response => response.json());
+const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}`).then(response => response.json());
 
 function carregarPerfil() {
     menu_perfil(id);

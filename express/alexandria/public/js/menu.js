@@ -3,7 +3,7 @@ import { menu_perfil } from './lib/menu_perfil.js';
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
-const usuario = await fetch('data/usuario?id=1').then(response => response.json());
+const usuario = await fetch(`data/usuario?id_user=${id}`).then(response => response.json());
 
 function carregarMenu() {
     menu_perfil(id);
