@@ -1,9 +1,10 @@
-import { segue } from '../../../src/data/segue.js';
-import { palavra_usuario } from '../../../src/data/palavra_usuario.js';
-import { disco } from '../../../src/data/disco.js';
-import { livro } from '../../../src/data/livro.js';
 
-export function menu_perfil(id) {
+export async function menu_perfil(id) {
+    const segue = await fetch(`data/segue?id=${id}`).then(response => response.json());
+    const palavra_usuario = await fetch(`data/palavra_usuario?id=${id}`).then(response => response.json());
+    const disco = await fetch(`data/disco?id=${id}`).then(response => response.json());
+    const livro = await fetch(`data/livro?id=${id}`).then(response => response.json());
+    
     const coresBootstrap = [
             'primary', 'secondary', 'success', 'danger',
             'warning', 'info', 'dark'

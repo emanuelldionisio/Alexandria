@@ -1,23 +1,24 @@
-import { usuario } from './data/usuario.js';
-import { segue } from './data/segue.js';
-import { avaliacao_disco } from './data/avaliacao_disco.js';
-import { avaliacao_livro } from './data/avaliacao_livro.js';
 import { menu_perfil } from './lib/menu_perfil.js';
 
 const params = new URLSearchParams(window.location.search);
 const id_user = params.get("id_user");
 const id = params.get("id_visitado");
 
+const usuario = await fetch(`data/usuario?id=${id}`).then(response => response.json());
+const segue = await fetch(`data/segue?id=${id}`).then(response => response.json());
+const meus_discos = await fetch(`data/avaliacao_disco?id=${id}`).then(response => response.json());
+const meus_livros = await fetch(`data/avaliacao_livro?id=${id}`).then(response => response.json());
+const avaliacao_disco = await fetch(`data/avaliacao_disco?id=${id}`).then(response => response.json());
+const avaliacao_livro = await fetch(`data/avaliacao_livro?id=${id}`).then(response => response.json());
+
 function carregarPerfil() {
     menu_perfil(id);
 
     //Adicionar o nome do user
     let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
-    mensagem_boasvindas.innerHTML = `${usuario.find(obj => obj.cod == id).nome}`;
+    mensagem_boasvindas.innerHTML = `${usuario.nome}`;
 
     //Adicionar avaliação
-    let meus_discos = avaliacao_disco.filter(obj => obj.cod_usuario == id);
-    let meus_livros = avaliacao_livro.filter(obj => obj.cod_usuario == id);
 
     let soma = 0, qt = 0;
     for (let i of avaliacao_disco) {

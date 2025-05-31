@@ -8,6 +8,7 @@ const server = express();
 server.use(morgan('tiny'));
 
 server.use(express.static('public'));
+
 server.use(express.json());
 server.use('/data', router);
 

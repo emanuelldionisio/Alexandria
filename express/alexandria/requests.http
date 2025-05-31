@@ -1,6 +1,6 @@
 @host = http://localhost:3000
 
-get {{host}}/data/usuario
+get {{host}}/data/avaliacao_disco?id=5
 
 ###
 get {{host}}/produto.html
