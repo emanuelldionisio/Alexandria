@@ -36,6 +36,34 @@ router.get('/segue', (req, res) => {
     return res.json(segue.filter(obj => obj.seguido == id_user || obj.seguinte == id_user));
 });
 
+router.delete('/segue', (req, res) => {
+    const { seguido, seguinte } = req.body;
+    if (!seguido || !seguinte) {
+        throw new HttpError('Faltam parâmetros: seguido e/ou seguinte', 400);
+    }
+    const index = segue.findIndex(obj => obj.seguido == seguido && obj.seguinte == seguinte);
+    if (!segue[index]) {
+        throw new HttpError('Relação de seguimento não encontrada', 404);
+    }
+    segue.splice(index, 1);
+    return res.sendStatus(204);
+});
+
+router.post('/segue', (req, res) => {
+    const { seguido, seguinte } = req.body;
+    if (seguido == seguinte) {
+        throw new HttpError('Não é possível seguir a si mesmo', 400);
+    }
+    if (!seguido || !seguinte) {
+        throw new HttpError('Faltam parâmetros: seguido e/ou seguinte', 400);
+    }
+    if (segue.find(obj => obj.seguido == seguido && obj.seguinte == seguinte)) {
+        throw new HttpError('Relação de seguimento já existe', 409);
+    }
+    segue.push({ seguinte: seguinte, seguido: seguido });
+    return res.sendStatus(204);
+});
+
 router.get('/palavra_usuario', (req, res) => {
     const id_user = req.query.id_user;
     if (!id_user) {
