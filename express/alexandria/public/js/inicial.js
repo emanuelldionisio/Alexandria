@@ -1,8 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
-const livros_disponiveis = await fetch(`data/livros?id_user=${id}`).then(response => response.json());
-const discos_disponiveis = await fetch(`data/discos?id_user=${id}`).then(response => response.json());
+const livros_disponiveis = await fetch(`data/livro?id_user=${id}&modo='inicial'`).then(response => response.json());
+const discos_disponiveis = await fetch(`data/disco?[id_user=${id}&modo='inicial'`).then(response => response.json());
 
 function carregarInicial() { 
     // foto do usuário

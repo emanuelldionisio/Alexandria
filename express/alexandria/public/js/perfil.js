@@ -9,12 +9,12 @@ if ((!id || !id_user) || (id == id_user)) {
     throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
 }
 
-const usuario = await fetch(`data/usuario?id_user=${id}`).then(response => response.json());
-const segue = await fetch(`data/segue?id_user=${id}`).then(response => response.json());
-const meus_discos = await fetch(`data/avaliacao_disco?id_user=${id}`).then(response => response.json());
-const meus_livros = await fetch(`data/avaliacao_livro?id_user=${id}`).then(response => response.json());
-const avaliacao_disco = await fetch(`data/avaliacao_disco?id_user=${id}`).then(response => response.json());
-const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}`).then(response => response.json());
+const usuario = await fetch(`data/usuario?id_user=${id}&modo='perfil'`).then(response => response.json());
+const segue = await fetch(`data/segue?id_user=${id}&modo='perfil'`).then(response => response.json());
+const meus_discos = await fetch(`data/avaliacao_disco?id_user=${id}&modo='perfil'`).then(response => response.json());
+const meus_livros = await fetch(`data/avaliacao_livro?id_user=${id}&modo='perfil'`).then(response => response.json());
+const avaliacao_disco = await fetch(`data/avaliacao_disco?id_user=${id}&modo='perfil'`).then(response => response.json());
+const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}&modo='perfil'`).then(response => response.json());
 
 function carregarPerfil() {
     if ((! id || ! id_user) || (id == id_user)) {
