@@ -1,17 +1,35 @@
-const response = await fetch(`./data/usuario?id_user=${id}`);
+async function buscarUsuarioPorEmailESenha(email, senha) {
 
-const usuario = await response.json();
+  const response = await fetch('./data/usuarios.json');
 
+  if (!response.ok) throw new Error('Erro ao carregar usuários');
 
-const form = document.getElementById("form");
+  const usuarios = await response.json();
 
-form.onsubmit = function() {
-    event.preventDefault();
-    let email_user = document.getElementById("login").value;
-    let user = usuario.find(obj => obj.email == email_user);
-    if (!user) {
-        alert("Usuario não encontrado");
-        return;
-    }
-    window.location.href = `inicial.html?id_user=${user.cod}`; // Redireciona para a página inicial com o id do usuário
+  return usuarios.find(u => u.email === email && u.senha === senha) || null;
 }
+
+const form = document.getElementById('form');
+
+form.onsubmit = async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById('login').value;
+
+  const senha = document.getElementById('senha').value;
+
+  try {
+    const usuario = await buscarUsuarioPorEmailESenha(email, senha);
+
+    if (!usuario) {
+      alert('Usuario ou senha incorretos');
+      return;
+    }
+
+
+    window.location.href = `inicial.html?id_user=${usuario.id}`;
+  } catch (error) {
+    console.error('Erro:', error);
+    alert('Erro ao processar login');
+  }
+};
