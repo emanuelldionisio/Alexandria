@@ -1,50 +1,55 @@
-// importando
-import { disco } from './data/disco.js';
-import { livro } from './data/livro.js';
-import { usuario } from './data/usuario.js';
+const id = +new URLSearchParams(location.search).get("id_prod");
+id ? carregaproduto(id) : alert("ID do produto inválido na URL.");
 
+async function carregaproduto(id) {
+  try {
+    let produto = null;
+    let tipo = null;
 
-const params = new URLSearchParams(window.location.search);
-const id = parseInt(params.get("id_prod"));
-
-function carregaproduto() {
-    // busca produto
-    let produto = livro.find(p => p.id_prod === id);
-    let tipo = 'livro';
-    if (!produto) {
-        produto = disco.find(p => p.id_prod === id);
-        tipo = 'disco';
+    for (const tipoFonte of ['livro', 'disco']) {
+      const res = await fetch(`/data/${tipoFonte}?id_prod=${id}`);
+      const dados = await res.json();
+      produto = dados.find(p => Number(p.id_prod) === id);
+      if (produto) {
+        tipo = tipoFonte;
+        break;
+      }
     }
 
-    // título da página
-    document.title = produto.nome;
-    document.getElementById('page-titulo').textContent = produto.nome;
+    if (!produto) return alert("Produto não encontrado com id " + id);
 
-    // imagem e descrição
-    document.getElementById('produto-img').src = `imgs/prod/${produto.id_prod}.jpg`;
-    document.getElementById('produto-desc').textContent = produto.descricao;
-    document.getElementById('produto-titulo').textContent = produto.nome;
-    document.getElementById('produto-preco').textContent = `R$ ${(produto.valor / 100).toFixed(2)}`;
+    const resUsuario = await fetch(`data/usuario?id_user=${produto.id_usuario}`);
+    const vendedor = await resUsuario.json();
 
-    // nome do vendedor
-    const user = usuario.find(u => u.cod === produto.id_usuario);
-    document.getElementById('vendedor-nome').textContent = user.nome;
-
-    // informações adicionais
-    const infoDiv = document.getElementById('produto-info');
-    const infoItems = [];
-
-    if (tipo === 'livro') {
-        infoItems.push(`<p><b>Autor:</b> ${produto.autor}</p>`);
-        infoItems.push(`<p><b>Edição:</b> ${produto.edicao}</p>`);
-        infoItems.push(`<p><b>Páginas:</b> ${produto.qtd_pag}</p>`);
-    } else {
-        infoItems.push(`<p><b>Artista:</b> ${produto.artista}</p>`);
-        infoItems.push(`<p><b>Gravadora:</b> ${produto.gravadora}</p>`);
-        infoItems.push(`<p><b>Ano:</b> ${produto.ano}</p>`);
-    }
-
-    infoItems.push(`<p><b>Condição:</b> ${produto.condicao}</p>`);
-    infoDiv.innerHTML = infoItems.join('');
+    preencherPagina(produto, tipo, vendedor);
+  } catch (erro) {
+    console.error("Erro ao buscar dados:", erro);
+    alert("Erro ao buscar os dados do produto");
+  }
 }
-carregaproduto()
+
+function preencherPagina(produto, tipo, vendedor) {
+  document.title = produto.nome;
+  document.getElementById("page-titulo").textContent = produto.nome;
+  document.getElementById("produto-img").src = `imgs/prod/${produto.id_prod}.jpg`;
+  document.getElementById("produto-desc").textContent = produto.descricao;
+  document.getElementById("produto-titulo").textContent = produto.nome;
+  document.getElementById("produto-preco").textContent = `R$ ${(produto.valor / 100).toFixed(2).replace('.', ',')}`;
+  document.getElementById("vendedor-nome").textContent = vendedor.nome;
+
+  const infoDiv = document.getElementById("produto-info");
+  const infoItems = [];
+
+  if (tipo === "livro") {
+    infoItems.push(`<p><b>Autor:</b> ${produto.autor}</p>`);
+    infoItems.push(`<p><b>Edição:</b> ${produto.edicao}</p>`);
+    infoItems.push(`<p><b>Páginas:</b> ${produto.qtd_pag}</p>`);
+  } else {
+    infoItems.push(`<p><b>Artista:</b> ${produto.artista}</p>`);
+    infoItems.push(`<p><b>Gravadora:</b> ${produto.gravadora}</p>`);
+    infoItems.push(`<p><b>Ano:</b> ${produto.ano}</p>`);
+  }
+
+  infoItems.push(`<p><b>Condição:</b> ${produto.condicao}</p>`);
+  infoDiv.innerHTML = infoItems.join('');
+}
