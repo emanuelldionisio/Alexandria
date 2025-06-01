@@ -11,6 +11,7 @@ export const usuario = [
         "cidade": "Xique-Xique",
         "bairro": "Jacarezinho do norte",
         "rua": "Rua Aposentada dos Tolos",
+        "senha": "krobus123",
         "num_casa": 215
    },
 
@@ -26,6 +27,7 @@ export const usuario = [
         "cidade": "João Pessoa",
         "bairro": "Geisel",
         "rua": "Rua Passarinho Bem-te-vi da Silva Assobiante",
+        "senha": "alicinhagamer",
         "num_casa": 479
     },
 
@@ -41,6 +43,7 @@ export const usuario = [
         "cidade": "João Pessoa",
         "bairro": "Treze de Maio",
         "rua": "Rua Samba Potente que Desce no Pé",
+        "senha": "manuzinhadogera",
         "num_casa": 791
     },
 
@@ -56,6 +59,7 @@ export const usuario = [
         "cidade": "João Pessoa",
         "bairro": "José Américo",
         "rua": "Rua Padrinho Chico Xavier Astrólogo",
+        "senha": "RatoQueRoeuARoupaDoRei",
         "num_casa": 331
     },
 
@@ -71,6 +75,7 @@ export const usuario = [
         "cidade": "João Pessoa",
         "bairro": "Bancários",
         "rua": "Rua Banqueiros em Protesto por Aumento Salarial",
+        "senha": "brocedes644",
         "num_casa": 414
     },
 ]
