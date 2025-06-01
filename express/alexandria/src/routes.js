@@ -28,6 +28,13 @@ router.get('/usuario', (req, res) => {
     return res.json(usuario.find(obj => obj.cod == id_user));
 });
 
+router.get("/emaid/:email", (req, res) =>{
+    const email = req.params.email;
+    const identificacao = usuario.find(user=>user.email==email)
+    if (!identificacao) throw new HttpError ("ERRO: Usuário não identificado.")
+    return res.json(identificacao)
+})
+
 router.get('/segue', (req, res) => {
     const id_user = req.query.id_user;
     if (!id_user) {

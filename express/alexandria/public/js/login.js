@@ -1,13 +1,22 @@
-async function buscarUsuarioERedirecionar(id) {
-  try {
-    const response = await fetch(`./data/usuario?id_user=${id}`);
-    if (!response.ok) throw new Error('Erro ao buscar usuário');
+const form = document.getElementById("form")
+form.onsubmit=async () => { 
+    event.preventDefault()
+    const email = document.getElementById("email").value
+    const senha = document.getElementById("senha").value
+    const usuario = await fetch(`data/emaid/${email}`).then(res=>res.json())
 
-    const data = await response.json();
-    console.log('Usuário:', data);
+    if (!usuario.ok) {
+    alert("Usuário não encontrado.");
+    return;
+    }
 
-    window.location.href = `inicial.html?id_user=${id}`;
-  } catch (error) {
-    console.error('Erro:', error);
-  }
-}
+    const usuario2 = await usuario.json();
+    if (usuario.senha === senha) {
+    window.location.href = `inicial.html?id_user=${usuario.cod}`;
+    } else {
+    alert("Senha incorreta.");
+    }
+};
+
+
+
