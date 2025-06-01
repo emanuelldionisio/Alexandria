@@ -8,10 +8,10 @@ const fetchlogin = (email, senha) => {
             return response.json();
         })
         .then(usuario => {
-            const validouser = usuario.find(user =>
-                email.user == email && user.senha === senha
+            const validousuario = usuario.find(usuario =>
+                email.usuario == email && usuario.senha === senha
             );
-            return uservalido || null;
+            return usuariovalido || null;
         })
         .catch(error => {
             console.error("Erro ao logar:", error);
