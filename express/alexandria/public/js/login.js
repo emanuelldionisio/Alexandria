@@ -1,4 +1,23 @@
 
+const fetchlogin = (email, senha) => {
+    return fetch('/data/usuario')
+        .then(response => {
+            if (!response.ok) {
+                throw Error ("Erro")
+            }
+            return response.json();
+        })
+        .then(usuarios => {
+            const validouser = usuarios.find(user =>
+                email_user == email && user.senha === senha
+            );
+            return uservalido || null;
+        })
+        .catch(error => {
+            console.error("Erro ao logar:", error);
+            return null;
+        });
+};
 
 
 const form = document.getElementById("form");
