@@ -1,19 +1,15 @@
-import { usuario } from "./data/usuario.js";
-import { disco } from "./data/disco.js";
-import { livro } from "./data/livro.js";
-
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
+
+const livros_disponiveis = await fetch(`data/livros?id_user=${id}`).then(response => response.json());
+const discos_disponiveis = await fetch(`data/discos?id_user=${id}`).then(response => response.json());
 
 function carregarInicial() { 
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
     img_perfil.src = `imgs/usuario/${id}.jpg`;
     
-    
     // exibição de produtos
-    let discos_disponiveis = disco.filter(obj => obj.id_usuario != id);
-    let livros_disponiveis = livro.filter(obj => obj.id_usuario != id);
     let grid_discos = document.getElementById("grid_discos");
     let grid_livros = document.getElementById("grid_livros");
 

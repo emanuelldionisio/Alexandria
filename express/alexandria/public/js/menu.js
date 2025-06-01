@@ -3,6 +3,11 @@ import { menu_perfil } from './lib/menu_perfil.js';
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
+if (!id) {
+    document.body.innerHTML = "<h1>Verifique se os parâmetros da url são válidos!</h1>";
+    throw new Error("Faltam parâmetros na URL: id_user", 400);
+}
+
 const usuario = await fetch(`data/usuario?id_user=${id}`).then(response => response.json());
 
 function carregarMenu() {
