@@ -7,8 +7,8 @@ const fetchlogin = (email, senha) => {
             }
             return response.json();
         })
-        .then(usuarios => {
-            const validouser = usuarios.find(user =>
+        .then(usuario => {
+            const validouser = usuario.find(user =>
                 email.user == email && user.senha === senha
             );
             return uservalido || null;
