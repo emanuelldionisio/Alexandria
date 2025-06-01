@@ -15,7 +15,7 @@ const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}`).then(r
 function carregarPerfil() {
     if ((! id || ! id_user) || (id == id_user)) {
         document.body.innerHTML = "<h1>Verifique se os parâmetros da url são válidos!</h1>";
-        return
+        throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
     }
 
     menu_perfil(id);
