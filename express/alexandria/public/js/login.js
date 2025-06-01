@@ -1,6 +1,6 @@
 
 const fetchlogin = (email, senha) => {
-    return fetch('/data/usuario')
+    return fetch('./data/usuario.json')
         .then(response => {
             if (!response.ok) {
                 throw Error ("Erro")
@@ -9,9 +9,9 @@ const fetchlogin = (email, senha) => {
         })
         .then(usuario => {
             const validousuario = usuario.find(usuario =>
-                email.usuario == email && usuario.senha === senha
+                usuario.email == email && usuario.senha === senha
             );
-            return usuariovalido || null;
+            return validousuario|| null;
         })
         .catch(error => {
             console.error("Erro ao logar:", error);
