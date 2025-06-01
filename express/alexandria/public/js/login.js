@@ -1,28 +1,13 @@
-const form = document.getElementById('form');
+async function buscarUsuarioERedirecionar(id) {
+  try {
+    const response = await fetch(`./data/usuario?id_user=${id}`);
+    if (!response.ok) throw new Error('Erro ao buscar usuário');
 
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
+    const data = await response.json();
+    console.log('Usuário:', data);
 
-  const email = document.getElementById('login').value;
-  const senha = document.getElementById('senha').value;
-
-  fetch('./data/usuarios.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Erro ao carregar usuários');
-      return response.json();
-    })
-    .then(usuarios => {
-      const usuarioValido = usuarios.find(u => u.email === email && u.senha === senha);
-
-      if (usuarioValido) {
-        // Login OK, vai pra página inicial com o id do usuário na URL
-        window.location.href = `inicial.html?id_user=${usuarioValido.cod}`;
-      } else {
-        alert('Email ou senha incorretos!');
-      }
-    })
-    .catch(err => {
-      console.error('Erro no fetch:', err);
-      alert('Erro ao tentar logar.');
-    });
-});
+    window.location.href = `inicial.html?id_user=${id}`;
+  } catch (error) {
+    console.error('Erro:', error);
+  }
+}
