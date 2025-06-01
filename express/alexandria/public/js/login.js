@@ -5,12 +5,11 @@ form.onsubmit=async () => {
     const senha = document.getElementById("senha").value
     const usuario = await fetch(`data/emaid/${email}`).then(res=>res.json())
 
-    if (!usuario.ok) {
+    if (!usuario) {
     alert("Usuário não encontrado.");
     return;
     }
 
-    const usuario2 = await usuario.json();
     if (usuario.senha === senha) {
     window.location.href = `inicial.html?id_user=${usuario.cod}`;
     } else {
