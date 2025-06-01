@@ -9,7 +9,7 @@ const fetchlogin = (email, senha) => {
         })
         .then(usuarios => {
             const validouser = usuarios.find(user =>
-                email_user == email && user.senha === senha
+                email.user == email && user.senha === senha
             );
             return uservalido || null;
         })
