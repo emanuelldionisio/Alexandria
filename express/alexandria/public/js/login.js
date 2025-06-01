@@ -1,4 +1,6 @@
+const response = await fetch(`./data/usuario?id_user=${id}`);
 
+const usuario = await response.json();
 
 
 const form = document.getElementById("form");
