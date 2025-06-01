@@ -80,8 +80,9 @@ router.get('/disco', (req, res) => {
     }
     if (modo === "perfil") { 
         return res.json(disco.filter(obj => obj.id_usuario == id_user));
-} else {
-    return res.json(disco.filter(obj => obj.id_usuario != id_user));}
+    } else {
+        return res.json(disco.filter(obj => obj.id_usuario != id_user));
+    }
 });
 
 router.get('/livro', (req, res) => {
@@ -92,8 +93,9 @@ router.get('/livro', (req, res) => {
     }
     if (modo === "perfil") { 
         return res.json(livro.filter(obj => obj.id_usuario == id_user));
-} else {
-    return res.json(livro.filter(obj => obj.id_usuario != id_user));}
+    } else {
+    return res.json(livro.filter(obj => obj.id_usuario != id_user));
+    }
 });
 
 router.get('/avaliacao_disco', (req, res) => {
