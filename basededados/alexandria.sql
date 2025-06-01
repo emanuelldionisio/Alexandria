@@ -14,6 +14,7 @@ CREATE table usuario(
   cidade VARCHAR (32),
   bairro VARCHAR (32),
   rua VARCHAR (128),
+  senha VARCHAR (32),
   num_casa INTEGER,
 );
 

@@ -12,3 +12,6 @@ Content-Type: application/json
 {
   "seguido": 2, "seguinte": 3
 }
+
+###
+GET {{host}}/login.html

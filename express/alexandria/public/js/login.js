@@ -1,4 +1,5 @@
-import { usuario } from "./data/usuario.js";
+
+
 
 const form = document.getElementById("form");
 
