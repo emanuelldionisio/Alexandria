@@ -1,9 +1,10 @@
 const id = +new URLSearchParams(location.search).get("id_prod");
 id ? carregaproduto(id) : alert("ID do produto inválido na URL.");
 
+let produto = null;
+
 async function carregaproduto(id) {
   try {
-    let produto = null;
     let tipo = null;
 
     for (const tipoFonte of ['livro', 'disco']) {
@@ -53,3 +54,9 @@ function preencherPagina(produto, tipo, vendedor) {
   infoItems.push(`<p><b>Condição:</b> ${produto.condicao}</p>`);
   infoDiv.innerHTML = infoItems.join('');
 }
+
+export function irParaPerfil() {
+    window.location.href = `perfil.html?id_user=${id_user}&id_visitado=${produto.id_usuario}`;
+}
+
+window.irParaPerfil = irParaPerfil;
