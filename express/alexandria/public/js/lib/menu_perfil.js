@@ -2,8 +2,8 @@
 export async function menu_perfil(id) {
     const segue = await fetch(`data/segue?id_user=${id}`).then(response => response.json());
     const palavra_usuario = await fetch(`data/palavra_usuario?id_user=${id}`).then(response => response.json());
-    const disco = await fetch(`data/disco?id_user=${id}`).then(response => response.json());
-    const livro = await fetch(`data/livro?id_user=${id}`).then(response => response.json());
+    const disco = await fetch(`data/disco?id_user=${id}&modo=perfil`).then(response => response.json());
+    const livro = await fetch(`data/livro?id_user=${id}&modo=perfil`).then(response => response.json());
     
     const coresBootstrap = [
             'primary', 'secondary', 'success', 'danger',

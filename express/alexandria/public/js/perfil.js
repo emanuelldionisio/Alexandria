@@ -11,8 +11,8 @@ if ((!id || !id_user) || (id == id_user)) {
 
 const usuario = await fetch(`data/usuario?id_user=${id}&modo='perfil'`).then(response => response.json());
 const segue = await fetch(`data/segue?id_user=${id}&modo='perfil'`).then(response => response.json());
-const meus_discos = await fetch(`data/avaliacao_disco?id_user=${id}&modo='perfil'`).then(response => response.json());
-const meus_livros = await fetch(`data/avaliacao_livro?id_user=${id}&modo='perfil'`).then(response => response.json());
+const meus_discos = await fetch(`data/disco?id_user=${id}&modo='perfil'`).then(response => response.json());
+const meus_livros = await fetch(`data/livro?id_user=${id}&modo='perfil'`).then(response => response.json());
 const avaliacao_disco = await fetch(`data/avaliacao_disco?id_user=${id}&modo='perfil'`).then(response => response.json());
 const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}&modo='perfil'`).then(response => response.json());
 
