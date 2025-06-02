@@ -4,9 +4,13 @@ const params = new URLSearchParams(window.location.search);
 const id_user = params.get("id_user");
 const id = params.get("id_visitado");
 
-if ((!id || !id_user) || (id == id_user)) {
+if ((!id || !id_user)) {
     document.body.innerHTML = "<h1>Verifique se os parâmetros da url são válidos!</h1>";
     throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
+}
+
+if (id == id_user) {
+    window.location.href = `menu.html?id_user=${id_user}`;
 }
 
 const usuario = await fetch(`data/usuario?id_user=${id}&modo='perfil'`).then(response => response.json());

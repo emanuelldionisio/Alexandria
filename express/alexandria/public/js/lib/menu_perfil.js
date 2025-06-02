@@ -36,7 +36,7 @@ export async function menu_perfil(id) {
     let container_produtos = document.getElementById("menu-produtos__produtos");
 
     for (let i of meus_discos) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
