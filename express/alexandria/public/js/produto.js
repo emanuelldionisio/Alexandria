@@ -1,6 +1,9 @@
 const id = +new URLSearchParams(location.search).get("id_prod");
 id ? carregaproduto(id) : alert("ID do produto inválido na URL.");
 
+const id_user = +new URLSearchParams(location.search).get("id_user");
+
+
 let produto = null;
 
 async function carregaproduto(id) {
