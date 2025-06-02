@@ -15,8 +15,6 @@ if (id == id_user) {
 
 const usuario = await fetch(`data/usuario?id_user=${id}&modo='perfil'`).then(response => response.json());
 const segue = await fetch(`data/segue?id_user=${id}&modo='perfil'`).then(response => response.json());
-const meus_discos = await fetch(`data/disco?id_user=${id}&modo='perfil'`).then(response => response.json());
-const meus_livros = await fetch(`data/livro?id_user=${id}&modo='perfil'`).then(response => response.json());
 const avaliacao_disco = await fetch(`data/avaliacao_disco?id_user=${id}&modo='perfil'`).then(response => response.json());
 const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}&modo='perfil'`).then(response => response.json());
 
@@ -36,17 +34,13 @@ function carregarPerfil() {
 
     let soma = 0, qt = 0;
     for (let i of avaliacao_disco) {
-        if (meus_discos.find(obj => obj.id_prod == i.id_prod)) {
-            soma += i.nota
-            qt++;
-        }
+        soma += i.nota
+        qt++;
     }
     
     for (let i of avaliacao_livro) {
-        if (meus_livros.find(obj => obj.id_prod == i.id_prod)) {
-            soma += i.nota
-            qt++;
-        }
+        soma += i.nota
+        qt++;
     }
 
     if (! qt) qt = 1;
