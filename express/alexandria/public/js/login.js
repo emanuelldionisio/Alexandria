@@ -3,18 +3,14 @@ form.onsubmit=async () => {
     event.preventDefault()
     const email = document.getElementById("email").value
     const senha = document.getElementById("senha").value
-    const usuario = await fetch(`data/emaid/${email}`).then(res=>res.json())
-
-    if (!usuario) {
-    alert("Usuário não encontrado.");
-    return;
+    const id = await fetch(`data/emaid/${email}/${senha}`).then(res=>res.json()).then(data => data.id);
+    
+    if (!id) {
+        alert("Dados incorretos");
+        return;
     }
 
-    if (usuario.senha === senha) {
-    window.location.href = `inicial.html?id_user=${usuario.cod}`;
-    } else {
-    alert("Senha incorreta.");
-    }
+    window.location.href = `inicial.html?id_user=${id}`;
 };
 
 
