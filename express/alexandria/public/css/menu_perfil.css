@@ -245,3 +245,29 @@ button {
     gap: 20px;
 
 }
+
+.cadastro-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    color: white;
+    text-align: center;
+    background-color: #B6935B;
+}
+
+.cadastro-body {
+    margin: 0;
+}
+
+.cadastro-main {
+    display: flex;
+    padding: 20px;
+}
+
+
+#product-img-input {
+    display: none;
+}
