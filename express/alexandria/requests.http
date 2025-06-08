@@ -14,4 +14,4 @@ Content-Type: application/json
 }
 
 ###
-GET {{host}}/data/emaid/emanuel.eduardo@academico.ifpb.edu.br/krobus123
+GET {{host}}/data/palavra_chave

@@ -7,6 +7,7 @@ import { disco } from './data/disco.js'
 import { livro } from './data/livro.js'
 import { avaliacao_disco } from './data/avaliacao_disco.js'
 import { avaliacao_livro } from './data/avaliacao_livro.js'
+import { palavra_chave } from './data/palavra_chave.js'
 
 const router = express.Router()
 
@@ -16,6 +17,10 @@ class HttpError extends Error {
         this.code = code;
     }
 }
+
+router.get('/palavra_chave', (req, res) => {
+    return res.json(palavra_chave);
+});
 
 router.get('/usuario', (req, res) => {
     const id_user = req.query.id_user;
