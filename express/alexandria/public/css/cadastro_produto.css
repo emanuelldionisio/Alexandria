@@ -1,55 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
+.cadastro-body {
+    display: flex;
+    flex-direction: column;
     background-color: #E6DDC6;
-    margin: 20px;
+    margin: 15px;
     display: flex;
     justify-content: space-between;
     gap: 15px;
+    font-size: 15px;
 }    
 .cadastro-header{
     display: flex;
-    height: 20px;
-    width: 100%;
-    background-color: rgb(201, 143, 68);
     align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 100%;
+    color: antiquewhite;
+    background-color: #722D14;
+    font-size: 20px;
+    gap: 30px;
+}
+.cab-titulo{
+    display:flex;
+    width: 100%;
+    justify-content: center;
+}
+.botao-titulo{
+    display:flex;
+    justify-content: left;
 }
 button{
+    color: antiquewhite;
     border: 0px;
     background: none;
 }
+
 .botao-de-voltar{
+    display:flex;
     display:flex;
     font-size: 30px;
 }
-.cab-text{
-    display:flex;
-    align-self: flex-start;
-}
-
 .cadastro-main{
     display: flex;
-    background-color: rgb(85, 47, 156);
-    padding-top: 10px;
-    padding: 20px;
+    justify-content: space-between;
+    gap: 10px;
+
 }
 .left{
     display: flex;
     align-items: center;
-    width: 100%;
-    background-color: brown;
+    width: 50%;
+
 }
 .rigth{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    padding-left: 20px;
     width: 100%;
-    background-color: blueviolet;
     justify-content: space-between;
     
 }
-.descricao{
-    background-color:rgb(201, 143, 68);
+.subtitulos{
+    display: flex;
+    gap: 8px;
     margin-top: 15px;
     padding: 5px; 
-    gap: 10px;
+    font-size: 18px;
+    background-color: rgb(201, 143, 68);
+}
+.subtexto{
+    font-size: 16px;
+    color:#8a4228
+}
+#descricao{
+    padding: 2px;
+}
+.div-descricao{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.div-cadastrar{
+    display:flex;
+    justify-content: right;
+    align-items: end;
+    color: antiquewhite;
+}
+.botao-cadastrar{
+
+    background-color: #722D14;
+    border-radius: 10px;
 }
