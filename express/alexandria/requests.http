@@ -6,12 +6,20 @@ get {{host}}/data/segue
 get {{host}}/produto.html
 
 ###
-delete {{host}}/data/segue
+post {{host}}/data/livro
 Content-Type: application/json
 
 {
-  "seguido": 2, "seguinte": 3
+        "id_prod": 2,
+        "id_usuario": 2,
+        "nome": "2a",
+        "valor": "preco", 
+        "condicao": "estado",
+        "descricao": "descricao",
+        "autor": "autor",
+        "edicao": "gravadora",
+        "qtd_pag":" null"
 }
 
 ###
-GET {{host}}/data/palavra_chave
+GET {{host}}/data/livro?id_prod=44f2527e-9955-48d9-8066-77f968530019

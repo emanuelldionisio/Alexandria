@@ -26,7 +26,7 @@
             </form>
         </div>
         <div class="right">
-            <form>
+            <form id="cadastro-produto-form" class="cadastro-produto-form">
                 <label for="descricao">Descrição</label>
                 <div class="subtexto">Descreva seu produto (avarias, edições especiais, etc.)</div>
                 <textarea id="descricao" name="descricao" rows="4"></textarea>
@@ -38,7 +38,7 @@
                 <input type="text" id="preco" name="preco">
 
                 <label>Tipo de Mídia</label>
-                <fieldset class="grupo-radio">
+                <fieldset class="grupo-radio" id="midia">
                     <label><input type="radio" name="midia" value="disco"> Disco</label>
                     <label><input type="radio" name="midia" value="livro"> Livro</label>
                 </fieldset>
@@ -61,11 +61,8 @@
                 <label for="palavras">Palavras-chave</label>
                 <div class="subtexto">Descreva seu produto em até 5 palavras-chave</div>
                 <select name="select-palavras" id="select-palavras"></select>
+                <button id="select-palavras-submit">escolher</button>
                 <div id="palavras-selecionadas">
-                    <span class="badge rounded-pill text-bg-primary menu-palavras-chave__palavra">
-                        exemplo de palavras
-                        <button><i class="bi bi-trash-fill"></i></button>  
-                    </span>;
                 </div>
                 
                 <button type="submit">Cadastrar Produto</button>
