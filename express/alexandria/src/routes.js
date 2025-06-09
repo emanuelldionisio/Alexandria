@@ -17,6 +17,24 @@ class HttpError extends Error {
         this.code = code;
     }
 }
+router.post('/disco', (req, res) => {
+    const { id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano, gravadora } = req.body;
+    if (!id_prod || !id_usuario || !nome || !valor || !condicao || !descricao || !artista || !ano || !gravadora) {
+        throw new HttpError('Faltam parâmetros: id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano ou gravadora', 400);
+    }
+    disco.push({ id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano, gravadora });
+    return res.sendStatus(204);
+}
+);
+router.post('/livro', (req, res) => {
+    const { id_prod, id_usuario, nome, valor, condicao, descricao, autor, edicao, qtd_pag } = req.body;
+    if (!id_prod || !id_usuario || !nome || !valor || !condicao || !descricao || !autor || !edicao || !qtd_pag) {
+        throw new HttpError('Faltam parâmetros: id_prod, id_usuario, nome, valor, condicao, descricao, autor, edicao ou qtd_pag', 400);
+    }
+    livro.push({ id_prod, id_usuario, nome, valor, condicao, descricao, autor, edicao, qtd_pag });
+    return res.sendStatus(204);
+}
+);
 
 router.get('/palavra_chave', (req, res) => {
     return res.json(palavra_chave);

@@ -23,4 +23,8 @@ botao_ir_para_inicial.onclick = function() {
     window.location.href = `inicial.html?id_user=${id}`;
 }
 
+document.querySelector(".menu-produtos__produtos_adicionar").onclick = function() {
+    window.location.href = `cadastro_produto.html?id_user=${id}`;
+}
+
 carregarMenu()
