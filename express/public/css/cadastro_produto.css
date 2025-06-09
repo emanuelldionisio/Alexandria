@@ -4,16 +4,15 @@
     display: flex;
     flex-direction: column;
     background-color: #E6DDC6;
-    margin: 15px;
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+  
     font-size: 15px;
+    border: 0px;
 }    
+
 .cadastro-header{
     display: flex;
-    align-items: center;
-    justify-content: center;
     height: 40px;
     width: 100%;
     color: antiquewhite;
@@ -21,15 +20,12 @@
     font-size: 20px;
     gap: 30px;
 }
+
 .cab-titulo{
-    display:flex;
     width: 100%;
     justify-content: center;
 }
-.botao-titulo{
-    display:flex;
-    justify-content: left;
-}
+
 button{
     color: antiquewhite;
     border: 0px;
@@ -37,34 +33,28 @@ button{
 }
 
 .botao-de-voltar{
-    display:flex;
-    display:flex;
+    margin-left: 2vh;
     font-size: 30px;
 }
 .cadastro-main{
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
-
+    margin: 2vh;
+    gap: 5vh;
 }
 .left{
     display: flex;
-    align-items: center;
-    width: 50%;
-
 }
 .rigth{
     display: flex;
     flex-direction: column;
     padding-left: 20px;
+    align-items: center;
     width: 100%;
-    justify-content: space-between;
-    
+    flex-grow: 155;
 }
 .subtitulos{
     display: flex;
     gap: 8px;
-    margin-top: 15px;
     padding: 5px; 
     font-size: 18px;
     background-color: rgb(201, 143, 68);
@@ -72,6 +62,7 @@ button{
 .subtexto{
     font-size: 16px;
     color:#8a4228
+    
 }
 #descricao{
     padding: 2px;
