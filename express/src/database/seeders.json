@@ -1,0 +1,578 @@
+{
+    "avaliacao_disco": [
+        {
+        "cod_usuario": 1,
+        "id_prod": 2,
+        "nota": 5,
+        "descricao": "CD de ótima qualidade, vendedor atencioso e entrega rápida. Vibrei tanto com a música que minha mãe ficou com medo"
+        },
+    {
+        "cod_usuario": 2,
+        "id_prod": 1,
+        "nota": 4,
+        "descricao": "Ótimo CD, mas a entrega demorou um pouco mais do que o esperado. Recomendo!"
+    },
+    {
+        "cod_usuario": 3,
+        "id_prod": 3,
+        "nota": 3,
+        "descricao": "CD bom, mas não atendeu totalmente às minhas expectativas. A música é boa, mas poderia ser melhor."
+    }
+    ],
+    "avaliacao_livro": [
+         {
+        "cod_usuario": 2,
+        "id_prod": 6,
+        "nota": 4,
+        "descricao": "Ótimo vendedor e estava como descrito. O livro é bom, mas o casal principal é um tanto esquisito e não me fez curtir a leitura tanto assim"
+    }
+    ],
+    "carrinho_disco": [
+        {
+        "cod_usuario": 1,
+        "id_prod": 2
+    },
+
+    {
+        "cod_usuario": 1,
+        "id_prod": 4
+    }
+    ],
+    "carrinho_livro": [
+        {
+        "cod_usuario": 1,
+        "id_prod": 5
+    },
+
+    {
+        "cod_usuario": 2,
+        "id_prod": 6
+    }
+    ],
+    "denuncia": [
+        {
+        "denunciante": 2,
+        "denunciado": 1
+    }
+    ],
+    "desejos_livro": [
+        {
+        "cod_usuario": 1,
+        "id_prod": 5
+    },
+
+    {
+        "cod_usuario": 2,
+        "id_prod": 6
+    }
+    ],
+    "desejos_disco": [
+        {
+        "cod_usuario": 1,
+        "id_prod": 2
+    },
+
+    {
+        "cod_usuario": 2,
+        "id_prod": 1
+    }
+    ],
+    "disco": [
+         {
+        "id_prod": 1,
+        "id_usuario": 4,
+        "nome": "A Day At The Races - CD",
+        "valor": 6540, 
+        "condicao": "Ótimo", 
+        "descricao": "CD do álbum da banda Queen, remaster de 2011",
+        "artista": "Queen",
+        "ano": 2011,
+        "gravadora": "EMI"
+    },
+
+    {
+        "id_prod": 2,
+        "id_usuario": 5,
+        "nome": "Three Cheers... - CD",
+        "valor": 5960, 
+        "condicao": "Ótimo", 
+        "descricao": "CD bem conservado, faço teste antes do pagamento",
+        "artista": "My Chemical Romance",
+        "ano": 2004,
+        "gravadora": "Reprise Records"
+    },
+
+    {
+        "id_prod": 3,
+        "id_usuario": 2,
+        "nome": "Ciano - Vinil",
+        "valor": 23000, 
+        "condicao": "Bom", 
+        "descricao": "Capa do vinil está um pouco descascada, fora isso, o disco está intacto",
+        "artista": "Fresno",
+        "ano": 2006,
+        "gravadora": "BMG"
+    },
+
+    {
+        "id_prod": 4,
+        "id_usuario": 1,
+        "nome": "Xou da Xuxa - Vinil",
+        "valor": 58600,
+        "condicao": "Bom", 
+        "descricao": "Amarelado pela idade, mas o disco funciona perfeitamente",
+        "artista": "Xuxa",
+        "ano": 1986,
+        "gravadora": "Som Livre"
+    },
+
+    {
+        "id_prod": 9,
+        "id_usuario": 3,
+        "nome": "Não Deixe o Samba Morrer - Vinil",
+        "valor": 3290,
+        "descricao": "Excelente estado",
+        "artista": "Alcione",
+        "ano": 1975,
+        "gravadora": "Sony"
+    }
+    ],
+    "livro": [
+         {
+        "id_prod": 5,
+        "id_usuario": 4,
+        "nome": "Crime e Castigo",
+        "valor": 2390, 
+        "condicao": "Bom - Manchas", 
+        "descricao": "Possui algumas manchas amareladas nas páginas devido à velhice, sem rasgos ou avarias maiores",
+        "autor": "Fiódor Dostoiévski",
+        "edicao": "5° - Antofágica",
+        "qtd_pag": 592
+    },
+
+    {
+        "id_prod": 6,
+        "id_usuario": 2,
+        "nome": "Quarta Asa",
+        "valor": 4590, 
+        "condicao": "Excelente", 
+        "descricao": "Em estado de novo, venda por motivo de mudança",
+        "autor": "Rebecca Yarros",
+        "edicao": "2° - Planeta Minotauro",
+        "qtd_pag": 544
+    },
+
+    {
+        "id_prod": 7,
+        "id_usuario": 5,
+        "nome": "A Canção de Aquiles",
+        "valor": 2260, 
+        "condicao": "Avariado", 
+        "descricao": "Possui marcas de uso na capa, como arranhões e amassados",
+        "autor": "Madeline Miller",
+        "edicao": "3° - Planeta Minotauro",
+        "qtd_pag": 392
+    },
+
+    {
+        "id_prod": 8,
+        "id_usuario": 4,
+        "nome": "O Hobbit",
+        "valor": 2830, 
+        "condicao": "Excelente", 
+        "descricao": "Sem danos",
+        "autor": "J.R.R Tolkien",
+        "edicao": "3° - Harper Collins Brasil",
+        "qtd_pag": 331
+    },
+    
+    {
+        "id_prod": 10,
+        "id_usuario": 3,
+        "nome": "Torto Arado",
+        "valor": 3010, 
+        "condicao": "Excelente", 
+        "descricao": "Sem danos",
+        "autor": "Itamar Vieira Junior",
+        "edicao": "1° - Todavia",
+        "qtd_pag": 331
+    }
+    ],
+    "palavra_chave": [
+        {
+        "nome": "Rock"
+    },
+
+    {
+        "nome": "Fantasia"
+    },
+
+    {
+        "nome": "Romance"
+    },
+
+    {
+        "nome": "Queen"
+    },
+
+    {
+        "nome": "MCR"
+    },
+
+    {
+        "nome": "Fresno"
+    },
+
+    {
+        "nome": "Indie"
+    },
+
+    {
+        "nome": "Xuxa"
+    },
+
+    {
+        "nome": "Alternativo"
+    },
+
+    {
+        "nome": "Pop"
+    },
+
+    {
+        "nome": "Emo"
+    },
+
+    {
+        "nome": "Clássicos"
+    },
+
+    {
+        "nome": "Literatura Russa"
+    },
+
+    {
+        "nome": "Alta Fantasia"
+    },
+
+    {
+        "nome": "Mitologia Grega"
+    },
+
+    {
+        "nome": "Releituras"
+    },
+
+    {
+        "nome": "Tolkien"
+    },
+
+    {
+        "nome": "Fiódor Dostoiésvski"
+    },
+
+    {
+        "nome": "Infantil"
+    },
+
+    {
+        "nome": "Infanto-Juvenil"
+    },
+
+    {
+        "nome": "Público Maduro"
+    },
+
+    {
+        "nome": "Rock Clássico"
+    },
+
+    {
+        "nome": "Dragões"
+    }
+    ],
+    "palavra_disco": [
+        {
+        "prod": 1,
+        "nome": "Rock"
+    },
+
+    {
+        "prod": 1,
+        "nome": "Queen"
+    },
+
+    {
+        "prod": 1,
+        "nome": "Rock Clássico"
+    },
+
+    {
+        "prod": 2,
+        "nome": "Rock"
+    },
+
+    {
+        "prod": 2,
+        "nome": "MCR"
+    },
+
+    {
+        "prod": 2,
+        "nome": "Alternativo"
+    },
+
+    {
+        "prod": 2,
+        "nome": "Emo"
+    },
+
+    {
+        "prod": 2,
+        "nome": "Público Maduro"
+    },
+
+    {
+        "prod": 3,
+        "nome": "Rock"
+    },
+
+    {
+        "prod": 3,
+        "nome": "Fresno"
+    },
+
+    {
+        "prod": 3,
+        "nome": "Indie"
+    },
+
+    {
+        "prod": 3,
+        "nome": "Alternativo"
+    },
+
+    {
+        "prod": 3,
+        "nome": "Emo"
+    },
+
+    {
+        "prod": 4,
+        "nome": "Xuxa"
+    },
+
+    {
+        "prod": 4,
+        "nome": "Pop"
+    },
+
+    {
+        "prod": 4,
+        "nome": "Infantil"
+    },
+
+    {
+        "prod": 4,
+        "nome": "Infanto-Juvenil"
+    }
+    ],
+    "palavra_livro": [
+        {
+        "prod": 5,
+        "nome": "Clássicos"
+    },
+
+    {
+        "prod": 5,
+        "nome": "Literatura Russa"
+    },
+
+    {
+        "prod": 5,
+        "nome": "Fiodór Dostoiésvski"
+    },
+
+    {
+        "prod": 5,
+        "nome": "Público Maduro"
+    },
+
+    {
+        "prod": 6,
+        "nome": "Fantasia"
+    },
+
+    {
+        "prod": 6,
+        "nome": "Romance"
+    },
+
+    {
+        "prod": 6,
+        "nome": "Alta Fantasia"
+    },
+
+    {
+        "prod": 6,
+        "nome": "Dragões"
+    },
+
+    {
+        "prod": 7,
+        "nome": "Fantasia"
+    },
+
+    {
+        "prod": 7,
+        "nome": "Romance"
+    },
+
+    {
+        "prod": 7,
+        "nome": "Mitologia Grega"
+    },
+
+    {
+        "prod": 7,
+        "nome": "Releituras"
+    },
+
+    {
+        "prod": 8,
+        "nome": "Fantasia"
+    },
+
+    {
+        "prod": 8,
+        "nome": "Alta Fantasia"
+    },
+
+    {
+        "prod": 8,
+        "nome": "Clássicos"
+    },
+
+    {
+        "prod": 8,
+        "nome": "Tolkien"
+    },
+
+    {
+        "prod": 8,
+        "nome": "Infanto-Juvenil"
+    },
+
+    {
+        "prod": 8,
+        "nome": "Dragões"
+    }
+    ],
+    "segue": [
+        { 
+        "seguinte": 1, 
+        "seguido": 2 
+    },
+    { 
+        "seguinte": 1, 
+        "seguido": 3 
+    },
+    { 
+        "seguinte": 2, 
+        "seguido": 4 
+    },
+    { 
+        "seguinte": 3, 
+        "seguido": 1 
+    },
+    { 
+        "seguinte": 4, 
+        "seguido": 5 
+    },
+    { 
+        "seguinte": 5, 
+        "seguido": 3 
+    }
+    ],
+    "usuario": [
+        {
+        "cod": 1,
+        "nome": "Emanuel Dionisio",
+        "tel1": "(83) 99830-7031",
+        "tel2": null,
+        "email": "emanuel.eduardo@academico.ifpb.edu.br",
+        "dt_nascimento": "17/12/2007",
+        "pais": "Brasil",
+        "estado": "Bahia",
+        "cidade": "Xique-Xique",
+        "bairro": "Jacarezinho do norte",
+        "rua": "Rua Aposentada dos Tolos",
+        "senha": "krobus123",
+        "num_casa": 215
+   },
+
+   {
+        "cod": 2,
+        "nome": "Samarinha",
+        "tel1": "(83) 99352-8767",
+        "tel2": null,
+        "email": "alice.batista@academico.ifpb.edu.br",
+        "dt_nascimento": "07/09/2007",
+        "pais": "Brasil",
+        "estado": "Paraíba",
+        "cidade": "João Pessoa",
+        "bairro": "Geisel",
+        "rua": "Rua Passarinho Bem-te-vi da Silva Assobiante",
+        "senha": "alicinhagamer",
+        "num_casa": 479
+    },
+
+    {
+        "cod": 3,
+        "nome": "Manuca",
+        "tel1": "(83) 98398-8428",
+        "tel2": null,
+        "email": "emanuele.targino@academico.ifpb.edu.br",
+        "dt_nascimento": "08/01/2008",
+        "pais": "Brasil",
+        "estado": "Paraíba",
+        "cidade": "João Pessoa",
+        "bairro": "Treze de Maio",
+        "rua": "Rua Samba Potente que Desce no Pé",
+        "senha": "manuzinhadogera",
+        "num_casa": 791
+    },
+
+    {
+        "cod": 4,
+        "nome": "Çãm",
+        "tel1": "(83) 99404-6168",
+        "tel2": null,
+        "email": "samuel.linhares@academico.ifpb.edu.br",
+        "dt_nascimento": "14/11/2007",
+        "pais": "Brasil",
+        "estado": "Paraíba",
+        "cidade": "João Pessoa",
+        "bairro": "José Américo",
+        "rua": "Rua Padrinho Chico Xavier Astrólogo",
+        "senha": "RatoQueRoeuARoupaDoRei",
+        "num_casa": 331
+    },
+
+    {
+        "cod": 5,
+        "nome": "Oliveira",
+        "tel1": "(83) 94334-7790",
+        "tel2": null,
+        "email": "rodrigues.luzia@academico.ifpb.edu.br",
+        "dt_nascimento": "01/08/2007",
+        "pais": "Brasil",
+        "estado": "Paraíba",
+        "cidade": "João Pessoa",
+        "bairro": "Bancários",
+        "rua": "Rua Banqueiros em Protesto por Aumento Salarial",
+        "senha": "brocedes644",
+        "num_casa": 414
+    }
+    ]
+}
