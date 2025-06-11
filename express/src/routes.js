@@ -1,13 +1,16 @@
 import express from 'express'
 
-import { usuario } from './data/usuario.js'
-import { segue } from './data/segue.js'
-import { palavra_usuario } from './data/palavra_usuario.js'
-import { disco } from './data/disco.js'
-import { livro } from './data/livro.js'
-import { avaliacao_disco } from './data/avaliacao_disco.js'
-import { avaliacao_livro } from './data/avaliacao_livro.js'
-import { palavra_chave } from './data/palavra_chave.js'
+import Usuario from './models/usuario.js'
+import Palavra from './models/palavra_chave.js'
+/**
+ import { segue } from './data/segue.js'
+ import { palavra_usuario } from './data/palavra_usuario.js'
+ import { disco } from './data/disco.js'
+ import { livro } from './data/livro.js'
+ import { avaliacao_disco } from './data/avaliacao_disco.js'
+ import { avaliacao_livro } from './data/avaliacao_livro.js'
+ import { palavra_chave } from './data/palavra_chave.js'
+*/
 
 const router = express.Router()
 
@@ -36,8 +39,15 @@ router.post('/livro', (req, res) => {
 }
 );
 
-router.get('/palavra_chave', (req, res) => {
-    return res.json(palavra_chave);
+router.get('/palavra_chave', async (req, res) => {
+    const palavra = await Palavra.read()
+    return res.json(palavra)
+});
+
+router.post('/palavra_chave/:nome', async (req, res) => {
+    const { nome } = req.params
+    const created_palavra = await Palavra.create({ nome })
+    return res.json(created_palavra)
 });
 
 router.get('/usuario', (req, res) => {

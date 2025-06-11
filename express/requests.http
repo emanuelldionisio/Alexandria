@@ -1,9 +1,10 @@
 @host = http://localhost:3000
 
-get {{host}}/data/segue
+###
+get {{host}}/data/palavra_chave
 
 ###
-get {{host}}/produto.html
+post {{host}}/data/palavra_chave/casinha
 
 ###
 post {{host}}/data/livro
