@@ -1,10 +1,11 @@
 @host = http://localhost:3000
 
 ###
-get {{host}}/data/usuarionome/2
+get {{host}}/data/produtoByUsuario?id_usuario=2&modo=excluir
 
 ###
 post {{host}}/data/palavra_chave/casinha
+
 
 ###
 post {{host}}/data/usuario

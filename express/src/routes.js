@@ -4,6 +4,8 @@ import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
 import Segue from './models/segue.js'
 import PalavraUsuario from './models/palavra_usuario.js'
+import Produto from './models/produto.js'
+import Avaliacao from './models/avaliacao.js'
 /**
  import { segue } from './data/segue.js'
  import { palavra_usuario } from './data/palavra_usuario.js'
@@ -23,24 +25,23 @@ class HttpError extends Error {
     }
 }
 
-router.post('/disco', (req, res) => {
-    const { id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano, gravadora } = req.body;
-    if (!id_prod || !id_usuario || !nome || !valor || !condicao || !descricao || !artista || !ano || !gravadora) {
-        throw new HttpError('Faltam parâmetros: id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano ou gravadora', 400);
+router.get('/mediaavaliacao/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    disco.push({ id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano, gravadora });
-    return res.sendStatus(204);
-}
-);
-router.post('/livro', (req, res) => {
-    const { id_prod, id_usuario, nome, valor, condicao, descricao, autor, edicao, qtd_pag } = req.body;
-    if (!id_prod || !id_usuario || !nome || !valor || !condicao || !descricao || !autor || !edicao || !qtd_pag) {
-        throw new HttpError('Faltam parâmetros: id_prod, id_usuario, nome, valor, condicao, descricao, autor, edicao ou qtd_pag', 400);
+    const media = await Avaliacao.readMediaUsuario(id_user);
+    return res.json(media);
+});
+
+router.get('/produtoByUsuario', async (req, res) => {
+    const { id_usuario, modo } = req.query;
+    if (!id_usuario) {
+        throw new HttpError('Faltam parâmetros: id_usuario', 400);
     }
-    livro.push({ id_prod, id_usuario, nome, valor, condicao, descricao, autor, edicao, qtd_pag });
-    return res.sendStatus(204);
-}
-);
+    const produtos = await Produto.readByUsuario(id_usuario, modo);
+    return res.json(produtos);
+});
 
 router.get('/palavra_chave', async (req, res) => {
     const palavra = await Palavra.read()
@@ -125,30 +126,6 @@ router.get('/palavra_usuario/:id_user', async (req, res) => {
     }
     const palavras = await PalavraUsuario.readByUsuario(id_user);
     return res.json(palavras);
-});
-
-router.get('/discoUser/:id_user/:modo', (req, res) => {
-    const id_user = req.params.id_user;
-    const modo = req.query.modo;
-    if (!id_user) {
-        throw new HttpError('Faltam parâmetros: id_user', 400);
-    }
-    const discos = Disco.readByUser(id_user, modo);
-    return res.json(discos);
-    
-});
-
-router.get('/livro', (req, res) => {
-    const id_user = req.query.id_user;
-    const modo = req.query.modo;
-    if (!id_user) {
-        return res.json(livro);
-    }
-    if (modo === "perfil") { 
-        return res.json(livro.filter(obj => obj.id_usuario == id_user));
-    } else {
-    return res.json(livro.filter(obj => obj.id_usuario != id_user));
-    }
 });
 
 router.get('/avaliacao_disco', (req, res) => {

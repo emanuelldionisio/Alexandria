@@ -15,7 +15,7 @@ if (id == id_user) {
 
 const nome = await fetch(`data/usuarionome/${id}`).then(response => response.json());
 const seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
-//const avaliacao = await fetch(`data/avaliacao_produtoMedia/${id}`).then(response => response.json());
+const avaliacao = await fetch(`data/mediaavaliacao/${id}`).then(response => response.json());
 
 function carregarPerfil() {
     if ((! id || ! id_user) || (id == id_user)) {
@@ -32,7 +32,7 @@ function carregarPerfil() {
     //Adicionar avaliação
 
     let container_avaliacao = document.getElementById("menu-usuario__avaliacao");
-    container_avaliacao.insertAdjacentHTML('beforeend', `<p>${(Math.random()*5).toFixed(1)}</p>`);
+    container_avaliacao.insertAdjacentHTML('beforeend', `<p>${avaliacao}</p>`);
 
     if (seguidores.find(user => user == id_user)) {
         let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");

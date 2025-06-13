@@ -3,8 +3,7 @@ export async function menu_perfil(id) {
     const seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
     const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
     const palavras = await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
-    //const meus_discos = await fetch(`data/discoUser/${id}`).then(response => response.json());
-    // const livro = await fetch(`data/livro?id_user=${id}&modo=perfil`).then(response => response.json());
+    const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=incluir`).then(response => response.json());
     
     const coresBootstrap = [
             'primary', 'secondary', 'success', 'danger',
@@ -33,23 +32,13 @@ export async function menu_perfil(id) {
     //Adicionar os produtos
     let container_produtos = document.getElementById("menu-produtos__produtos");
 
-    // for (let i of meus_discos) {
-    //     container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
-    //             <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
-    //             <div>
-    //                 <h5>${i.nome}</h5>
-    //                 <h6>R$ ${(i.valor/100).toFixed(2)}</h6>
-    //             </div>
-    //         </div>`)
-    // }
-
-    // for (let i of meus_livros) {
-    //     container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
-    //             <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
-    //             <div>
-    //                 <h5>${i.nome}</h5>
-    //                 <h6>R$ ${(i.valor / 100).toFixed(2)}</h6>
-    //             </div>
-    //         </div>`)
-    // }
+    for (let i of produtos) {
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
+                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
+                <div>
+                    <h5>${i.nome}</h5>
+                    <h6>R$ ${(i.valor/100).toFixed(2)}</h6>
+                </div>
+            </div>`)
+    }
 }
