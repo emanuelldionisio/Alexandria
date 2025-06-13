@@ -11,6 +11,7 @@ export const data = {
     "palavra_chave": [],
     "palavra_disco": [],
     "palavra_livro": [],
+    "palavra_usuario": [],
     "segue": [],
     "usuario": []
 }

@@ -1,7 +1,9 @@
 import express from 'express'
 
-import Usuario from './models/usuario.js'
 import Palavra from './models/palavra_chave.js'
+import Usuario from './models/usuario.js'
+import Segue from './models/segue.js'
+import PalavraUsuario from './models/palavra_usuario.js'
 /**
  import { segue } from './data/segue.js'
  import { palavra_usuario } from './data/palavra_usuario.js'
@@ -20,6 +22,7 @@ class HttpError extends Error {
         this.code = code;
     }
 }
+
 router.post('/disco', (req, res) => {
     const { id_prod, id_usuario, nome, valor, condicao, descricao, artista, ano, gravadora } = req.body;
     if (!id_prod || !id_usuario || !nome || !valor || !condicao || !descricao || !artista || !ano || !gravadora) {
@@ -50,15 +53,22 @@ router.post('/palavra_chave/:nome', async (req, res) => {
     return res.json(created_palavra)
 });
 
-router.get('/usuario', (req, res) => {
-    const id_user = req.query.id_user;
-    if (!id_user) {
-        return res.json(usuario)
-    } 
-    if (! usuario.find(obj => obj.cod == id_user)) {
-        throw new HttpError('Usuário não existe ;-;'); 
+router.post('/usuario', async (req, res) => {
+    const { nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa } = req.body;
+    if (!nome || !email || !senha || !dt_nascimento || !pais || !estado || !cidade || !bairro || !rua || !num_casa) {
+        throw new HttpError('Faltam parâmetros', 400);
     }
-    return res.json(usuario.find(obj => obj.cod == id_user));
+    const new_user = await Usuario.create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa });
+    return res.json(new_user);
+});
+
+router.get('/usuarionome/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros!'); 
+    } 
+    const user = await Usuario.readById(id_user);
+    return res.json(user.nome);
 });
 
 router.get("/emaid/:email/:senha", (req, res) =>{
@@ -69,28 +79,34 @@ router.get("/emaid/:email/:senha", (req, res) =>{
     return res.json({ "id": identificacao });
 })
 
-router.get('/segue', (req, res) => {
-    const id_user = req.query.id_user;
+router.get('/seguidores/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
     if (!id_user) {
-        return res.json(segue);
+        throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    return res.json(segue.filter(obj => obj.seguido == id_user || obj.seguinte == id_user));
+    const seguidores = await Segue.readSeguidores(id_user);
+    return res.json(seguidores);
 });
 
-router.delete('/segue', (req, res) => {
+router.get('/seguidos/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const seguidos = await Segue.readSeguidos(id_user);
+    return res.json(seguidos);
+});
+
+router.delete('/segue', async (req, res) => {
     const { seguido, seguinte } = req.body;
     if (!seguido || !seguinte) {
         throw new HttpError('Faltam parâmetros: seguido e/ou seguinte', 400);
     }
-    const index = segue.findIndex(obj => obj.seguido == seguido && obj.seguinte == seguinte);
-    if (!segue[index]) {
-        throw new HttpError('Relação de seguimento não encontrada', 404);
-    }
-    segue.splice(index, 1);
+    await Segue.remove({ seguido, seguinte });
     return res.sendStatus(204);
 });
 
-router.post('/segue', (req, res) => {
+router.post('/segue', async (req, res) => {
     const { seguido, seguinte } = req.body;
     if (seguido == seguinte) {
         throw new HttpError('Não é possível seguir a si mesmo', 400);
@@ -98,32 +114,28 @@ router.post('/segue', (req, res) => {
     if (!seguido || !seguinte) {
         throw new HttpError('Faltam parâmetros: seguido e/ou seguinte', 400);
     }
-    if (segue.find(obj => obj.seguido == seguido && obj.seguinte == seguinte)) {
-        throw new HttpError('Relação de seguimento já existe', 409);
-    }
-    segue.push({ seguinte: seguinte, seguido: seguido });
+    await Segue.create({ seguido, seguinte });
     return res.sendStatus(204);
 });
 
-router.get('/palavra_usuario', (req, res) => {
-    const id_user = req.query.id_user;
+router.get('/palavra_usuario/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
     if (!id_user) {
-        return res.json(palavra_usuario);
+        throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    return res.json(palavra_usuario.filter(obj => obj.usuario == id_user));
+    const palavras = await PalavraUsuario.readByUsuario(id_user);
+    return res.json(palavras);
 });
 
-router.get('/disco', (req, res) => {
-    const id_user = req.query.id_user;
+router.get('/discoUser/:id_user/:modo', (req, res) => {
+    const id_user = req.params.id_user;
     const modo = req.query.modo;
     if (!id_user) {
-        return res.json(disco);
+        throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    if (modo === "perfil") { 
-        return res.json(disco.filter(obj => obj.id_usuario == id_user));
-    } else {
-        return res.json(disco.filter(obj => obj.id_usuario != id_user));
-    }
+    const discos = Disco.readByUser(id_user, modo);
+    return res.json(discos);
+    
 });
 
 router.get('/livro', (req, res) => {

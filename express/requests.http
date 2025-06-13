@@ -1,26 +1,54 @@
 @host = http://localhost:3000
 
 ###
-get {{host}}/data/palavra_chave
+get {{host}}/data/usuarionome/2
 
 ###
 post {{host}}/data/palavra_chave/casinha
 
 ###
-post {{host}}/data/livro
+post {{host}}/data/usuario
 Content-Type: application/json
 
 {
-        "id_prod": 2,
-        "id_usuario": 2,
-        "nome": "2a",
-        "valor": "preco", 
-        "condicao": "estado",
-        "descricao": "descricao",
-        "autor": "autor",
-        "edicao": "gravadora",
-        "qtd_pag":" null"
-}
+        "nome": "Emanuel Dionisio",
+        "tel1": "(83) 99830-7031",
+        "tel2": null,
+        "email": "emanuel.eduardo@academico.ifpb.edu.br",
+        "dt_nascimento": "17/12/2007",
+        "pais": "Brasil",
+        "estado": "Bahia",
+        "cidade": "Xique-Xique",
+        "bairro": "Jacarezinho do norte",
+        "rua": "Rua Aposentada dos Tolos",
+        "senha": "krobus123",
+        "num_casa": 215
+}       
 
 ###
-GET {{host}}/data/livro?id_prod=44f2527e-9955-48d9-8066-77f968530019
+post {{host}}/data/usuario
+Content-Type: application/json
+
+{
+        "nome": "Emanuel Dionisio",
+        "tel1": "(83) 99830-7031",
+        "tel2": null,
+        "email": "emanuel.eduardo@academico.ifpb.edu.br",
+        "dt_nascimento": "17/12/2007",
+        "pais": "Brasil",
+        "estado": "Bahia",
+        "cidade": "Xique-Xique",
+        "bairro": "Jacarezinho do norte",
+        "rua": "Rua Aposentada dos Tolos",
+        "senha": "krobus123",
+        "num_casa": 215
+}    
+
+###
+post {{host}}/data/segue
+Content-Type: application/json
+
+{
+        "seguinte": "fa45778d-38c0-487e-919c-513ae1724e5b",
+        "seguido": "c959756c-987a-406d-9d76-21813e446d3b"
+}    

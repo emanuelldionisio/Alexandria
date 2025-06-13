@@ -13,10 +13,9 @@ if (id == id_user) {
     window.location.href = `menu.html?id_user=${id_user}`;
 }
 
-const usuario = await fetch(`data/usuario?id_user=${id}&modo='perfil'`).then(response => response.json());
-const segue = await fetch(`data/segue?id_user=${id}&modo='perfil'`).then(response => response.json());
-const avaliacao_disco = await fetch(`data/avaliacao_disco?id_user=${id}&modo='perfil'`).then(response => response.json());
-const avaliacao_livro = await fetch(`data/avaliacao_livro?id_user=${id}&modo='perfil'`).then(response => response.json());
+const nome = await fetch(`data/usuarionome/${id}`).then(response => response.json());
+const seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
+//const avaliacao = await fetch(`data/avaliacao_produtoMedia/${id}`).then(response => response.json());
 
 function carregarPerfil() {
     if ((! id || ! id_user) || (id == id_user)) {
@@ -28,27 +27,14 @@ function carregarPerfil() {
 
     //Adicionar o nome do user
     let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
-    mensagem_boasvindas.innerHTML = `${usuario.nome}`;
+    mensagem_boasvindas.innerHTML = `${nome}`;
 
     //Adicionar avaliação
 
-    let soma = 0, qt = 0;
-    for (let i of avaliacao_disco) {
-        soma += i.nota
-        qt++;
-    }
-    
-    for (let i of avaliacao_livro) {
-        soma += i.nota
-        qt++;
-    }
-
-    if (! qt) qt = 1;
-
     let container_avaliacao = document.getElementById("menu-usuario__avaliacao");
-    container_avaliacao.insertAdjacentHTML('beforeend', `<p>${(soma/qt).toFixed(1)}</p>`);
+    container_avaliacao.insertAdjacentHTML('beforeend', `<p>${(Math.random()*5).toFixed(1)}</p>`);
 
-    if (segue.find(obj => obj.seguido == id && obj.seguinte == id_user)) {
+    if (seguidores.find(user => user == id_user)) {
         let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
         container_seguir.innerHTML = "Seguindo";
         container_seguir.style = "background-color: #595336; color: lightgrey";
