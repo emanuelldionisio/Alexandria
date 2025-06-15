@@ -17,7 +17,7 @@ const select_palavras = document.getElementById("select-palavras");
 const container_palavras = document.getElementById("palavras-selecionadas");
 let palavras = [];
 
-function removerPalavra(palavra) {
+function removerPalavra(palavra, event) {
     event.preventDefault(); // Previne o comportamento padrão do botão
     palavras = palavras.filter(p => p !== palavra);
     const badge = document.getElementById(`badge-${palavra}`);

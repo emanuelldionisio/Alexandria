@@ -16,7 +16,7 @@
             <i class="bi bi-arrow-left"></i>
         </button>
         </div>
-        <div clas="cab-titulo">
+        <div class="cab-titulo">
             <p >Adicione um novo item ao seu perfil de vendas</p>
         </div>
     </header>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="right">
-            <form id="cadstro-produto-forms">
+            <form id="cadastro-produto-form">
                 <div class="div-descricao">
                     <label for="descricao" class="subtitulos">Descrição</label>
                     <textarea id="descricao" name="descricao" rows="4"></textarea>
@@ -47,7 +47,7 @@
                     <input type="text" id="preco" name="preco">
                         <br>
                     <label>Tipo de Mídia</label>
-                    <fieldset class="grupo-radio">
+                    <fieldset class="grupo-radio" id="midia">
                     <label><input type="radio" name="midia" value="disco"> Disco</label>
                     <label><input type="radio" name="midia" value="livro"> Livro</label>
                     </fieldset>
@@ -60,7 +60,7 @@
                         
                     <label for="gravadora">Gravadora/Editora:</label>
                     <input type="text" id="gravadora" name="gravadora">
-                    <
+                
                     <label for="genero">Gênero:</label>
                     <input type="text" id="genero" name="genero">
                         
@@ -74,7 +74,7 @@
                     <div id="palavras-selecionadas">
                         <span class="badge rounded-pill text-bg-primary menu-palavras-chave__palavra">
                             exemplo de palavras
-                            <button><i class="bi bi-trash-fill"></i></button>  
+                            <button id="select-palavras-submit"><i class="bi bi-trash-fill"></i></button>  
                         </span>;
                     </div>
                 </div> 
