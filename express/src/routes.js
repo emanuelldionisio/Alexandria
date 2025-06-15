@@ -72,14 +72,6 @@ router.get('/usuarionome/:id_user', async (req, res) => {
     return res.json(user.nome);
 });
 
-router.get("/emaid/:email/:senha", (req, res) =>{
-    const email = req.params.email;
-    const senha = req.params.senha;
-    const identificacao = usuario.find(user=>user.email==email && user.senha==senha).cod;
-    if (!identificacao) throw new HttpError ("ERRO: Credenciais incorretas.")
-    return res.json({ "id": identificacao });
-})
-
 router.get('/seguidores/:id_user', async (req, res) => {
     const id_user = req.params.id_user;
     if (!id_user) {
@@ -127,22 +119,5 @@ router.get('/palavra_usuario/:id_user', async (req, res) => {
     const palavras = await PalavraUsuario.readByUsuario(id_user);
     return res.json(palavras);
 });
-
-router.get('/avaliacao_disco', (req, res) => {
-    const id_user = req.query.id_user;
-    if (!id_user) {
-        return res.json(avaliacao_disco);
-    }
-    return res.json(avaliacao_disco.filter(obj => disco.find(obj2 => obj2.id_prod == obj.id_prod && obj2.id_usuario == id_user)));
-});
-
-router.get('/avaliacao_livro', (req, res) => {
-    const id_user = req.query.id_user;
-    if (!id_user) {
-        return res.json(avaliacao_livro);
-    }
-    return res.json(avaliacao_livro.filter(obj => livro.find(obj2 => obj2.id_prod == obj.id_prod && obj2.id_usuario == id_user)));
-});
-
 
 export default router;
