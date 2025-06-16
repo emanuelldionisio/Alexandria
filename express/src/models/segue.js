@@ -34,3 +34,26 @@ function readSeguidos(id) {
 }
 
 export default { readSeguidores, remove, readSeguidos, create };
+
+import Database from './database.js';
+
+async function create ({seguinte, seguido}) {
+    const db = await Database.connect();
+
+    if (seguinte && seguido) {
+        const sql = `
+            INSERT INTO
+                investments (seguinte, seguido)
+            VALUES
+                (?,?)
+        `
+    }
+
+    const { lastID } = await db.run(sql, [seguinte, seguido]);
+
+    return await readById(lastID);
+}   else {
+    throw new Error('Unable to create investment');
+}
+
+export default { up };
