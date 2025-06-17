@@ -2,7 +2,7 @@ import 'express-async-errors';
 import express from 'express';
 import morgan from 'morgan';
 import router from './routes.js';
-import Seed from './database/seeders.js';
+//import Seed from './database/seeders.js';
 
 const server = express();
 

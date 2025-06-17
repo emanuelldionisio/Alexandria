@@ -1,26 +1,40 @@
-import { v4 as uuidv4 } from 'uuid';
-import { data } from '../database/data.js';
+import Database from "../database/database.js";
 
-function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa }, cod=null) {
+async function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa }) {
+    const db = await Database.connect();
     const new_user = { nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa };
     for (const [key, val] of Object.entries(new_user)) {
         if (!val && !["tel1", "tel2"].includes(key)) {
             throw new Error(`O campo ${key} é obrigatório`);
         }
     }
-    if (data.usuario.find((obj) => obj.email == email)) {
-        throw new Error("Usuário com esse email já existe");
+    
+    if (nome && tel1 && email && dt_nascimento && pais && estado && cidade && bairro && rua && senha) {
+        const sql = `
+            INSERT INTO usuario (nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        
+        const { lastID } = await db.run(sql, [nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa]);
+        return await readById(lastID);
+    } else {
+        throw new Error("Erro ao inserir usuário no banco de dados: campos obrigatórios não preenchidos");
     }
-    if (! cod) cod = uuidv4();
-    new_user.cod = cod;
-    data.usuario.push(new_user);
-    return new_user;
+    
 }
 
-function readById(id) {
-    const user = data.usuario.find((obj) => obj.cod == id);
-    if (! user) 
-        throw new Error("Usuário com esse id não existe");
+async function readById(id) {
+    const db = await Database.connect();
+    if (!id) {
+        throw new Error("ID do usuário não fornecido");
+    }
+    const sql = `
+        SELECT * FROM usuario WHERE cod = ?
+    `;  
+    const user = await db.get(sql, [id]);
+    if (!user) {
+        throw new Error(`Usuário com ID ${id} não encontrado`);
+    }
     return user;
 }
 
