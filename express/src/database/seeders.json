@@ -22,7 +22,7 @@
     "avaliacao_livro": [
          {
         "cod_usuario": 2,
-        "id_prod": 6,
+        "id_prod": 5,
         "nota": 4,
         "descricao": "Ótimo vendedor e estava como descrito. O livro é bom, mas o casal principal é um tanto esquisito e não me fez curtir a leitura tanto assim"
     }
@@ -46,7 +46,7 @@
 
     {
         "cod_usuario": 2,
-        "id_prod": 6
+        "id_prod": 2
     }
     ],
     "denuncia": [
@@ -63,7 +63,7 @@
 
     {
         "cod_usuario": 2,
-        "id_prod": 6
+        "id_prod": 3
     }
     ],
     "desejos_disco": [

@@ -34,7 +34,7 @@ export async function menu_perfil(id) {
 
     for (let livro of produtos.livros) {
         container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${livro.id_prod}&id_user=${id}'">
-                <img src="imgs/prod/${livro.id_prod}.jpg" class="card-img-top" alt="...">
+                <img src="imgs/livros/${livro.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${livro.nome}</h5>
                     <h6>R$ ${(livro.valor/100).toFixed(2)}</h6>
@@ -44,7 +44,7 @@ export async function menu_perfil(id) {
 
     for (let disco of produtos.discos) {
         container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${disco.id_prod}&id_user=${id}'">
-                <img src="imgs/prod/${disco.id_prod}.jpg" class="card-img-top" alt="...">
+                <img src="imgs/discos/${disco.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${disco.nome}</h5>
                     <h6>R$ ${(disco.valor/100).toFixed(2)}</h6>
