@@ -4,7 +4,7 @@ import express from 'express'
 import Usuario from './models/usuario.js'
 // import Segue from './models/segue.js'
 // import PalavraUsuario from './models/palavra_usuario.js'
-// import Produto from './models/produto.js'
+import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 /**
  import { segue } from './data/segue.js'

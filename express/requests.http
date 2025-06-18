@@ -4,11 +4,10 @@
 get {{host}}/data/mediaavaliacao/3
 
 ###
-post {{host}}/data/avaliaca
-
+get {{host}}/data/produtoByUsuario?id_usuario=5&modo=incluir
 
 ###
-post {{host}}/data/usuario
+get {{host}}/data/usuario
 Content-Type: application/json
 
 {

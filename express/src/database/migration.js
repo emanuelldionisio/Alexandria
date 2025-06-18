@@ -29,7 +29,9 @@ async function up() {
         descricao VARCHAR (512),
         autor VARCHAR (32),
         edicao VARCHAR (32),
-        qtd_pag INTEGER
+        qtd_pag INTEGER,
+        id_usuario INTEGER,
+        FOREIGN KEY (id_usuario) REFERENCES usuario (cod)
     );`;
     const disco = `CREATE table disco(
         id_prod INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,7 +41,9 @@ async function up() {
         descricao VARCHAR (512),
         artista VARCHAR (32),
         ano INTEGER,
-        gravadora VARCHAR (32)
+        gravadora VARCHAR (32),
+        id_usuario INTEGER,
+        FOREIGN KEY (id_usuario) REFERENCES usuario (cod)
     );`;
     const carrinho_livro = `CREATE TABLE carrinho_livro(
         cod_usuario INTEGER,
