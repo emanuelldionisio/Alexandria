@@ -127,7 +127,7 @@
     },
 
     {
-        "id_prod": 9,
+        "id_prod": 5,
         "id_usuario": 3,
         "nome": "Não Deixe o Samba Morrer - Vinil",
         "valor": 3290,
@@ -140,7 +140,7 @@
     ],
     "livro": [
          {
-        "id_prod": 5,
+        "id_prod": 1,
         "id_usuario": 4,
         "nome": "Crime e Castigo",
         "valor": 2390, 
@@ -152,7 +152,7 @@
     },
 
     {
-        "id_prod": 6,
+        "id_prod": 2,
         "id_usuario": 2,
         "nome": "Quarta Asa",
         "valor": 4590, 
@@ -164,7 +164,7 @@
     },
 
     {
-        "id_prod": 7,
+        "id_prod": 3,
         "id_usuario": 5,
         "nome": "A Canção de Aquiles",
         "valor": 2260, 
@@ -176,7 +176,7 @@
     },
 
     {
-        "id_prod": 8,
+        "id_prod": 4,
         "id_usuario": 4,
         "nome": "O Hobbit",
         "valor": 2830, 
@@ -188,7 +188,7 @@
     },
     
     {
-        "id_prod": 10,
+        "id_prod": 5,
         "id_usuario": 3,
         "nome": "Torto Arado",
         "valor": 3010, 

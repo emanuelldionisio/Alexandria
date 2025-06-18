@@ -14,7 +14,7 @@ if (id == id_user) {
 }
 
 const nome = await fetch(`data/usuarionome/${id}`).then(response => response.json());
-const seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
+const seguidores = []//await fetch(`data/seguidores/${id}`).then(response => response.json());
 const avaliacao = await fetch(`data/mediaavaliacao/${id}`).then(response => response.json());
 
 function carregarPerfil() {

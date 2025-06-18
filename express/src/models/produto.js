@@ -83,33 +83,33 @@ async function readByUsuario(id_usuario, modo="incluir") {
     const db = await Database.connect();
     if (modo === "incluir") {
         const sql_livro = `
-            SELECT id_prod FROM livro
+            SELECT * FROM livro
             WHERE id_usuario = ?
         `;
         const sql_disco = `
-            SELECT id_prod FROM disco
+            SELECT * FROM disco
             WHERE id_usuario = ?
         `;
         const livros = await db.all(sql_livro, [id_usuario]);
         const discos = await db.all(sql_disco, [id_usuario]);
         return {
-            livros: livros.map(livro => livro.id_prod),
-            discos: discos.map(disco => disco.id_prod)
+            "livros": livros,
+            "discos": discos
         };
     } else if (modo === "excluir") {
         const sql_livro = `
-            SELECT id_prod FROM livro
+            SELECT * FROM livro
             WHERE id_usuario != ?
         `;
         const sql_disco = `
-            SELECT id_prod FROM disco
+            SELECT * FROM disco
             WHERE id_usuario != ?
         `;
         const livros = await db.all(sql_livro, [id_usuario]);
         const discos = await db.all(sql_disco, [id_usuario]);
         return {
-            livros: livros.map(livro => livro.id_prod),
-            discos: discos.map(disco => disco.id_prod)
+            "livros": livros,
+            "discos": discos
         };
     }    
 }

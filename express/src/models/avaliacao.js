@@ -33,20 +33,20 @@ async function readMediaUsuario(cod_usuario) {
     const sql_livro = `
         SELECT count(*) as qt_livro, avg(nota) as avg_livro 
         FROM avaliacao_livro al join livro l on al.id_prod = l.id_prod
-        WHERE al.cod_usuario = ?
+        WHERE l.id_usuario = ?
     `;
     const { qt_livro, avg_livro } = await dp.get(sql_livro, [cod_usuario]);
     
     const sql_disco = `
         SELECT count(*) as qt_disco, avg(nota) as avg_disco 
         FROM avaliacao_disco ad join disco d on ad.id_prod = d.id_prod
-        WHERE ad.cod_usuario = ?
+        WHERE d.id_usuario = ?
     `;
     
     const { qt_disco, avg_disco } = await dp.get(sql_disco, [cod_usuario]);
     
     let ans = qt_disco || qt_livro ? (qt_disco*avg_disco + qt_livro*avg_livro)/(qt_disco + qt_livro) : 0;
-    console.log(qt_disco, avg_disco, qt_livro, avg_livro, ans);
+    //console.log(qt_disco, avg_disco, qt_livro, avg_livro, ans);
     return (ans).toFixed(1);
     
 }
