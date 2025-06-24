@@ -1,7 +1,7 @@
 
 export async function menu_perfil(id) {
-    const seguidores =  []//await fetch(`data/seguidores/${id}`).then(response => response.json());
-    const seguidos = []//await fetch(`data/seguidos/${id}`).then(response => response.json());
+    const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
+    const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
     const palavras = []//await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
     const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=incluir`).then(response => response.json());
     

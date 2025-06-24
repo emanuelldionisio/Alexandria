@@ -1,6 +1,6 @@
 import Database from "../database/database.js";
 
-async function create ({seguinte, seguido}) {
+async function create ({ seguinte, seguido }) {
     const db = await Database.connect();
 
     if (!seguinte || !seguido) {
@@ -9,75 +9,89 @@ async function create ({seguinte, seguido}) {
     
     const sql = `
         INSERT INTO
-            investments (seguinte, seguido)
+            segue (seguinte, seguido)
         VALUES
             (?,?)
     `;
 
-    const { lastID } = await db.run(sql, [seguinte, seguido]);
+    await db.run(sql, [seguinte, seguido]);
 
-    return await readById(lastID);
+    return await readById({seguinte, seguido});
 }
 
 async function remove ({seguinte, seguido}) {
     const db = await Database.connect();
 
-    if (seguinte && seguido) {
-        const sql = `
+    if (!seguinte || !seguido) {
+        throw new Error("Campos 'seguinte' e 'seguido' são obrigatórios");
+    }
+
+    const sql = `
             DELETE FROM 
                 segue
             WHERE  
                 seguido = ? AND seguinte = ?
         `;
-    }
+    
 
-    const { changes } = await db.run(sql, [seguinte, seguido]);
+    const { changes } = await db.run(sql, [seguido, seguinte]);
 
     return changes
 }
 
-async function readSeguidores ({seguido}) {
+async function readSeguidores (seguido) {
     const db = await Database.connect();
 
-    if (seguido) {
-        const sql = `
-            SELECT COUNT(*) FROM
+    if (!seguido) {
+        throw new Error("O campo 'seguido' é obrigatório");
+    }
+
+    const sql = `
+            SELECT seguinte FROM
                 segue
             WHERE
-                seguido = ?`
-    }
+                seguido = ?
+    `;
+        
+    const quantidade = await db.all(sql, [seguido]);
     
-    const quantidade = await db.get(sql, [seguido]);
-    
-    return quantidade;
+    return quantidade.map((item) => item.seguinte);
 }
 
-async function readSeguidos ({seguinte}) {
+async function readSeguidos (seguinte) {
+    if (!seguinte) {
+        throw new Error("O campo 'seguinte' é obrigatório");
+    }
+
     const db = await Database.connect();
 
-    if (seguinte) {
-        const sql = `
-            SELECT COUNT(*) FROM
+    
+    const sql = `
+            SELECT seguido FROM
                 segue
             WHERE
                 seguinte = ?`
-    }
     
-    const quantidade = await db.get(sql, [seguinte]);
     
-    return quantidade;
+    const quantidade = await db.all(sql, [seguinte]);
+    
+    return quantidade.map((item) => item.seguido);
 }
 
-async function readById(id) {
-    const db = await Database.connect();
+async function readById({ seguido, seguinte }) {
+    if (!seguido || !seguinte) {
+        throw new Error("O campo 'id' é obrigatório");
+    }
 
+    const db = await Database.connect();
+    
     const sql = `
         SELECT *
-        FROM investments
-        WHERE id = ?
+        FROM segue
+        WHERE seguido = ? AND seguinte = ?
     `;
 
-    const result = await db.get(sql, [id]);
+    const result = await db.get(sql, [seguido, seguinte]);
 
     if (!result) {
         throw new Error(`Registro com ID ${id} não encontrado`);

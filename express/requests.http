@@ -1,7 +1,7 @@
 @host = http://localhost:3000
 
 ###
-get {{host}}/data/mediaavaliacao/3
+get {{host}}/data/seguidores/1
 
 ###
 get {{host}}/data/produtoByUsuario?id_usuario=5&modo=incluir
