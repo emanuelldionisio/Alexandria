@@ -1,5 +1,6 @@
 CREATE table palavra_chave(
-  nome VARCHAR (64) PRIMARY KEY
+  cod INTEGER PRIMARY KEY
+  nome VARCHAR (64),
 );
 
 CREATE table usuario(
