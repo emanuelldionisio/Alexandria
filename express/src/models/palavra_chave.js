@@ -20,3 +20,24 @@ function read() {
 }
 
 export default { create, read }
+
+
+import Database from "../database/database.js";
+
+async function create({nome}) {
+    const db = await Database.connect();
+
+    if (!nome) {
+        throw new Error('Unable to create keyword');
+    }
+
+    const sql = `
+        INSERT INTO
+            palavra_chave (nome)
+        VALUES
+            (?)
+        `;
+
+    const { lastID } = await db.run(sql, [nome]);                                                                              
+}
+
