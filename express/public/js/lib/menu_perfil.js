@@ -1,5 +1,5 @@
 
-export async function menu_perfil(id) {
+export async function menu_perfil(id, pagina) {
     const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
     const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
     const palavras = ["teste", "aaaaaaaaaaaaaaaaaaaa"]//await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
@@ -29,10 +29,16 @@ export async function menu_perfil(id) {
     let menu_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
     for (let palavra of palavras) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
-        menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-            <span>${palavra}</span>
-            <i class="bi bi-trash-fill lixo_palavra"></i>
-        </span>`);
+        if (pagina == "menu")
+            menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
+                <span>${palavra}</span>
+                <i class="bi bi-trash-fill lixo_palavra"></i>
+            </span>`);
+        else if (pagina == "perfil")
+            menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
+                <span>${palavra}</span>
+                <i></i>
+            </span>`);
     }
 
     //Adicionar os produtos
