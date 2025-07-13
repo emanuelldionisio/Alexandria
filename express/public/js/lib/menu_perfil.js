@@ -26,6 +26,11 @@ export async function menu_perfil(id, pagina) {
     if (palavras.length != 0) {
         botao_menu_palavras.insertAdjacentHTML("beforebegin", `<div class="menu-palavras-chave__palavras-chave" id="menu-palavras-chave__palavras-chave"></div>`);
     }
+    
+    if (pagina == "perfil") {
+        botao_menu_palavras.remove();
+    }
+
     let menu_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
     for (let palavra of palavras) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
