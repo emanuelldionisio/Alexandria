@@ -62,6 +62,7 @@ button {
 
 .menu-usuario__informacoes__seg:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .menu-palavras-chave {
