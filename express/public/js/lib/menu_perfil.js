@@ -2,7 +2,7 @@
 export async function menu_perfil(id) {
     const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
     const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
-    const palavras = []//await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
+    const palavras = ["teste", "aaaaaaaaaaaaaaaaaaaa"]//await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
     const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=incluir`).then(response => response.json());
     
     const coresBootstrap = [
@@ -21,11 +21,17 @@ export async function menu_perfil(id) {
     img_fotodeperfil.src = `imgs/usuario/${id}.jpg`;
 
     //Adicionar as palavras chave
+    let botao_menu_palavras = document.getElementById("botao_adicionar");
+
+    if (palavras.length != 0) {
+        botao_menu_palavras.insertAdjacentHTML("beforebegin", `<div class="menu-palavras-chave__palavras-chave" id="menu-palavras-chave__palavras-chave"></div>`);
+    }
     let menu_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
     for (let palavra of palavras) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
         menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-            ${palavra}
+            <span>${palavra}</span>
+            <i class="bi bi-trash-fill lixo_palavra"></i>
         </span>`);
     }
 

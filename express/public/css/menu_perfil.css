@@ -60,6 +60,10 @@ button {
     font-size: 16px;
 }
 
+.menu-usuario__informacoes__seg:hover {
+    text-decoration: underline;
+}
+
 .menu-palavras-chave {
     display: flex;
     align-items: center;
@@ -68,7 +72,29 @@ button {
 }
 
 .menu-palavras-chave__palavra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 22px;
+}
+
+.menu-palavras-chave__palavra span {
+    justify-self: center;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.menu-palavras-chave__palavra i {
+    width: 10px;
+    visibility: hidden;
+}
+
+.menu-palavras-chave__palavra:hover i {
+    visibility: visible;
+}
+
+.menu-palavras-chave__palavra:hover {
+    cursor: pointer;
 }
 
 .botao_adicionar i {
