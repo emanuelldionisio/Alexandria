@@ -27,4 +27,7 @@ document.querySelector(".menu-produtos__produtos_adicionar").onclick = function(
     window.location.href = `cadastro_produto.html?id_user=${id}`;
 }
 
+const botao_adicionar_palavra = document.querySelector(".menu-produtos__produtos_adicionar");
+
+
 carregarMenu()
