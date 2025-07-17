@@ -26,6 +26,10 @@ async function up() {
         await Produto.create(obj, 'livro');
     }
 
+    for (const obj of seed.palavra_chave) {
+        await Palavra.create(obj);
+    }
+
     for (const obj of seed.avaliacao_disco) {
         await Avaliacao.create(obj, 'disco');
     }
