@@ -1,6 +1,6 @@
 import express from 'express'
 
-// import Palavra from './models/palavra_chave.js'
+import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
 import Segue from './models/segue.js'
 // import PalavraUsuario from './models/palavra_usuario.js'
@@ -13,7 +13,6 @@ import Avaliacao from './models/avaliacao.js'
  import { livro } from './data/livro.js'
  import { avaliacao_disco } from './data/avaliacao_disco.js'
  import { avaliacao_livro } from './data/avaliacao_livro.js'
- import { palavra_chave } from './data/palavra_chave.js'
 */
 
 const router = express.Router()
@@ -41,17 +40,6 @@ router.get('/produtoByUsuario', async (req, res) => {
     }
     const produtos = await Produto.readByUsuario(id_usuario, modo);
     return res.json(produtos);
-});
-
-router.get('/palavra_chave', async (req, res) => {
-    const palavra = await Palavra.read()
-    return res.json(palavra)
-});
-
-router.post('/palavra_chave/:nome', async (req, res) => {
-    const { nome } = req.params
-    const created_palavra = await Palavra.create({ nome })
-    return res.json(created_palavra)
 });
 
 router.post('/usuario', async (req, res) => {
@@ -111,12 +99,23 @@ router.post('/segue', async (req, res) => {
     return res.sendStatus(204);
 });
 
+router.post('/palavra_chave/:nome', async (req, res) => {
+    const { nome } = req.params
+    const created_palavra = await Palavra.create({ nome })
+    return res.json(created_palavra)
+});
+
+router.get('/palavra_chave', async (req, res) => {
+    const palavra = await Palavra.read_all()
+    return res.json(palavra)
+});
+
 router.get('/palavra_usuario/:id_user', async (req, res) => {
     const id_user = req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    const palavras = await PalavraUsuario.readByUsuario(id_user);
+    const palavras = await Palavra.read_user(id_user);
     return res.json(palavras);
 });
 
