@@ -90,6 +90,22 @@ button {
     visibility: hidden;
 }
 
+.menu-palavras-chave__palavra input {
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    height: 22px;
+    width: fit-content;
+    width: 10px;
+    border-radius: 5px;
+    padding-left: 5px;
+    transition: width 0.1s;
+}
+
+.menu-palavras-chave__palavra input:focus {
+    outline: none;
+}
+
 .menu-palavras-chave__palavra:hover i {
     visibility: visible;
 }

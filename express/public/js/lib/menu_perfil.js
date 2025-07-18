@@ -1,8 +1,8 @@
 
 export async function menu_perfil(id, pagina) {
+    const palavras = await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
     const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
     const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
-    const palavras = ["teste", "aaaaaaaaaaaaaaaaaaaa"]//await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
     const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=incluir`).then(response => response.json());
     
     const coresBootstrap = [
@@ -34,16 +34,28 @@ export async function menu_perfil(id, pagina) {
     let menu_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
     for (let palavra of palavras) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
-        if (pagina == "menu")
+        if (pagina == "menu") {
             menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-                <span>${palavra}</span>
-                <i class="bi bi-trash-fill lixo_palavra"></i>
+                <span>${palavra.palavra}</span>
+                <i class="bi bi-trash-fill lixo_palavra" id="lixo_palavra_${palavra.palavra}"></i>
             </span>`);
-        else if (pagina == "perfil")
+            const lixo_palavra = document.getElementById(`lixo_palavra_${palavra.palavra}`);
+            lixo_palavra.onclick = async function() {
+                await fetch(`data/palavra_chave/${palavra.palavra}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+        } else if (pagina == "perfil") {
             menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-                <span>${palavra}</span>
-                <i></i>
+            <span>${palavra.palavra}</span>
+            <i></i>
             </span>`);
+        }
     }
 
     //Adicionar os produtos

@@ -3,7 +3,7 @@ import express from 'express'
 import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
 import Segue from './models/segue.js'
-// import PalavraUsuario from './models/palavra_usuario.js'
+import PalavraUsuario from './models/palavra_usuario.js'
 import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 /**
@@ -115,8 +115,26 @@ router.get('/palavra_usuario/:id_user', async (req, res) => {
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    const palavras = await Palavra.read_user(id_user);
+    const palavras = await PalavraUsuario.readByUsuarioCod(id_user);
     return res.json(palavras);
+});
+
+router.delete('/palavra_chave/:nome/:id_user', async (req, res) => {
+    const { nome, id_user } = req.params;
+    if (!nome || !id_user) {
+        throw new HttpError('Faltam parâmetros: nome e/ou id_user', 400);
+    }
+    await PalavraUsuario.remove({ usuario: id_user, nome });
+    return res.sendStatus(204);
+});
+
+router.post('/palavra_usuario', async (req, res) => {
+    const { usuario, nome } = req.body;
+    if (!usuario || !nome) {
+        throw new HttpError("Os campos 'usuario' e 'nome' são obrigatórios", 400);
+    }
+    const created_palavra_usuario = await PalavraUsuario.create({ usuario, nome });
+    return res.json(created_palavra_usuario);
 });
 
 export default router;
