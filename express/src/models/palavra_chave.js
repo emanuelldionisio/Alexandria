@@ -20,7 +20,7 @@ async function create({nome}) {
     } 
 
     nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
-    console.log(`Creating keyword: ${nome}`);
+
     const sql = `
         INSERT INTO
             palavra_chave (nome)
