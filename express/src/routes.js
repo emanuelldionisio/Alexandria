@@ -125,6 +125,9 @@ router.delete('/palavra_chave/:nome/:id_user', async (req, res) => {
         throw new HttpError('Faltam parâmetros: nome e/ou id_user', 400);
     }
     await PalavraUsuario.remove({ usuario: id_user, nome });
+    if (await PalavraUsuario.readByPalavra(nome).then(users => users.length === 0)) {
+        await Palavra.deletar({ nome });
+    }
     return res.sendStatus(204);
 });
 
@@ -132,6 +135,9 @@ router.post('/palavra_usuario', async (req, res) => {
     const { usuario, nome } = req.body;
     if (!usuario || !nome) {
         throw new HttpError("Os campos 'usuario' e 'nome' são obrigatórios", 400);
+    }
+    if (await PalavraUsuario.readByUsuarioCod(usuario).then(palavras => palavras.length >= 10)) {
+        throw new HttpError("Limite de 10 palavras-chave por usuário atingido", 400);
     }
     const created_palavra_usuario = await PalavraUsuario.create({ usuario, nome });
     return res.json(created_palavra_usuario);

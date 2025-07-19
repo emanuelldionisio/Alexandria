@@ -1,5 +1,5 @@
 CREATE table palavra_chave(
-  nome VARCHAR (64)
+  nome VARCHAR (64) PRIMARY KEY
 );
 
 CREATE table usuario(

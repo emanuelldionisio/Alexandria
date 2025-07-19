@@ -4,7 +4,7 @@ async function up() {
   const db = await Database.connect();
 
     const palavra_chave = `CREATE table palavra_chave(
-        nome VARCHAR (64) 
+        nome VARCHAR (64) PRIMARY KEY
     );`;
     const usuario = `CREATE table usuario(
         cod INTEGER PRIMARY KEY AUTOINCREMENT, 

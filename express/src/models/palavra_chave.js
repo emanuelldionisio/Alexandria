@@ -14,11 +14,13 @@ async function read_all() {
 
 async function create({nome}) {
     const db = await Database.connect();
-    nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
 
     if (!nome) {
         throw new Error('Unable to create keyword');
     } 
+
+    nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
+    console.log(`Creating keyword: ${nome}`);
     const sql = `
         INSERT INTO
             palavra_chave (nome)
@@ -29,13 +31,14 @@ async function create({nome}) {
     return {nome};
 }
 
-async function deletar(params) {
+async function deletar({ nome }) {
     const db = await Database.connect();
-    const { nome } = params;
 
     if (!nome) {
         throw new Error("O campo 'nome' é obrigatório");
     }
+
+    nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
 
     const sql = `
         DELETE FROM
@@ -44,5 +47,6 @@ async function deletar(params) {
             nome = ?`;
 
     await db.run(sql, [nome]);
+    console.log(`Palavra-chave '${nome}' deletada com sucesso.`);
 }
 export default { read_all, create, deletar };
