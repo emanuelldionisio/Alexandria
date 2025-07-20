@@ -176,8 +176,7 @@ router.post('/login/:email/:senha', async (req, res) => {
   if (!email || !senha) {
     return res.status(400).json({ erro: 'Coloque um email e senha' });
   }
-  const resultado = Usuario.readLogin (senha, email)
-
+  const resultado = await Usuario.readLogin(senha, email)
   if (resultado.length === 0) {
     return res.status(401).json({ erro: 'Não foi encontrado email e senha correspondentes' });
   }
