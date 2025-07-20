@@ -1,23 +1,22 @@
 const id = +new URLSearchParams(location.search).get("id_prod");
-id ? carregaproduto(id) : alert("ID do produto inválido na URL.");
+const tipo = new URLSearchParams(location.search).get("tipo"); 
+
+id ? carregaproduto(id, tipo) : alert("ID do produto inválido na URL."); 
 
 const id_user = +new URLSearchParams(location.search).get("id_user");
 
 
 let produto = null;
-let tipo = null; 
 
-async function carregaproduto(id) {
+async function carregaproduto(id, tipo) { 
     try {
-        const res = await fetch(`data/produto/${id}`);
+        const res = await fetch(`data/produto/${id}/${tipo}`);
         if (!res.ok) {
             const erro = await res.json();
             throw new Error(erro.message || "Erro ao carregar produto");
         }
 
-        const dados = await res.json();
-        tipo = dados.tipo;
-        produto = dados.produto;
+        produto = await res.json();
 
         const usuarionome = await fetch ((`data/usuarionome/${id_user}`));
         const vendedor = await usuarionome.json();
@@ -27,6 +26,7 @@ async function carregaproduto(id) {
         alert(error.message || "Erro ao carregar produto");
     }
 }
+
 
 function preencherPagina(produto, tipo, vendedor) {
   document.title = produto.nome;
