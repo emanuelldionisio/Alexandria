@@ -143,28 +143,24 @@ router.post('/palavra_usuario', async (req, res) => {
     return res.json(created_palavra_usuario);
 });
 
-router.get('/produto/:id_prod', async (req, res) => {
+router.get('/produto/:id_prod/:tipo', async (req, res) => {
     const id_prod = Number(req.params.id_prod);
-    if (!id_prod) {
-        throw new HttpError('Faltam parâmetros: id_prod', 400);
+    const tipo = req.params.tipo;
+
+    if (!id_prod || (tipo !== 'livro' && tipo !== 'disco')) {
+        return res.status(400).json({ message: 'Parâmetros inválidos: id_prod e/ou tipo' });
     }
 
     try {
-        let produto, tipo;
-
-        try {
-            produto = await Produto.readById(id_prod, 'livro');
-            tipo = 'livro';
-        } catch (errLivro) {
-            
-            produto = await Produto.readById(id_prod, 'disco');
-            tipo = 'disco';
+        const produto = await Produto.readById(id_prod, tipo);
+        if (!produto) {
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
 
-        return res.json({ tipo, produto });
-
+        return res.json(produto);
     } catch (err) {
-        throw new HttpError(`Produto com id ${id_prod} não encontrado`, 404);
+        console.error('Erro ao buscar produto:', err);
+        return res.status(500).json({ message: 'Erro interno ao buscar produto' });
     }
 });
 
