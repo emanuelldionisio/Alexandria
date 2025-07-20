@@ -166,16 +166,12 @@ router.get('/produto/:id_prod/:tipo', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, senha } = req.body;
-    if (!email || !senha) {
-        throw new HttpError("Preencha todos os campos!", 400);
-    }
+
     const usuarios = await Usuario.read_all();
     const usuario = usuarios.find(u => u.email === email);
-    if (!usuario) {
-        throw new HttpError("Usuário não encontrado!", 404);
-    }
-    if (usuario.senha !== senha) {
-        throw new HttpError("Senha incorreta!", 401);
+  
+    
+
     }
     return res.redirect(`/inicial?id_user=${usuario.id}`);
 });
