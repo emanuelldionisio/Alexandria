@@ -23,6 +23,15 @@ async function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, ci
     
 }
 
+async function updateName(id_user, nome) {
+    const db = await Database.connect();
+    const sql = `
+        UPDATE usuario SET nome = ? WHERE cod = ?
+    `;
+    await db.run(sql, [nome, id_user]);
+    return await readById(id_user);
+}
+
 async function readById(id) {
     const db = await Database.connect();
     if (!id) {
@@ -38,4 +47,4 @@ async function readById(id) {
     return user;
 }
 
-export default { create, readById }
+export default { create, readById, updateName };

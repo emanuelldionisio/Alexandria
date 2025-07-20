@@ -8,6 +8,15 @@ body {
     gap: 15px;
 }
 
+#nome_usuario_input {
+    background-color: transparent;
+    border: none;
+}
+
+#nome_usuario_input:focus {
+    outline: none;
+}
+
 .menu-header {
     width: 100%;
     display: flex;
