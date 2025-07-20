@@ -143,4 +143,29 @@ router.post('/palavra_usuario', async (req, res) => {
     return res.json(created_palavra_usuario);
 });
 
+router.get('/produto/:id_prod', async (req, res) => {
+    const id_prod = Number(req.params.id_prod);
+    if (!id_prod) {
+        throw new HttpError('Faltam parâmetros: id_prod', 400);
+    }
+
+    try {
+        let produto, tipo;
+
+        try {
+            produto = await Produto.readById(id_prod, 'livro');
+            tipo = 'livro';
+        } catch (errLivro) {
+            
+            produto = await Produto.readById(id_prod, 'disco');
+            tipo = 'disco';
+        }
+
+        return res.json({ tipo, produto });
+
+    } catch (err) {
+        throw new HttpError(`Produto com id ${id_prod} não encontrado`, 404);
+    }
+});
+
 export default router;
