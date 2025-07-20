@@ -26,23 +26,10 @@ Content-Type: application/json
 }       
 
 ###
-post {{host}}/data/usuario
+post {{host}}/data/login/emanuel.eduardo@academico.ifpb.edu.br/krobus123
 Content-Type: application/json
 
-{
-        "nome": "Emanuel Dionisio",
-        "tel1": "(83) 99830-7031",
-        "tel2": null,
-        "email": "emanuel.eduardo@academico.ifpb.edu.br",
-        "dt_nascimento": "17/12/2007",
-        "pais": "Brasil",
-        "estado": "Bahia",
-        "cidade": "Xique-Xique",
-        "bairro": "Jacarezinho do norte",
-        "rua": "Rua Aposentada dos Tolos",
-        "senha": "krobus123",
-        "num_casa": 215
-}    
+
 
 ###
 post {{host}}/data/segue

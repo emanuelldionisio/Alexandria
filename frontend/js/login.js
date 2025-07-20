@@ -2,7 +2,9 @@ import { usuario } from "./data/usuario.js";
 
 const form = document.getElementById("form");
 
-form.onsubmit = function() {
+form.onsubmit 
+
+= function() {
     event.preventDefault();
     let email_user = document.getElementById("login").value;
     let user = usuario.find(obj => obj.email == email_user);
