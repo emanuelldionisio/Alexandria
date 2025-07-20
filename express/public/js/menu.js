@@ -48,6 +48,34 @@ botao_adicionar_palavra.onclick = function() {
     adicionando_palavra = true;
 }
 
+document.getElementById("editar_nome").onclick = function() {
+    const nomeUsuario = document.getElementById("menu-usuario__mensagem");
+    nomeUsuario.innerHTML = `Olá, <input type="text" id="nome_usuario_input" value="${nome}">`;
+    const inputNome = document.getElementById("nome_usuario_input");
+    inputNome.style.width = (inputNome.value.length + 2) + 'ch';
+    inputNome.focus();
+    inputNome.addEventListener('input', function() {
+        inputNome.style.width = (inputNome.value.length + 2) + 'ch';
+    });
+    
+    inputNome.addEventListener('keydown', async function(e) {
+        if (e.key === 'Enter') {
+            const novoNome = inputNome.value.trim();
+            if (novoNome) {
+                await fetch(`data/usuarioNome/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nome: novoNome })
+                });
+                window.location.reload();
+            }
+        }
+    });
+    
+}
+
 document.addEventListener('input', function (e) {
     if (e.target.matches('.menu-palavras-chave__palavra input')) {
         e.target.style.width = (e.target.value.length + 2) + 'ch';

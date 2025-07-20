@@ -51,6 +51,13 @@ router.post('/usuario', async (req, res) => {
     return res.json(new_user);
 });
 
+router.put('/usuarioNome/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
+    const { nome } = req.body;
+    const updated_user = await Usuario.updateName(id_user, nome);
+    return res.json(updated_user);
+});
+
 router.get('/usuarionome/:id_user', async (req, res) => {
     const id_user = req.params.id_user;
     if (!id_user) {
