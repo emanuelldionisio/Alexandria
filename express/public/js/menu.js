@@ -14,10 +14,11 @@ if (!id) {
 
 const nome = await fetch(`data/usuarionome/${id}`).then(response => response.json());
 
+
 function carregarMenu() {
     menu_perfil(id, "menu");
     //Adicionar o nome do user
-    let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
+    const mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
     mensagem_boasvindas.innerHTML = `Olá, ${nome}`;
 }
 

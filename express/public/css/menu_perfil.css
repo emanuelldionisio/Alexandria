@@ -54,6 +54,14 @@ button {
 
 .menu-usuario__informacoes__nome {
     display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-usuario__informacoes__nome i {
+    font-size: 20px;
+    color: #44593E;
+    cursor: pointer;
 }
 
 .menu-usuario__informacoes__seg {
