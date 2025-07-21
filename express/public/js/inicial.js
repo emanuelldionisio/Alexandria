@@ -13,7 +13,7 @@ function carregarInicial() {
     let grid_livros = document.getElementById("grid_livros");
 
     for (let i of produtos.discos) {
-        grid_discos.insertAdjacentHTML("beforeend", `<div class="grid_discos" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
+        grid_discos.insertAdjacentHTML("beforeend", `<div class="grid_discos" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}&tipo=disco'">
                 <img src="imgs/discos/${i.id_prod}.jpg" class="card-img-top" alt="..." >
                 <div>
                     <h5> ${i.nome} </h5>
@@ -22,7 +22,7 @@ function carregarInicial() {
     }
 
     for (let i of produtos.livros) {
-        grid_livros.insertAdjacentHTML("beforeend", `<div class="grid_livros" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
+        grid_livros.insertAdjacentHTML("beforeend", `<div class="grid_livros" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}&tipo=livro'">
                 <img src="imgs/livros/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
