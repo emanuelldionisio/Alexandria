@@ -171,16 +171,16 @@ router.get('/produto/:id_prod/:tipo', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
-    const { email, senha } = req.body;
-
-    const usuarios = await Usuario.read_all();
-    const usuario = usuarios.find(u => u.email === email);
-    if (!usuario) {
-        throw new HttpError("usuário não foi encontrado", 404);
-    }
-
-    return res.redirect(`/inicial?id_user=${usuario.id}`);
+router.post('/login/:email/:senha', async (req, res) => {
+  const { email, senha } = req.params;
+  if (!email || !senha) {
+    return res.status(400).json({ erro: 'Coloque um email e senha' });
+  }
+  const resultado = await Usuario.readLogin(senha, email)
+  if (resultado.length === 0) {
+    return res.status(401).json({ erro: 'Não foi encontrado email e senha correspondentes' });
+  }
+  return res.json(resultado)
 });
 
 router.get('/livro', async (req, res) => {

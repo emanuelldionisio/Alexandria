@@ -47,4 +47,11 @@ async function readById(id) {
     return user;
 }
 
-export default { create, readById, updateName };
+async function readLogin(senha, email) {
+    const db = await Database.connect();
+    const query = 'SELECT cod FROM usuario WHERE email = ? AND senha = ?';
+    const resultado = await db.get(query, [email, senha]);
+    return resultado
+}
+
+export default { create, readById, readLogin, updateName }
