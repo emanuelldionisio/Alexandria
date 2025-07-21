@@ -35,7 +35,7 @@ function preencherPagina(produto, tipo, vendedor) {
   document.getElementById("produto-desc").textContent = produto.descricao;
   document.getElementById("produto-titulo").textContent = produto.nome;
   document.getElementById("produto-preco").textContent = `R$ ${(produto.valor / 100).toFixed(2).replace('.', ',')}`;
-  document.getElementById("vendedor-nome").textContent = vendedor.nome;
+  document.getElementById("vendedor-nome").textContent = vendedor;
 
   const infoDiv = document.getElementById("produto-info");
   const infoItems = [];
