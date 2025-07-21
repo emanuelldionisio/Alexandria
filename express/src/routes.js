@@ -183,4 +183,16 @@ router.post('/login', async (req, res) => {
     return res.redirect(`/inicial?id_user=${usuario.id}`);
 });
 
+router.get('/livro', async (req, res) => {
+    const { id_user, modo } = req.query;
+    const livros = await Produto.readLivrosDisponiveis(id_user, modo);
+    return res.json(livros);
+});
+
+router.get('/disco', async (req, res) => {
+    const { id_user, modo } = req.query;
+    const discos = await Produto.readDiscosDisponiveis(id_user, modo);
+    return res.json(discos);
+});
+
 export default router;

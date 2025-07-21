@@ -1,9 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
-const livros_disponiveis = await fetch(`data/livro?id_user=${id}&modo='inicial'`).then(response => response.json());
-const discos_disponiveis = await fetch(`data/disco?id_user=${id}&modo='inicial'`).then(response => response.json());
-    
+const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=excluir`).then(res => res.json());
+
 function carregarInicial() { 
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
@@ -13,7 +12,7 @@ function carregarInicial() {
     let grid_discos = document.getElementById("grid_discos");
     let grid_livros = document.getElementById("grid_livros");
 
-    for (let i of discos_disponiveis) {
+    for (let i of produtos.discos) {
         grid_discos.insertAdjacentHTML("beforeend", `<div class="grid_discos" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="..." >
                 <div>
@@ -22,7 +21,7 @@ function carregarInicial() {
             </div>`)
     }
 
-    for (let i of livros_disponiveis) {
+    for (let i of produtos.livros) {
         grid_livros.insertAdjacentHTML("beforeend", `<div class="grid_livros" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
                 <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
