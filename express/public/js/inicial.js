@@ -1,7 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
-const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=excluir`).then(res => res.json());
+const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=excluir`).then(response => response.json());
 
 function carregarInicial() { 
     // foto do usuário
@@ -14,7 +14,7 @@ function carregarInicial() {
 
     for (let i of produtos.discos) {
         grid_discos.insertAdjacentHTML("beforeend", `<div class="grid_discos" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
-                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="..." >
+                <img src="imgs/discos/${i.id_prod}.jpg" class="card-img-top" alt="..." >
                 <div>
                     <h5> ${i.nome} </h5>
                 </div>
@@ -23,7 +23,7 @@ function carregarInicial() {
 
     for (let i of produtos.livros) {
         grid_livros.insertAdjacentHTML("beforeend", `<div class="grid_livros" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}&id_user=${id}'">
-                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
+                <img src="imgs/livros/${i.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${i.nome}</h5>
                 </div>
