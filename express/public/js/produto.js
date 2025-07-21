@@ -18,7 +18,7 @@ async function carregaproduto(id, tipo) {
 
         produto = await res.json();
 
-        const usuarionome = await fetch ((`data/usuarionome/${id_user}`));
+        const usuarionome = await fetch ((`data/usuarionome/${produto.id_usuario}`));
         const vendedor = await usuarionome.json();
 
         preencherPagina(produto, tipo, vendedor);
