@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model PalavraChave {
+  nome String @id
+}
+
+model Usuario {
+  cod String @id @default(uuid()) 
+  nome String
+  tel1 String
+  tel2 String?
+  email String
+  pais String
+  estado String
+  cidade String
+  bairro String
+  rua String
+  senha String
+  num_casa Int
+  livros Livro[]
+  discos Disco[] 
+  avaliacao_livro AvaliacaoLivro[]
+}
+
+model Livro {
+  id_prod String @id @default(uuid())
+  nome String
+  valor Int
+  condicao String
+  descricao String
+  autor String
+  edicao String
+  qtd_pag Int
+  id_usuario String
+  avaliacao_livro AvaliacaoLivro[]
+  vendedor Usuario @relation(fields: [id_usuario], references: [cod])
+}
+
+model Disco {
+  id_prod String @id @default(uuid())
+  nome String
+  valor Int
+  condicao String
+  descricao String
+  artista String
+  ano Int
+  gravadora String
+  id_usuario String
+  vendedor Usuario @relation(fields: [id_usuario], references: [cod])
+}
+
+model AvaliacaoLivro {
+  cod_usuario String
+  id_prod String
+  nota Int
+  descricao String
+  livro Livro @relation(fields: [id_prod], references: [id_prod])
+  usuario Usuario @relation(fields: [cod_usuario], references: [cod])
+  @@id([id_prod, cod_usuario])
+}
+
