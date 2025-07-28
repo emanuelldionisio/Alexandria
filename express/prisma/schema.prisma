@@ -14,6 +14,9 @@ datasource db {
 
 model PalavraChave {
   nome String @id
+  usuario PalavraUsuario[]
+  discos PalavraDisco[]
+  livros PalavraLivro[]
 }
 
 model Usuario {
@@ -35,6 +38,7 @@ model Usuario {
   avaliacao_disco AvaliacaoDisco[]
   seguidores Segue[] @relation("seguido")
   seguindo Segue[] @relation("seguinte")
+  palavras_chave PalavraUsuario[]
 }
 
 model Livro {
@@ -49,6 +53,7 @@ model Livro {
   id_usuario String
   avaliacao AvaliacaoLivro[]
   vendedor Usuario @relation(fields: [id_usuario], references: [cod])
+  palavras_chave PalavraLivro[]
 }
 
 model Disco {
@@ -63,6 +68,7 @@ model Disco {
   id_usuario String
   vendedor Usuario @relation(fields: [id_usuario], references: [cod])
   avaliacao AvaliacaoDisco[]
+  palavras_chave PalavraDisco[]
 }
 
 model AvaliacaoLivro {
@@ -91,4 +97,28 @@ model Segue {
   seguinte Usuario @relation("seguinte", fields: [id_seguinte], references: [cod])
   seguido Usuario @relation("seguido", fields: [id_seguido], references: [cod])
   @@id([id_seguinte, id_seguido])
+}
+
+model PalavraUsuario {
+  usuarioid String
+  palavraid String
+  usuario Usuario @relation(fields: [usuarioid], references: [cod])
+  palavra PalavraChave @relation(fields: [palavraid], references: [nome])
+  @@id([usuarioid, palavraid])
+}
+
+model PalavraLivro {
+  livroid String
+  palavraid String
+  livro Livro @relation(fields: [livroid], references: [id_prod])
+  palavra PalavraChave @relation(fields: [palavraid], references: [nome])
+  @@id([livroid, palavraid])
+}
+
+model PalavraDisco {
+  discoid String
+  palavraid String
+  disco Disco @relation(fields: [discoid], references: [id_prod])
+  palavra PalavraChave @relation(fields: [palavraid], references: [nome])
+  @@id([discoid, palavraid])
 }
