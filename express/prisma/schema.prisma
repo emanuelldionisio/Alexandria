@@ -32,6 +32,9 @@ model Usuario {
   livros Livro[]
   discos Disco[] 
   avaliacao_livro AvaliacaoLivro[]
+  avaliacao_disco AvaliacaoDisco[]
+  seguidores Segue[] @relation("seguido")
+  seguindo Segue[] @relation("seguinte")
 }
 
 model Livro {
@@ -44,7 +47,7 @@ model Livro {
   edicao String
   qtd_pag Int
   id_usuario String
-  avaliacao_livro AvaliacaoLivro[]
+  avaliacao AvaliacaoLivro[]
   vendedor Usuario @relation(fields: [id_usuario], references: [cod])
 }
 
@@ -59,6 +62,7 @@ model Disco {
   gravadora String
   id_usuario String
   vendedor Usuario @relation(fields: [id_usuario], references: [cod])
+  avaliacao AvaliacaoDisco[]
 }
 
 model AvaliacaoLivro {
@@ -71,3 +75,20 @@ model AvaliacaoLivro {
   @@id([id_prod, cod_usuario])
 }
 
+model AvaliacaoDisco {
+  cod_usuario String
+  id_prod String
+  nota Int
+  descricao String
+  disco Disco @relation(fields: [id_prod], references: [id_prod])
+  usuario Usuario @relation(fields: [cod_usuario], references: [cod])
+  @@id([id_prod, cod_usuario])
+}
+
+model Segue {
+  id_seguinte String
+  id_seguido String
+  seguinte Usuario @relation("seguinte", fields: [id_seguinte], references: [cod])
+  seguido Usuario @relation("seguido", fields: [id_seguido], references: [cod])
+  @@id([id_seguinte, id_seguido])
+}
