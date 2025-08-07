@@ -1,12 +1,11 @@
 import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
+import { PrismaClient } from '../src/generated/prisma/client.js';
 
 const prisma = new PrismaClient();
 
 async function main() {
-    const file = resolve('prisma', 'seeders.json');
+    const file = resolve('prisma', 'seed.json');
     const seed = JSON.parse(readFileSync(file));
 
     await prisma.usuario.createMany({
@@ -44,10 +43,10 @@ async function main() {
 
 main()
     .then(async () => {
-        await prisma.$disconnect();
+    await prisma.$disconnect();
     })
     .catch(async (e) => {
-        console.error(e);
-        await prisma.$disconnect();
-        process.exit(1);
-    });
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+    })
