@@ -1,4 +1,4 @@
-import Database from '../database/database.js';
+import prisma from '../database/database.js';
 
 async function read_all() {
     const db = await Database.connect();
@@ -13,7 +13,6 @@ async function read_all() {
 }
 
 async function create({nome}) {
-    const db = await Database.connect();
 
     if (!nome) {
         throw new Error('Unable to create keyword');
@@ -21,18 +20,16 @@ async function create({nome}) {
 
     nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
 
-    const sql = `
-        INSERT INTO
-            palavra_chave (nome)
-            VALUES
-            (?)
-        `;
-    await db.run(sql, [nome]);
+    await prisma.palavraChave.create({
+        data: {
+            nome: nome
+        }
+    });
+
     return {nome};
 }
 
 async function deletar({ nome }) {
-    const db = await Database.connect();
 
     if (!nome) {
         throw new Error("O campo 'nome' é obrigatório");
@@ -40,13 +37,12 @@ async function deletar({ nome }) {
 
     nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
 
-    const sql = `
-        DELETE FROM
-            palavra_chave
-        WHERE
-            nome = ?`;
-
-    await db.run(sql, [nome]);
+    await prisma.palavraChave.deleteMany({
+        where: {
+            nome: nome
+        }
+    });
+    
     console.log(`Palavra-chave '${nome}' deletada com sucesso.`);
 }
 export default { read_all, create, deletar };

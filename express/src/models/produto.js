@@ -1,4 +1,4 @@
-import Database from "../database/database.js";
+import prisma from '../database/database.js';
 
 async function create(obj, tipo) {
     const db = await Database.connect(); 
@@ -80,33 +80,36 @@ async function readByUsuario(id_usuario, modo="incluir") {
     if (modo !== "incluir" && modo !== "excluir") {
         throw new Error("Modo inválido. Deve ser 'incluir' ou 'excluir'.");
     }
-    const db = await Database.connect();
     if (modo === "incluir") {
-        const sql_livro = `
-            SELECT * FROM livro
-            WHERE id_usuario = ?
-        `;
-        const sql_disco = `
-            SELECT * FROM disco
-            WHERE id_usuario = ?
-        `;
-        const livros = await db.all(sql_livro, [id_usuario]);
-        const discos = await db.all(sql_disco, [id_usuario]);
+        const livros = await prisma.livro.findMany({
+            where: {
+                id_usuario: id_usuario
+            }
+        });
+        const discos = await prisma.disco.findMany({
+            where: {
+                id_usuario: id_usuario
+            }
+        });
         return {
             "livros": livros,
             "discos": discos
         };
     } else if (modo === "excluir") {
-        const sql_livro = `
-            SELECT * FROM livro
-            WHERE id_usuario != ?
-        `;
-        const sql_disco = `
-            SELECT * FROM disco
-            WHERE id_usuario != ?
-        `;
-        const livros = await db.all(sql_livro, [id_usuario]);
-        const discos = await db.all(sql_disco, [id_usuario]);
+        const livros = await prisma.livro.findMany({
+            where: {
+                id_usuario: {
+                    not: id_usuario
+                }
+            }
+        });
+        const discos = await prisma.disco.findMany({
+            where: {
+                id_usuario: {
+                    not: id_usuario
+                }
+            }
+        });
         return {
             "livros": livros,
             "discos": discos

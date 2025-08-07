@@ -1,3 +1,4 @@
+import prisma from "../database/database.js";
 import Database from "../database/database.js";
 
 async function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa }) {
@@ -24,23 +25,26 @@ async function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, ci
 }
 
 async function updateName(id_user, nome) {
-    const db = await Database.connect();
-    const sql = `
-        UPDATE usuario SET nome = ? WHERE cod = ?
-    `;
-    await db.run(sql, [nome, id_user]);
-    return await readById(id_user);
+    const new_user = await prisma.usuario.update({
+        where: {
+            cod: id_user
+        },
+        data: {
+            nome: nome
+        }
+    });
+    return await new_user;
 }
 
 async function readById(id) {
-    const db = await Database.connect();
     if (!id) {
         throw new Error("ID do usuário não fornecido");
     }
-    const sql = `
-        SELECT * FROM usuario WHERE cod = ?
-    `;  
-    const user = await db.get(sql, [id]);
+    const user = await prisma.usuario.findUnique({
+        where: {
+            cod: id
+        }
+    })
     if (!user) {
         throw new Error(`Usuário com ID ${id} não encontrado`);
     }

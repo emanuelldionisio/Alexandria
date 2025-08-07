@@ -132,6 +132,7 @@ router.delete('/palavra_chave/:nome/:id_user', async (req, res) => {
         throw new HttpError('Faltam parâmetros: nome e/ou id_user', 400);
     }
     await PalavraUsuario.remove({ usuario: id_user, nome });
+    
     if (await PalavraUsuario.readByPalavra(nome).then(users => users.length === 0)) {
         await Palavra.deletar({ nome });
     }

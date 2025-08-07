@@ -1,59 +1,50 @@
-import Database from "../database/database.js";
+import prisma from '../database/database.js';
 
 async function create ({ seguinte, seguido }) {
-    const db = await Database.connect();
 
     if (!seguinte || !seguido) {
         throw new Error("Campos 'seguinte' e 'seguido' são obrigatórios");
     }
-    
-    const sql = `
-        INSERT INTO
-            segue (seguinte, seguido)
-        VALUES
-            (?,?)
-    `;
 
-    await db.run(sql, [seguinte, seguido]);
+    await prisma.segue.create({
+        data: {
+            seguinte: seguinte,
+            seguido: seguido
+        }
+    });
 
     return await readById({seguinte, seguido});
 }
 
 async function remove ({seguinte, seguido}) {
-    const db = await Database.connect();
 
     if (!seguinte || !seguido) {
         throw new Error("Campos 'seguinte' e 'seguido' são obrigatórios");
     }
 
-    const sql = `
-            DELETE FROM 
-                segue
-            WHERE  
-                seguido = ? AND seguinte = ?
-        `;
-    
+    await prisma.segue.deleteMany({
+        where: {
+            seguido: seguido,
+            seguinte: seguinte
+        }
+    });
 
-    const { changes } = await db.run(sql, [seguido, seguinte]);
-
-    return changes
+    return {seguido, seguinte};
 }
 
 async function readSeguidores (seguido) {
-    const db = await Database.connect();
-
     if (!seguido) {
         throw new Error("O campo 'seguido' é obrigatório");
     }
-
-    const sql = `
-            SELECT seguinte FROM
-                segue
-            WHERE
-                seguido = ?
-    `;
         
-    const quantidade = await db.all(sql, [seguido]);
+    const quantidade = await prisma.segue.findMany({
+        where: {
+            seguido: seguido
+        },
+        select: {
+            seguinte: true
+        }
+    });
     
     return quantidade.map((item) => item.seguinte);
 }
@@ -63,18 +54,15 @@ async function readSeguidos (seguinte) {
         throw new Error("O campo 'seguinte' é obrigatório");
     }
 
-    const db = await Database.connect();
+    const quantidade = await prisma.segue.findMany({
+        where: {
+            seguinte: seguinte
+        },
+        select: {
+            seguido: true
+        }
+    });
 
-    
-    const sql = `
-            SELECT seguido FROM
-                segue
-            WHERE
-                seguinte = ?`
-    
-    
-    const quantidade = await db.all(sql, [seguinte]);
-    
     return quantidade.map((item) => item.seguido);
 }
 
@@ -83,15 +71,14 @@ async function readById({ seguido, seguinte }) {
         throw new Error("O campo 'id' é obrigatório");
     }
 
-    const db = await Database.connect();
-    
-    const sql = `
-        SELECT *
-        FROM segue
-        WHERE seguido = ? AND seguinte = ?
-    `;
-
-    const result = await db.get(sql, [seguido, seguinte]);
+    const result = await prisma.segue.findUnique({
+        where: {
+            seguido_seguinte: {
+                seguido: seguido,
+                seguinte: seguinte
+            }
+        }
+    });
 
     if (!result) {
         throw new Error(`Registro com ID ${id} não encontrado`);

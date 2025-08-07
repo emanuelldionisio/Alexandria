@@ -36,12 +36,12 @@ export async function menu_perfil(id, pagina) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
         if (pagina == "menu") {
             menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-                <span>${palavra.palavra}</span>
-                <i class="bi bi-trash-fill lixo_palavra" id="lixo_palavra_${palavra.palavra}"></i>
+                <span>${palavra.nome}</span>
+                <i class="bi bi-trash-fill lixo_palavra" id="lixo_palavra_${palavra.nome}"></i>
             </span>`);
-            const lixo_palavra = document.getElementById(`lixo_palavra_${palavra.palavra}`);
+            const lixo_palavra = document.getElementById(`lixo_palavra_${palavra.nome}`);
             lixo_palavra.onclick = async function() {
-                await fetch(`data/palavra_chave/${palavra.palavra}/${id}`, {
+                await fetch(`data/palavra_chave/${palavra.nome}/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ export async function menu_perfil(id, pagina) {
             }
         } else if (pagina == "perfil") {
             menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-            <span>${palavra.palavra}</span>
+            <span>${palavra.nome}</span>
             <i></i>
             </span>`);
         }
