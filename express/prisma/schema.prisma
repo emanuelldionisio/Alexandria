@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
 model PalavraChave {
@@ -32,6 +32,7 @@ model Usuario {
   rua String
   senha String
   num_casa Int
+  dt_nascimento String
   livros Livro[]
   discos Disco[] 
   avaliacao_livro AvaliacaoLivro[]
@@ -92,33 +93,33 @@ model AvaliacaoDisco {
 }
 
 model Segue {
-  id_seguinte String
-  id_seguido String
-  seguinte Usuario @relation("seguinte", fields: [id_seguinte], references: [cod])
-  seguido Usuario @relation("seguido", fields: [id_seguido], references: [cod])
-  @@id([id_seguinte, id_seguido])
+  seguinte String
+  seguido String
+  seguinteRef Usuario @relation("seguinte", fields: [seguinte], references: [cod])
+  seguidoRef Usuario @relation("seguido", fields: [seguido], references: [cod])
+  @@id([seguinte, seguido])
 }
 
 model PalavraUsuario {
-  usuarioid String
-  palavraid String
-  usuario Usuario @relation(fields: [usuarioid], references: [cod])
-  palavra PalavraChave @relation(fields: [palavraid], references: [nome])
-  @@id([usuarioid, palavraid])
+  usuario String
+  nome String
+  usuarioRef Usuario @relation(fields: [usuario], references: [cod])
+  palavraRef PalavraChave @relation(fields: [nome], references: [nome])
+  @@id([usuario, nome])
 }
 
 model PalavraLivro {
-  livroid String
-  palavraid String
-  livro Livro @relation(fields: [livroid], references: [id_prod])
-  palavra PalavraChave @relation(fields: [palavraid], references: [nome])
-  @@id([livroid, palavraid])
+  livro String
+  nome String
+  livroRef Livro @relation(fields: [livro], references: [id_prod])
+  palavraRef PalavraChave @relation(fields: [nome], references: [nome])
+  @@id([livro, nome])
 }
 
 model PalavraDisco {
-  discoid String
-  palavraid String
-  disco Disco @relation(fields: [discoid], references: [id_prod])
-  palavra PalavraChave @relation(fields: [palavraid], references: [nome])
-  @@id([discoid, palavraid])
+  disco String
+  palavra String
+  discoRef Disco @relation(fields: [disco], references: [id_prod])
+  palavraRef PalavraChave @relation(fields: [palavra], references: [nome])
+  @@id([disco, palavra])
 }
