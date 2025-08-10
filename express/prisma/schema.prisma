@@ -32,7 +32,7 @@ model Usuario {
   rua String
   senha String
   num_casa Int
-  dt_nascimento String
+  dt_nascimento DateTime 
   livros Livro[]
   discos Disco[] 
   avaliacao_livro AvaliacaoLivro[]
