@@ -24,22 +24,33 @@ model Usuario {
   nome String
   tel1 String
   tel2 String?
-  email String
+  email String @unique
   pais String
   estado String
   cidade String
   bairro String
   rua String
-  senha String
+  senha String 
   num_casa Int
   dt_nascimento DateTime 
   livros Livro[]
   discos Disco[] 
-  avaliacao_livro AvaliacaoLivro[]
-  avaliacao_disco AvaliacaoDisco[]
+  avaliou Avaliacao[] @relation("avaliador")
+  avaliado Avaliacao[] @relation("avaliado")
   seguidores Segue[] @relation("seguido")
   seguindo Segue[] @relation("seguinte")
   palavras_chave PalavraUsuario[]
+  denunciou Denuncia[] @relation("denunciante")
+  denunciadopor Denuncia[] @relation("denunciado")
+}
+
+model Denuncia {
+  denunciante String
+  denunciado String
+  descricao String
+  denuncianteRef Usuario @relation("denunciante", fields: [denunciante], references: [cod])
+  denunciadoRef Usuario @relation("denunciado", fields: [denunciado], references: [cod])
+  @@id([denunciante, denunciado])
 }
 
 model Livro {
@@ -52,7 +63,6 @@ model Livro {
   edicao String
   qtd_pag Int
   id_usuario String
-  avaliacao AvaliacaoLivro[]
   vendedor Usuario @relation(fields: [id_usuario], references: [cod])
   palavras_chave PalavraLivro[]
 }
@@ -68,28 +78,17 @@ model Disco {
   gravadora String
   id_usuario String
   vendedor Usuario @relation(fields: [id_usuario], references: [cod])
-  avaliacao AvaliacaoDisco[]
   palavras_chave PalavraDisco[]
 }
 
-model AvaliacaoLivro {
-  cod_usuario String
-  id_prod String
+model Avaliacao{
+  cod_avaliador String
+  cod_avaliado String
+  avaliador Usuario @relation("avaliador", fields: [cod_avaliador], references: [cod])
+  avaliado Usuario @relation("avaliado", fields: [cod_avaliado], references: [cod])
   nota Int
   descricao String
-  livro Livro @relation(fields: [id_prod], references: [id_prod])
-  usuario Usuario @relation(fields: [cod_usuario], references: [cod])
-  @@id([id_prod, cod_usuario])
-}
-
-model AvaliacaoDisco {
-  cod_usuario String
-  id_prod String
-  nota Int
-  descricao String
-  disco Disco @relation(fields: [id_prod], references: [id_prod])
-  usuario Usuario @relation(fields: [cod_usuario], references: [cod])
-  @@id([id_prod, cod_usuario])
+  @@id([cod_avaliador, cod_avaliado])
 }
 
 model Segue {

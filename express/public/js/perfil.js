@@ -77,4 +77,69 @@ botao_seguir.onclick = async function () {
     window.location.reload();
 }
 
+const botao_avaliar = document.getElementById("menu-usuario__opcoes__avaliar");
+botao_avaliar.onclick = function () {
+    botao_avaliar.insertAdjacentHTML('beforebegin', `
+        <form id="form-avaliacao">
+            <button type="button" id="cancelar-avaliacao" onclick="window.location.reload()"> X </button>
+            <label for="nota">Nota (1 a 5):</label>
+            <input type="number" id="nota" name="nota" min="1" max="5" required>
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao"></textarea>
+            <button type="submit">Enviar Avaliação</button>
+        </form>
+    `);
+    const form_avaliacao = document.getElementById("form-avaliacao");
+    form_avaliacao.onsubmit = async function (event) {
+        event.preventDefault();
+        const nota = document.getElementById("nota").value;
+        const descricao = document.getElementById("descricao").value;
+
+        if (! nota || ! descricao) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        await fetch(`data/avaliar`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cod_avaliador: id_user, cod_avaliado: id, nota: parseInt(nota), descricao })
+        });
+        window.location.reload();
+    };
+}
+
+const botao_denuncia = document.querySelector(".botao-denuncia");
+botao_denuncia.onclick = function () {
+    botao_denuncia.insertAdjacentHTML('beforebegin', `
+        <form id="form-denuncia">
+            <button type="button" id="cancelar-denuncia" onclick="window.location.reload()"> X </button>
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao"></textarea>
+            <button type="submit">Enviar Denúncia</button>
+        </form>
+    `);
+    const form_denuncia = document.getElementById("form-denuncia");
+    form_denuncia.onsubmit = async function (event) {
+        event.preventDefault();
+        const descricao = document.getElementById("descricao").value;
+
+        if (!descricao) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        await fetch(`data/denunciar`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ denunciante: id_user, denunciado: id, descricao })
+        });
+        window.location.reload();
+    };
+}
+
 carregarPerfil()

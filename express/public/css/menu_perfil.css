@@ -327,3 +327,144 @@ button {
     padding: 20px;
 }
 
+#form-avaliacao {
+    max-width: 280px;
+    margin: 10px auto;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#form-avaliacao label {
+    font-weight: bold;
+    color: #44593E;
+    font-size: 12px;
+}
+
+#form-avaliacao input,
+#form-avaliacao textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 12px;
+    background-color: #fdfbf7;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#form-avaliacao input:focus,
+#form-avaliacao textarea:focus {
+    border-color: #B6935B;
+    box-shadow: 0 0 4px rgba(182, 147, 91, 0.3);
+    outline: none;
+}
+
+/* Botão Enviar */
+#form-avaliacao button[type="submit"] {
+    background-color: #44593E;
+    color: white;
+    padding: 6px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-avaliacao button[type="submit"]:hover {
+    background-color: #B6935B;
+}
+
+/* Botão Cancelar */
+#cancelar-avaliacao {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: #722D14;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+#cancelar-avaliacao:hover {
+    text-decoration: underline;
+}
+
+#form-avaliacao {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    /* garante que fique na frente */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    width: 260px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Botão cancelar no canto superior direito */
+#cancelar-avaliacao {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #722D14;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+#cancelar-avaliacao:hover {
+    text-decoration: underline;
+}
+
+#form-avaliacao label {
+    font-weight: bold;
+    color: #44593E;
+    font-size: 12px;
+}
+
+#form-avaliacao input,
+#form-avaliacao textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 12px;
+    background-color: #fdfbf7;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#form-avaliacao input:focus,
+#form-avaliacao textarea:focus {
+    border-color: #B6935B;
+    box-shadow: 0 0 4px rgba(182, 147, 91, 0.3);
+    outline: none;
+}
+
+#form-avaliacao button[type="submit"] {
+    background-color: #44593E;
+    color: white;
+    padding: 6px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-avaliacao button[type="submit"]:hover {
+    background-color: #B6935B;
+}

@@ -28,12 +28,8 @@ async function main() {
         data: seed.palavra_chave
     });
 
-    await prisma.avaliacaoDisco.createMany({
-        data: seed.avaliacao_disco
-    });
-
-    await prisma.avaliacaoLivro.createMany({
-        data: seed.avaliacao_livro
+    await prisma.avaliacao.createMany({
+        data: seed.avaliacao
     });
 
     await prisma.segue.createMany({
@@ -42,6 +38,10 @@ async function main() {
 
     await prisma.palavraUsuario.createMany({
         data: seed.palavra_usuario
+    });
+
+    await prisma.denuncia.createMany({
+        data: seed.denuncia
     });
 }
 

@@ -33,6 +33,15 @@ router.get('/mediaavaliacao/:id_user', async (req, res) => {
     return res.json(media);
 });
 
+router.post('/avaliar', async (req, res) => {
+    const { cod_avaliador, cod_avaliado, nota, descricao } = req.body;
+    if (!cod_avaliador || !cod_avaliado || !nota || !descricao) {
+        throw new HttpError('Faltam parâmetros: cod_avaliador, cod_avaliado, nota e/ou descricao', 400);
+    }
+    const avaliacao = await Avaliacao.create({ cod_avaliador, cod_avaliado, nota, descricao });
+    return res.sendStatus(204);
+});
+
 router.get('/produtoByUsuario', async (req, res) => {
     const { id_usuario, modo } = req.query;
     if (!id_usuario) {

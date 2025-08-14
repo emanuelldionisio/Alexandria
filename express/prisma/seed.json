@@ -1,30 +1,34 @@
 {
-    "avaliacao_disco": [
+    "denuncia": [
         {
-            "cod_usuario": "1",
-            "id_prod": "2",
+            "denunciante": "2",
+            "denunciado": "1",
+            "descricao": "Vendedor não enviou o produto."
+        },
+        {
+            "denunciante": "1",
+            "denunciado": "3",
+            "descricao": "Vendedora caloteira!!!!!!!!!"
+        }
+    ],
+    "avaliacao": [
+        {
+            "cod_avaliador": "1",
+            "cod_avaliado": "2",
             "nota": 5,
             "descricao": "CD de ótima qualidade, vendedor atencioso e entrega rápida. Vibrei tanto com a música que minha mãe ficou com medo"
         },
         {
-            "cod_usuario": "2",
-            "id_prod": "1",
+            "cod_avaliador": "2",
+            "cod_avaliado": "1",
             "nota": 4,
             "descricao": "Ótimo CD, mas a entrega demorou um pouco mais do que o esperado. Recomendo!"
         },
         {
-            "cod_usuario": "3",
-            "id_prod": "3",
+            "cod_avaliador": "3",
+            "cod_avaliado": "2",
             "nota": 3,
             "descricao": "CD bom, mas não atendeu totalmente às minhas expectativas. A música é boa, mas poderia ser melhor."
-        }
-    ],
-    "avaliacao_livro": [
-        {
-            "cod_usuario": "2",
-            "id_prod": "5",
-            "nota": 4,
-            "descricao": "Ótimo vendedor e estava como descrito. O livro é bom, mas o casal principal é um tanto esquisito e não me fez curtir a leitura tanto assim"
         }
     ],
     "carrinho_disco": [
@@ -45,12 +49,6 @@
         {
             "cod_usuario": "2",
             "id_prod": "2"
-        }
-    ],
-    "denuncia": [
-        {
-            "denunciante": "2",
-            "denunciado": "1"
         }
     ],
     "desejos_livro": [
