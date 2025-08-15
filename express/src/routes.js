@@ -6,6 +6,7 @@ import Segue from './models/segue.js'
 import PalavraUsuario from './models/palavra_usuario.js'
 import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
+import Denuncia from './models/denuncia.js'
 /**
  import { segue } from './data/segue.js'
  import { palavra_usuario } from './data/palavra_usuario.js'
@@ -203,6 +204,16 @@ router.get('/disco', async (req, res) => {
     const { id_user, modo } = req.query;
     const discos = await Produto.readDiscosDisponiveis(id_user, modo);
     return res.json(discos);
+});
+
+router.post('/denunciar', async (req, res) => {
+    const { denunciante, denunciado, descricao } = req.body;
+    try {
+        const denuncia = await Denuncia.create({ denunciante, denunciado, descricao });
+        return res.status(201).json(denuncia);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
 });
 
 export default router;
