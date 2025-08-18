@@ -165,6 +165,7 @@ router.get('/produto/:id_prod/:tipo', async (req, res) => {
     const id_prod = Number(req.params.id_prod);
     const tipo = req.params.tipo;
 
+    
     if (!id_prod || (tipo !== 'livro' && tipo !== 'disco')) {
         return res.status(400).json({ message: 'Parâmetros inválidos: id_prod e/ou tipo' });
     }

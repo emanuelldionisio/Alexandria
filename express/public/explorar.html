@@ -13,20 +13,29 @@
 <body>
     
     <header class="menu-header0">
-        <div class="input-group">
-            <div class = "input-incon"> 
-                <i class="bi bi-search"></i>
+        <div class = "lateral-esquerda">
+            <div class="menu-usuario__foto-perfil">
+                <img id="foto-de-perfil" alt="">
             </div>
+            
+            <button class="botton-icon" onclick="irParaPerfil()"> 
+                <img id="inicial_perfil" alt="perfil">
+            </button>
+            
+            <div class="input-group">
+                <div class = "input-incon"> 
+                    <i class="bi bi-search"></i>
+                </div>
 
-            <input 
-            id = "search"
-            class ="campo-input" 
-            type="text" 
-            placeholder="Pesquisar"
-            >
-        </div>      
-        
-        <div class="header">
+                <input 
+                id = "search"
+                class ="campo-input" 
+                type="text" 
+                placeholder="Pesquisando produto"
+                >
+            </div>
+        </div>
+        <div class="lateral-direita">
             <button id="inicial-icon"class="botton-icon" onclick="irParaInicial()">
                 <i class="bi bi-house-door"></i>
             </button>
@@ -34,13 +43,9 @@
             <button id="logout-icon"class="botton-icon" onclick="irParaLogin()">
                <i class="bi bi-box-arrow-right"></i>
             </button> 
-
-            <button class="botton-icon" onclick="irParaPerfil()"> 
-                <img id="inicial_perfil" alt="Sua foto de perfil">
-            </button>
         </div>
     </header>
-
+    
     <ul class="itens">
         <li class="item-pesquisado">
             <div class="item-image">
