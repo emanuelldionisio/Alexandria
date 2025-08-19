@@ -1,7 +1,8 @@
 import prisma from '../database/database.js';
+import Database from '../database/database.js';
 
 async function create(obj, tipo) {
-    const db = await Database.connect(); 
+    const db = await Database.connect();    
     const { id_usuario, nome, valor, condicao, descricao } = obj;
     if (!id_usuario || !nome || !valor || !condicao || !descricao) {
         throw new Error(`Todos os campos são obrigatórios: id_usuario, nome, valor, condicao, descricao`);
