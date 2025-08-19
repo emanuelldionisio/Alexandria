@@ -1,76 +1,108 @@
-import { usuario } from './data/usuario.js';
-import { palavra_usuario } from './data/palavra_usuario.js';
-import { disco } from './data/disco.js';
-import { livro } from './data/livro.js';
+// Importar dados dos produtos
+import { disco } from '../../../explorar/js/data/disco.js';
+import { livro } from '../../../explorar/js/data/livro.js';
 
-const params = new URLSearchParams(window.location.search);
-//const id = params.get("id_user");
+// Obter ID do usuário da URL
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id_user');
 
-let id = 4;
-function selecionarItensAleatorios(itens) {
-    const ebaralhados = itens.sort(() => 0.5 - Math.random());
-    return embaralhados.slice(0);
+// Função para formatar string (remover acentos e converter para minúscula)
+function formatString(str) {
+    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// Função para criar o HTML de um item de produto
+function criarItemHTML(produto, tipo) {
+    const valorFormatado = (produto.valor / 100).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+
+    return `
+        <div class="item" data-tipo="${tipo}">
+            <div class="item-imagem">
+                <img src="imgs/${tipo}s/${produto.id_prod}.jpg" alt="${produto.nome}" onerror="this.src='imgs/placeholder.jpg'">
+            </div>
+            <div class="item-info">
+                <h3 class="item-titulo">${produto.nome}</h3>
+                <p class="item-autor">${tipo === 'disco' ? produto.artista : produto.autor}</p>
+                <p class="item-preco">${valorFormatado}</p>
+                <p class="item-condicao">${produto.condicao}</p>
+            </div>
+        </div>
+    `;
+}
+
+// Função para carregar todos os produtos na página
+function carregarProdutos() {
+    const container = document.querySelector('.container-itens-pesquisados');
+    
+    // Limpar container
+    container.innerHTML = '';
+    
+    // Adicionar todos os livros
+    livro.forEach(produto => {
+        container.innerHTML += criarItemHTML(produto, 'livro');
+    });
+    
+    // Adicionar todos os discos
+    disco.forEach(produto => {
+        container.innerHTML += criarItemHTML(produto, 'disco');
+    });
+
+    // Adicionar mensagem de "sem resultados" (inicialmente oculta)
+    container.innerHTML += `
+        <div id="no-results" style="display: none;">
+            <p>Nenhum produto encontrado.</p>
+        </div>
+    `;
+}
+
+// Função da barra de pesquisa
+function configurarBarraDePesquisa() {
+    const input = document.getElementById('search');
+
+    input.addEventListener('input', (event) => {
+        const value = formatString(event.target.value);
+        
+        const Results = document.querySelectorAll('.container-itens-pesquisados .item');
+        const noResults = document.getElementById('no-results');
+
+        let temResultado = false;
+
+        Results.forEach((item) => {
+            const itemTitulo = item.querySelector('.item-titulo').textContent;
+            const itemAutor = item.querySelector('.item-autor').textContent;
+            
+            // Buscar no título e no autor/artista
+            const tituloFormatado = formatString(itemTitulo);
+            const autorFormatado = formatString(itemAutor);
+            
+            if (tituloFormatado.includes(value) || autorFormatado.includes(value)) {
+                item.style.display = 'flex';
+                temResultado = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        if (temResultado) {
+            noResults.style.display = 'none';
+        } else {
+            noResults.style.display = 'block';
+        }
+    });
 }
 
 function carregarMenu() {
-    
     //Vizualizar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");
     img_fotodeperfil.src = `imgs/usuario/${id}.jpg`;
+}
 
-    const coresBootstrap = [
-        'primary', 'secondary', 'success', 'danger',
-        'warning', 'info', 'dark'
-    ];
-    
-                    fetch('itens.json')
-                        .then(response => response.json())
-                        .then(data => {
-                            const selecionados = selecionarItensAleatorios(data);
-                            
-                            const container = document.getElementById('lista-itens');
-                            selecionados.forEach(item => {
-                            const li = document.createElement('li');
-                            li.textContent = item;
-                            container.appendChild(li);
-                            });
-                        })
-                    .catch(error => console.error('Erro ao carregar itens:', error));
-
-    //Procurar por palavras chave
-    
-    let explorar_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
-    for (let palavra of palavras) {
-        let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
-        explorar_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
-            ${palavra.nome}
-        </span>`);
-    }
-
-    //Apresentar os produtos
-    let meus_discos = disco.filter(obj => obj.id_usuario == id);
-    let meus_livros = livro.filter(obj => obj.id_usuario == id);
-    let container_produtos = document.getElementById("menu-produtos__produtos");
-
-    for (let i of meus_discos) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
-                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
-                <div>
-                    <h5>${i.nome}</h5>
-                    <h6>R$ ${(i.valor/100).toFixed(2)}</h6>
-                </div>
-            </div>`)
-    }
-
-    for (let i of meus_livros) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${i.id_prod}'">
-                <img src="imgs/prod/${i.id_prod}.jpg" class="card-img-top" alt="...">
-                <div>
-                    <h5>${i.nome}</h5>
-                    <h6>R$ ${(i.valor / 100).toFixed(2)}</h6>
-                </div>
-            </div>`)
-    }
+const botao_para_vendedor = document.querySelector(".vendendor");
+botao_para_vendendor.onclick = function () {
+    window.location.href = `menu.html?id_user=${id_user}`;
 }
 
 export function irParaInicial() {
@@ -80,6 +112,19 @@ export function irParaPerfil() {
     window.location.href = `menu.html?id_user=${id}`;
 }
 
+// Função para ir para a página de login
+function irParaLogin() {
+    window.location.href = 'login.html';
+}
+
+// Expor funções para o escopo global
 window.irParaInicial = irParaInicial;
 window.irParaPerfil = irParaPerfil;
-carregarMenu()
+window.irParaLogin = irParaLogin;
+
+// Inicializar a página
+document.addEventListener('DOMContentLoaded', () => {
+    carregarMenu();
+    carregarProdutos();
+    configurarBarraDePesquisa();
+});

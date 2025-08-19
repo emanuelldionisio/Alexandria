@@ -11,8 +11,13 @@ body {
     display: flex;
     justify-content: space-between;
     background-color: #722D14;
-    padding: 5px;
+    padding: 10px;
     border-radius: 10px;}
+.lateral-esquerda {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
 .input-group {
     display: flex;
     flex-direction: row;
@@ -21,7 +26,7 @@ body {
     color: bisque;
     font-size: 20px;
     border-radius: 24px;
-    gap: 5px;
+    gap: 10px;
 }
 .campo-input {
     display: flex;
@@ -61,9 +66,96 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    color:#722D14
     
 }
 #no-results{
     display: none;
     text-align: center;
+}
+main {
+    flex: 1; /* Cresce para ocupar o espaço restante */
+    padding: 20px;
+}
+
+.container-itens-pesquisados {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.item {
+    display: flex;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.item-imagem {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+}
+
+.item-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-titulo {
+    margin: 0 0 5px 0;
+    color: #722D14;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.item-autor {
+    margin: 0 0 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.item-preco {
+    margin: 0 0 5px 0;
+    color: #d8ac3d;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-condicao {
+    margin: 0;
+    color: #888;
+    font-size: 12px;
+}
+
+#no-results {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    color: #722D14;
+    font-size: 18px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
 }

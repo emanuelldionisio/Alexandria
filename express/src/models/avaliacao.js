@@ -25,6 +25,23 @@ async function create({ cod_avaliador, cod_avaliado, nota, descricao }) {
     return avaliacao;
 }
 
+async function readAvaliadores(cod_usuario) {
+    if (!cod_usuario) {
+        throw new Error("O campo 'cod_usuario' é obrigatório");
+    }
+    const qry = await prisma.avaliacao.findMany({
+        where: {
+            cod_avaliado: cod_usuario
+        },
+        select: {
+            cod_avaliador: true,
+            nota: true,
+            descricao: true
+        }
+    });
+    return qry;
+}
+
 async function readMediaUsuario(cod_usuario) {
     
     if (!cod_usuario) {
@@ -41,4 +58,4 @@ async function readMediaUsuario(cod_usuario) {
     return (qry._avg.nota || 0).toFixed(1);    
 }
 
-export default { create, readMediaUsuario };
+export default { create, readMediaUsuario, readAvaliadores };

@@ -13,20 +13,29 @@
 <body>
     
     <header class="menu-header0">
-        <div class="input-group">
-            <div class = "input-incon"> 
-                <i class="bi bi-search"></i>
+        <div class = "lateral-esquerda">
+            <div class="menu-usuario__foto-perfil">
+                <img id="foto-de-perfil" alt="">
             </div>
+            
+            <button class="botton-icon" onclick="irParaPerfil()"> 
+                <img id="inicial_perfil" alt="perfil">
+            </button>
+            
+            <div class="input-group">
+                <div class = "input-incon"> 
+                    <i class="bi bi-search"></i>
+                </div>
 
-            <input 
-            id = "search"
-            class ="campo-input" 
-            type="text" 
-            placeholder="Pesquisar"
-            >
-        </div>      
-        
-        <div class="header">
+                <input 
+                id = "search"
+                class ="campo-input" 
+                type="text" 
+                placeholder="Pesquisando produto"
+                >
+            </div>
+        </div>
+        <div class="lateral-direita">
             <button id="inicial-icon"class="botton-icon" onclick="irParaInicial()">
                 <i class="bi bi-house-door"></i>
             </button>
@@ -34,33 +43,24 @@
             <button id="logout-icon"class="botton-icon" onclick="irParaLogin()">
                <i class="bi bi-box-arrow-right"></i>
             </button> 
-
-            <button class="botton-icon" onclick="irParaPerfil()"> 
-                <img id="inicial_perfil" alt="Sua foto de perfil">
-            </button>
         </div>
     </header>
+    <main>
+        <div class = 'container-itens-pesquisados'>
+            <h2>Produtos</h2>
+            <img id = foto-do-produto alt="">
+        </div>
 
-    <ul class="itens">
-        <li class="item-pesquisado">
-            <div class="item-image">
-                <img scr="./imgs/prod/6.jpg" alt="imagem do item">
-            </div>
-            <div class="item-info">
-                <h3 class="item-title">Título do Item</h3>
-        </li>
-        <li class="item-pesquisado">
-            <div class="item-image">
-                <img scr="./imgs/prod/6.jpg" alt="imagem do item">
-            </div>
-            <div class="item-info">
-                <h3 class="item-title">Título do Item</h3>
-        </li>
-        <li id = "no-results">
-            
-        </li>
-    </ul>
+        <div class="vendedores">
+            <h2>Vendedores</h2>
+            <ul class="lista-vendedores">
+                <img id = 'foto-de-perfil' alt = ""> 
+                <!-- Os vendedores serão adicionados aqui dinamicamente -->
+            </ul>
+        </div>
+    </main>
 
-    <script src=" ./js/lib/explorar.js"></script>
+
+    <script type="module" src="js/explorar.js"></script>
 </body>
 </html>
