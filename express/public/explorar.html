@@ -45,27 +45,22 @@
             </button> 
         </div>
     </header>
-    
-    <ul class="itens">
-        <li class="item-pesquisado">
-            <div class="item-image">
-                <img scr="./imgs/prod/6.jpg" alt="imagem do item">
-            </div>
-            <div class="item-info">
-                <h3 class="item-title">Título do Item</h3>
-        </li>
-        <li class="item-pesquisado">
-            <div class="item-image">
-                <img scr="./imgs/prod/6.jpg" alt="imagem do item">
-            </div>
-            <div class="item-info">
-                <h3 class="item-title">Título do Item</h3>
-        </li>
-        <li id = "no-results">
-            
-        </li>
-    </ul>
+    <main>
+        <div class = 'container-itens-pesquisados'>
+            <h2>Produtos</h2>
+            <img id = foto-do-produto alt="">
+        </div>
 
-    <script src=" ./js/lib/explorar.js"></script>
+        <div class="vendedores">
+            <h2>Vendedores</h2>
+            <ul class="lista-vendedores">
+                <img id = 'foto-de-perfil' alt = ""> 
+                <!-- Os vendedores serão adicionados aqui dinamicamente -->
+            </ul>
+        </div>
+    </main>
+
+
+    <script type="module" src="js/explorar.js"></script>
 </body>
 </html>
