@@ -1,7 +1,3 @@
-// Importar dados dos produtos
-import { disco } from '../../../explorar/js/data/disco.js';
-import { livro } from '../../../explorar/js/data/livro.js';
-
 // Obter ID do usuário da URL
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id_user');
