@@ -1,5 +1,7 @@
 import { menu_perfil } from './lib/menu_perfil.js';
 
+let janela_aberta = false;
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 const coresBootstrap = [
@@ -105,9 +107,11 @@ document.addEventListener('keydown', async function (e) {
 
 const botao_avaliacoes = document.querySelector(".botao-avaliacoes");
 botao_avaliacoes.onclick = async function() {
+    if (janela_aberta) return;
+    janela_aberta = true;
     botao_avaliacoes.insertAdjacentHTML('beforebegin', `
         <div class="avaliacoes">
-        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> X </button>
+        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
         <h2>Avaliações</h2>
         <div class="avaliacoes-container">
         
@@ -133,9 +137,11 @@ botao_avaliacoes.onclick = async function() {
 
 const botao_denuncias = document.querySelector(".botao-denuncias");
 botao_denuncias.onclick = async function() {
+    if (janela_aberta) return;
+    janela_aberta = true;
     botao_denuncias.insertAdjacentHTML('beforebegin', `
         <div class="denuncias">
-        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> X </button>
+        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
         <h2>Denúncias</h2>
         <div class="denuncias-container">
 

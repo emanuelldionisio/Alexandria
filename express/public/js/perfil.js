@@ -1,5 +1,6 @@
 import { menu_perfil } from './lib/menu_perfil.js';
 
+let janela_aberta = false;
 const params = new URLSearchParams(window.location.search);
 const id_user = params.get("id_user");
 const id = params.get("id_visitado");
@@ -79,6 +80,8 @@ botao_seguir.onclick = async function () {
 
 const botao_avaliar = document.getElementById("menu-usuario__opcoes__avaliar");
 botao_avaliar.onclick = function () {
+    if (janela_aberta) return;
+    janela_aberta = true;
     botao_avaliar.insertAdjacentHTML('beforebegin', `
         <form id="form-avaliacao">
             <button type="button" id="cancelar-avaliacao" onclick="window.location.reload()"> X </button>
@@ -113,6 +116,8 @@ botao_avaliar.onclick = function () {
 
 const botao_denuncia = document.querySelector(".botao-denuncia");
 botao_denuncia.onclick = function () {
+    if (janela_aberta) return;
+    janela_aberta = true;
     botao_denuncia.insertAdjacentHTML('beforebegin', `
         <form id="form-denuncia">
             <button type="button" id="cancelar-denuncia" onclick="window.location.reload()"> X </button>
@@ -140,6 +145,35 @@ botao_denuncia.onclick = function () {
         });
         window.location.reload();
     };
+}
+
+document.getElementById("menu-usuario__avaliacao").onclick = async function () {
+    if (janela_aberta) return;
+    janela_aberta = true;
+    document.getElementById("menu-usuario__avaliacao").insertAdjacentHTML('beforebegin', `
+        <div class="avaliacoes">
+        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
+        <h2>Avaliações</h2>
+        <div class="avaliacoes-container">
+        
+        </div>
+    </div>
+    `);
+    const container_avaliacao = document.querySelector(".avaliacoes-container");
+    const avaliadores = await fetch(`data/avaliadores/${id}`).then(response => response.json());
+    for (const avaliador of avaliadores) {
+        const nome = await fetch(`data/usuarionome/${avaliador.cod_avaliador}`).then(response => response.json());
+        container_avaliacao.insertAdjacentHTML(`beforeend`, `
+            <div class="avaliacao-item">
+                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id}'">
+                <div class="avaliacao-conteudo">
+                    <span class="avaliacao-nome">${nome}</span>
+                    <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>
+                    <p class="avaliacao-texto">${avaliador.descricao}</p>
+                </div>
+            </div>
+        `);
+    }
 }
 
 carregarPerfil()
