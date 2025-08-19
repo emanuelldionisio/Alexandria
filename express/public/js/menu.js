@@ -91,12 +91,6 @@ document.addEventListener('keydown', async function (e) {
         e.preventDefault();
         const nomePalavra = e.target.value.trim();
         if (nomePalavra) {
-            await fetch(`data/palavra_chave/${nomePalavra}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
             await fetch(`data/palavra_usuario`, {
                 method: 'POST',
                 headers: {

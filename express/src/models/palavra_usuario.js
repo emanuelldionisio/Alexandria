@@ -7,8 +7,19 @@ async function create({ usuario, nome }) {
     nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
     await prisma.palavraUsuario.create({
         data: {
-            usuario: usuario,
-            nome: nome
+            usuarioRef: {
+                connect: { cod: usuario }
+            },
+            palavraRef: {
+                connectOrCreate: {
+                    where: {
+                        nome: nome
+                    },
+                    create: {
+                        nome: nome
+                    }
+                }
+            }
         }
     });
     return { usuario, nome };
