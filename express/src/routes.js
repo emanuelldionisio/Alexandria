@@ -34,6 +34,24 @@ router.get('/mediaavaliacao/:id_user', async (req, res) => {
     return res.json(media);
 });
 
+router.get('/avaliadores/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const avaliadores = await Avaliacao.readAvaliadores(id_user);
+    return res.json(avaliadores);
+});
+
+router.get('/denuncias/:id_user', async (req, res) => {
+    const id_user = req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const denuncias = await Denuncia.readByUsuario(id_user);
+    return res.json(denuncias);
+});
+
 router.post('/avaliar', async (req, res) => {
     const { cod_avaliador, cod_avaliado, nota, descricao } = req.body;
     if (!cod_avaliador || !cod_avaliado || !nota || !descricao) {

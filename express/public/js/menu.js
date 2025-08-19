@@ -109,4 +109,60 @@ document.addEventListener('keydown', async function (e) {
     }
 });
 
+const botao_avaliacoes = document.querySelector(".botao-avaliacoes");
+botao_avaliacoes.onclick = async function() {
+    botao_avaliacoes.insertAdjacentHTML('beforebegin', `
+        <div class="avaliacoes">
+        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> X </button>
+        <h2>Avaliações</h2>
+        <div class="avaliacoes-container">
+        
+        </div>
+    </div>
+    `);
+    const container_avaliacao = document.querySelector(".avaliacoes-container");
+    const avaliadores = await fetch(`data/avaliadores/${id}`).then(response => response.json());
+    for (const avaliador of avaliadores) {
+        const nome = await fetch(`data/usuarionome/${avaliador.cod_avaliador}`).then(response => response.json());
+        container_avaliacao.insertAdjacentHTML(`beforeend`, `
+            <div class="avaliacao-item">
+                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id}'">
+                <div class="avaliacao-conteudo">
+                    <span class="avaliacao-nome">${nome}</span>
+                    <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>
+                    <p class="avaliacao-texto">${avaliador.descricao}</p>
+                </div>
+            </div>
+        `);
+    }
+}
+
+const botao_denuncias = document.querySelector(".botao-denuncias");
+botao_denuncias.onclick = async function() {
+    botao_denuncias.insertAdjacentHTML('beforebegin', `
+        <div class="denuncias">
+        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> X </button>
+        <h2>Denúncias</h2>
+        <div class="denuncias-container">
+
+        </div>
+    </div>
+    `);
+    const container_denuncia = document.querySelector(".denuncias-container");
+    const denuncias = await fetch(`data/denuncias/${id}`).then(response => response.json());
+
+    for (const denuncia of denuncias) {
+        const nome = await fetch(`data/usuarionome/${denuncia.denunciado}`).then(response => response.json());
+        container_denuncia.insertAdjacentHTML(`beforeend`, `
+            <div class="denuncia-item">
+                <img src="../imgs/usuario/${denuncia.denunciado}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${denuncia.denunciado}&id_user=${id}'">
+                <div class="denuncia-conteudo">
+                    <span class="denuncia-nome">${nome}</span>
+                    <span class="denuncia-texto">${denuncia.descricao}</span>
+                </div>
+            </div>
+        `);
+    }
+}
+
 carregarMenu()

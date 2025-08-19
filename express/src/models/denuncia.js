@@ -28,6 +28,24 @@ async function create({ denunciante, denunciado, descricao }) {
     }
 }
 
+async function readByUsuario(denunciante) {
+    if (!denunciante) {
+        throw new Error("Campo 'denunciante' é obrigatório");
+    }
+
+    try {
+        const denuncias = await prisma.denuncia.findMany({
+            where: {
+                denunciante: denunciante
+            }
+        });
+        return denuncias;
+    } catch (error) {
+        throw new Error('Error reading denuncias');
+    }
+}
+
 export default {
-    create
+    create,
+    readByUsuario
 };
