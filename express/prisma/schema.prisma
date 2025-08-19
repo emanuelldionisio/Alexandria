@@ -30,7 +30,7 @@ model Usuario {
   cidade String
   bairro String
   rua String
-  senha String 
+  senha String
   num_casa Int
   dt_nascimento DateTime 
   livros Livro[]
