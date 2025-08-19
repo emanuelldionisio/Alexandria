@@ -1,4 +1,5 @@
 import express from 'express'
+import prisma from "./database/database.js";
 
 import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
@@ -235,4 +236,52 @@ router.post('/denunciar', async (req, res) => {
     }
 });
 
+router.get('/api/produtos', async (req, res) => {
+    const search = req.query.search || "";
+    try {
+        const discos = await prisma.disco.findMany({
+            where: {
+                OR: [
+                    { nome: { contains: search, mode: "insensitive" } },
+                    { artista: { contains: search, mode: "insensitive" } }
+                ]
+            }
+        });
+        const livros = await prisma.livro.findMany({
+            where: {
+                OR: [
+                    { nome: { contains: search, mode: "insensitive" } },
+                    { autor: { contains: search, mode: "insensitive" } }
+                ]
+            }
+        });
+        const produtos = [
+            ...discos.map(d => ({ ...d, tipo: "disco" })),
+            ...livros.map(l => ({ ...l, tipo: "livro" }))
+        ];
+        res.json(produtos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+router.get('/api/vendedores', async (req, res) => {
+    const search = req.query.search || "";
+    try {
+        const vendedores = await prisma.usuario.findMany({
+            where: {
+                nome: { contains: search, mode: "insensitive" }
+            },
+            select: {
+                cod: true,
+                nome: true,
+                email: true
+            }
+        });
+        res.json(vendedores);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 export default router;
