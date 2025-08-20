@@ -180,7 +180,7 @@ router.post('/palavra_usuario', async (req, res) => {
 });
 
 router.get('/produto/:id_prod/:tipo', async (req, res) => {
-    const id_prod = Number(req.params.id_prod);
+    const id_prod = req.params.id_prod;
     const tipo = req.params.tipo;
 
     
