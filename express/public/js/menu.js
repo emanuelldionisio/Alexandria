@@ -165,4 +165,18 @@ botao_denuncias.onclick = async function() {
     }
 }
 
-carregarMenu()
+const botao_uploadfoto = document.getElementById("upload-foto");
+const foto_de_perfil = document.getElementById("foto-de-perfil");
+const botao_alterarfoto = document.getElementById("alterar-foto");
+let novafoto = false;
+
+foto_de_perfil.addEventListener("click", function() {
+    botao_uploadfoto.click();
+});
+
+botao_uploadfoto.addEventListener("change", async function() {
+    foto_de_perfil.src = URL.createObjectURL(botao_uploadfoto.files[0]);
+    novafoto = true;
+});
+
+carregarMenu();

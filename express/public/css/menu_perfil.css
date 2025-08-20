@@ -54,11 +54,48 @@ button {
     font-size: 30px;
 }
 
+.menu-usuario__foto-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
 .menu-usuario__foto-perfil img {
     height: 125px;
     width: 125px;
     border-radius: 10px;
+}
+
+.menu-usuario__foto-perfil img:hover {
+    filter: brightness(0.8);
+}
+
+/* Esconde o botão de arquivo padrão (input type="file") */
+#upload-foto {
+    display: none;
+    /* Deixa o input de arquivo invisível */
+}
+
+/* Estilo do botão de submit personalizado */
+input[type="submit"] {
+    background-color: #007bff;
+    /* Cor de fundo azul */
+    color: white;
+    /* Cor do texto */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    /* Cantos arredondados */
+    cursor: pointer;
+    /* Muda o cursor ao passar o mouse */
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    /* Transição suave na cor */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+    /* Escurece a cor no hover */
 }
 
 .menu-usuario__informacoes__nome {
