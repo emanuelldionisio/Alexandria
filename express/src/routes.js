@@ -1,5 +1,4 @@
 import express from 'express'
-import prisma from "./database/database.js";
 
 import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
