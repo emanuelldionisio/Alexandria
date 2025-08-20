@@ -45,4 +45,5 @@ async function deletar({ nome }) {
     
     console.log(`Palavra-chave '${nome}' deletada com sucesso.`);
 }
+
 export default { read_all, create, deletar };

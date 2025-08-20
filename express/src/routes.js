@@ -236,52 +236,24 @@ router.post('/denunciar', async (req, res) => {
     }
 });
 
-router.get('/api/produtos', async (req, res) => {
+router.get('/produtos', async (req, res) => {
     const search = req.query.search || "";
     try {
-        const discos = await prisma.disco.findMany({
-            where: {
-                OR: [
-                    { nome: { contains: search, mode: "insensitive" } },
-                    { artista: { contains: search, mode: "insensitive" } }
-                ]
-            }
-        });
-        const livros = await prisma.livro.findMany({
-            where: {
-                OR: [
-                    { nome: { contains: search, mode: "insensitive" } },
-                    { autor: { contains: search, mode: "insensitive" } }
-                ]
-            }
-        });
-        const produtos = [
-            ...discos.map(d => ({ ...d, tipo: "disco" })),
-            ...livros.map(l => ({ ...l, tipo: "livro" }))
-        ];
+        const produtos = await Produto.searchProdutos(search);
         res.json(produtos);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-
-router.get('/api/vendedores', async (req, res) => {
+router.get('/vendedores', async (req, res) => {
     const search = req.query.search || "";
     try {
-        const vendedores = await prisma.usuario.findMany({
-            where: {
-                nome: { contains: search, mode: "insensitive" }
-            },
-            select: {
-                cod: true,
-                nome: true,
-                email: true
-            }
-        });
+        const vendedores = await Usuario.searchVendedores(search);
         res.json(vendedores);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
 export default router;

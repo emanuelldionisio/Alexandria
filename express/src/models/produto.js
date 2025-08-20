@@ -118,4 +118,27 @@ async function readByUsuario(id_usuario, modo="incluir") {
     }    
 }
 
-export default { create, remove, readById, readByUsuario };
+async function searchProdutos(query = "") {
+    const discos = await prisma.disco.findMany({
+        where: {
+            OR: [
+                { nome: { contains: query, mode: "insensitive" } },
+                { artista: { contains: query, mode: "insensitive" } }
+            ]
+        }
+    });
+    const livros = await prisma.livro.findMany({
+        where: {
+            OR: [
+                { nome: { contains: query, mode: "insensitive" } },
+                { autor: { contains: query, mode: "insensitive" } }
+            ]
+        }
+    });
+    return [
+        ...discos.map(d => ({ ...d, tipo: "disco" })),
+        ...livros.map(l => ({ ...l, tipo: "livro" }))
+    ];
+}
+
+export default { create, remove, readById, readByUsuario, searchProdutos };
