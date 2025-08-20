@@ -1,21 +1,21 @@
 const searchInput = document.getElementById("search");
-const produtosContainer = document.querySelector(".container-itens-pesquisados");
+const produtosContainer = document.querySelector(".container-produtos");
 const vendedoresList = document.querySelector(".lista-vendedores");
 
 // Função para buscar produtos no backend
 async function buscarProdutos(query = "") {
-    const res = await fetch(`/api/produtos?search=${encodeURIComponent(query)}`);
+    const res = await fetch(`/produtos?search=${encodeURIComponent(query)}`);
     if (!res.ok) return [];
     return await res.json();
 }
-
 // Função para buscar vendedores no backend
 async function buscarVendedores(query = "") {
-    const res = await fetch(`/api/vendedores?search=${encodeURIComponent(query)}`);
+    const res = await fetch(`/vendedores?search=${encodeURIComponent(query)}`);
     if (!res.ok) return [];
     return await res.json();
 }
 
+//----------------
 // Renderiza produtos na página
 function renderProdutos(produtos) {
     produtosContainer.innerHTML = `<h2>Produtos</h2>`;

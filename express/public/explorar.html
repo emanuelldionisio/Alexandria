@@ -14,10 +14,9 @@
     
     <header class="menu-header0">
         <div class = "lateral-esquerda">
-            <div class="menu-usuario__foto-perfil">
-                <img id="foto-de-perfil" alt="">
-            </div>
-            
+            <button class="botao-de-voltar" onclick="history.back()">
+                <i class="bi bi-arrow-left"></i>
+            </button>            
             <button class="botton-icon" onclick="irParaPerfil()"> 
                 <img id="inicial_perfil" alt="perfil">
             </button>
@@ -45,20 +44,16 @@
             </button> 
         </div>
     </header>
-    <main>
-        <div class = 'container-itens-pesquisados'>
-            <h2>Produtos</h2>
-            <img id = foto-do-produto alt="">
-        </div>
 
-        <div class="vendedores">
+    <div class="container-itens-pesquisados">
+        <div class="container-produtos">
+        </div>
+        <div class="container-usuarios">
             <h2>Vendedores</h2>
             <ul class="lista-vendedores">
-                <img id = 'foto-de-perfil' alt = ""> 
-                <!-- Os vendedores serão adicionados aqui dinamicamente -->
             </ul>
         </div>
-    </main>
+    </div>
 
 
     <script type="module" src="js/explorar.js"></script>
