@@ -7,7 +7,8 @@ import PalavraUsuario from './models/palavra_usuario.js'
 import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 import Denuncia from './models/denuncia.js'
-/**
+
+/*
  import { segue } from './data/segue.js'
  import { palavra_usuario } from './data/palavra_usuario.js'
  import { disco } from './data/disco.js'
@@ -232,6 +233,26 @@ router.post('/denunciar', async (req, res) => {
         return res.status(201).json(denuncia);
     } catch (error) {
         return res.status(500).json({ error: error.message });
+    }
+});
+
+router.get('/produtos', async (req, res) => {
+    const search = req.query.search || "";
+    try {
+        const produtos = await Produto.searchProdutos(search);
+        res.json(produtos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.get('/vendedores', async (req, res) => {
+    const search = req.query.search || "";
+    try {
+        const vendedores = await Usuario.searchVendedores(search);
+        res.json(vendedores);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

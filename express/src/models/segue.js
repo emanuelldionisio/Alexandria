@@ -73,7 +73,7 @@ async function readById({ seguido, seguinte }) {
 
     const result = await prisma.segue.findUnique({
         where: {
-            seguido_seguinte: {
+            seguinte_seguido: {
                 seguido: seguido,
                 seguinte: seguinte
             }

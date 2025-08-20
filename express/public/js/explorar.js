@@ -1,126 +1,77 @@
-// Obter ID do usuário da URL
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get('id_user');
+const searchInput = document.getElementById("search");
+const produtosContainer = document.querySelector(".container-itens-pesquisados");
+const vendedoresList = document.querySelector(".lista-vendedores");
 
-// Função para formatar string (remover acentos e converter para minúscula)
-function formatString(str) {
-    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+// Função para buscar produtos no backend
+async function buscarProdutos(query = "") {
+    const res = await fetch(`/api/produtos?search=${encodeURIComponent(query)}`);
+    if (!res.ok) return [];
+    return await res.json();
 }
 
-// Função para criar o HTML de um item de produto
-function criarItemHTML(produto, tipo) {
-    const valorFormatado = (produto.valor / 100).toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    });
+// Função para buscar vendedores no backend
+async function buscarVendedores(query = "") {
+    const res = await fetch(`/api/vendedores?search=${encodeURIComponent(query)}`);
+    if (!res.ok) return [];
+    return await res.json();
+}
 
-    return `
-        <div class="item" data-tipo="${tipo}">
-            <div class="item-imagem">
-                <img src="imgs/${tipo}s/${produto.id_prod}.jpg" alt="${produto.nome}" onerror="this.src='imgs/placeholder.jpg'">
+// Renderiza produtos na página
+function renderProdutos(produtos) {
+    produtosContainer.innerHTML = `<h2>Produtos</h2>`;
+    produtos.forEach(prod => {
+        produtosContainer.insertAdjacentHTML("beforeend", `
+            <div class="produto-card" onclick="window.location.href='produto.html?id_prod=${prod.id_prod}'">
+                <img src="imgs/prod/${prod.id_prod}.jpg" alt="${prod.nome}">
+                <div>
+                    <h5>${prod.nome}</h5>
+                    <p>${prod.descricao}</p>
+                    <span>R$ ${prod.valor}</span>
+                </div>
             </div>
-            <div class="item-info">
-                <h3 class="item-titulo">${produto.nome}</h3>
-                <p class="item-autor">${tipo === 'disco' ? produto.artista : produto.autor}</p>
-                <p class="item-preco">${valorFormatado}</p>
-                <p class="item-condicao">${produto.condicao}</p>
-            </div>
-        </div>
-    `;
-}
-
-// Função para carregar todos os produtos na página
-function carregarProdutos() {
-    const container = document.querySelector('.container-itens-pesquisados');
-    
-    // Limpar container
-    container.innerHTML = '';
-    
-    // Adicionar todos os livros
-    livro.forEach(produto => {
-        container.innerHTML += criarItemHTML(produto, 'livro');
-    });
-    
-    // Adicionar todos os discos
-    disco.forEach(produto => {
-        container.innerHTML += criarItemHTML(produto, 'disco');
-    });
-
-    // Adicionar mensagem de "sem resultados" (inicialmente oculta)
-    container.innerHTML += `
-        <div id="no-results" style="display: none;">
-            <p>Nenhum produto encontrado.</p>
-        </div>
-    `;
-}
-
-// Função da barra de pesquisa
-function configurarBarraDePesquisa() {
-    const input = document.getElementById('search');
-
-    input.addEventListener('input', (event) => {
-        const value = formatString(event.target.value);
-        
-        const Results = document.querySelectorAll('.container-itens-pesquisados .item');
-        const noResults = document.getElementById('no-results');
-
-        let temResultado = false;
-
-        Results.forEach((item) => {
-            const itemTitulo = item.querySelector('.item-titulo').textContent;
-            const itemAutor = item.querySelector('.item-autor').textContent;
-            
-            // Buscar no título e no autor/artista
-            const tituloFormatado = formatString(itemTitulo);
-            const autorFormatado = formatString(itemAutor);
-            
-            if (tituloFormatado.includes(value) || autorFormatado.includes(value)) {
-                item.style.display = 'flex';
-                temResultado = true;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-
-        if (temResultado) {
-            noResults.style.display = 'none';
-        } else {
-            noResults.style.display = 'block';
-        }
+        `);
     });
 }
 
-function carregarMenu() {
-    //Vizualizar a foto de perfil
-    let img_fotodeperfil = document.getElementById("foto-de-perfil");
-    img_fotodeperfil.src = `imgs/usuario/${id}.jpg`;
+// Renderiza vendedores na página
+function renderVendedores(vendedores) {
+    vendedoresList.innerHTML = "";
+    vendedores.forEach(vend => {
+        vendedoresList.insertAdjacentHTML("beforeend", `
+            <li>
+                <img src="imgs/usuario/${vend.cod}.jpg" alt="${vend.nome}">
+                <span>${vend.nome}</span>
+            </li>
+        `);
+    });
 }
 
-const botao_para_vendedor = document.querySelector(".vendendor");
-botao_para_vendendor.onclick = function () {
-    window.location.href = `menu.html?id_user=${id_user}`;
+// Função principal para carregar dados
+async function carregarExplorar(query = "") {
+    const [produtos, vendedores] = await Promise.all([
+        buscarProdutos(query),
+        buscarVendedores(query)
+    ]);
+    renderProdutos(produtos);
+    renderVendedores(vendedores);
 }
 
-export function irParaInicial() {
-    window.location.href = `inicial.html?id_user=${id}`;
-}
-export function irParaPerfil() {
-    window.location.href = `menu.html?id_user=${id}`;
-}
+// Eventos de navegação
+window.irParaPerfil = function() {
+    window.location.href = "perfil.html";
+};
+window.irParaInicial = function() {
+    window.location.href = "inicial.html";
+};
+window.irParaLogin = function() {
+    window.location.href = "login.html";
+};
 
-// Função para ir para a página de login
-function irParaLogin() {
-    window.location.href = 'login.html';
-}
-
-// Expor funções para o escopo global
-window.irParaInicial = irParaInicial;
-window.irParaPerfil = irParaPerfil;
-window.irParaLogin = irParaLogin;
-
-// Inicializar a página
-document.addEventListener('DOMContentLoaded', () => {
-    carregarMenu();
-    carregarProdutos();
-    configurarBarraDePesquisa();
+// Evento de pesquisa
+searchInput.addEventListener("input", (e) => {
+    const query = e.target.value;
+    carregarExplorar(query);
 });
+
+// Carrega dados ao abrir a página
+carregarExplorar();
