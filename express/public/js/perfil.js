@@ -24,7 +24,7 @@ function carregarPerfil() {
         throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
     }
 
-    menu_perfil(id, "perfil");
+    menu_perfil(id, "perfil", id_user);
 
     //Adicionar o nome do user
     let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");

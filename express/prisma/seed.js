@@ -1,17 +1,20 @@
 import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { PrismaClient } from '../src/generated/prisma/client.js';
+import bcrypt from 'bcrypt';
 
+const saltRounds = parseInt(process.env.BCRYPT_SALT);
 const prisma = new PrismaClient();
 
 async function main() {
     const file = resolve('prisma', 'seed.json');
     const seed = JSON.parse(readFileSync(file));
 
-    seed.usuario.forEach(element => {
+    for (const element of seed.usuario) {
         element.dt_nascimento = new Date(element.dt_nascimento);
-    });
-
+        element.senha = await bcrypt.hashSync(element.senha, saltRounds);
+    };
+    
     await prisma.usuario.createMany({
         data: seed.usuario
     });

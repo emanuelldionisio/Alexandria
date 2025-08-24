@@ -1,5 +1,6 @@
 
-export async function menu_perfil(id, pagina) {
+export async function menu_perfil(id, pagina, id_user=-1) {
+    id_user = id_user == -1 ? id : id_user;
     const palavras = await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
     const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
     const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
@@ -62,7 +63,7 @@ export async function menu_perfil(id, pagina) {
     let container_produtos = document.getElementById("menu-produtos__produtos");
 
     for (let livro of produtos.livros) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${livro.id_prod}&id_user=${id}&tipo=livro'">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${livro.id_prod}&id_user=${id_user}&tipo=livro'">
                 <img src="imgs/livros/${livro.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${livro.nome}</h5>
@@ -72,7 +73,7 @@ export async function menu_perfil(id, pagina) {
     }
 
     for (let disco of produtos.discos) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${disco.id_prod}&id_user=${id}&tipo=disco'">
+        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${disco.id_prod}&id_user=${id_user}&tipo=disco'">
                 <img src="imgs/discos/${disco.id_prod}.jpg" class="card-img-top" alt="...">
                 <div>
                     <h5>${disco.nome}</h5>
