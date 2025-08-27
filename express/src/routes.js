@@ -236,24 +236,10 @@ router.post('/denunciar', async (req, res) => {
     }
 });
 
-router.get('/produtos', async (req, res) => {
-    const search = req.query.search || "";
-    try {
-        const produtos = await Produto.searchProdutos(search);
-        res.json(produtos);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
 router.get('/vendedores', async (req, res) => {
-    const search = req.query.search || "";
-    try {
-        const vendedores = await Usuario.searchVendedores(search);
-        res.json(vendedores);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+    const {id_user} = req.query;
+    const vendedores = await Usuario.readVendedoresDisponíveis(id_user);
+    return res.json(vendedores);
 });
 
 export default router;

@@ -58,17 +58,14 @@ async function readLogin(senha, email) {
     return resultado
 }
 
-async function searchVendedores(query = "") {
-    return await prisma.usuario.findMany({
-        where: {
-            nome: { contains: query, mode: "insensitive" }
-        },
-        select: {
-            cod: true,
-            nome: true,
-            email: true
-        }
-    });
+async function readVendedoresDisponíveis(id_user) {
+    const vendedores = await prisma.usuario.findMany({
+            where: {
+                id_usuario: {
+                    not: id_user
+                }
+            }})
+    return vendedores
 }
 
-export default { create, readById, readLogin, updateName, searchVendedores }
+export default { create, readById, readLogin, updateName, readVendedoresDisponíveis }
