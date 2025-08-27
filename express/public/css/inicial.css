@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-#body_inicial {
-    background-color: #e6ddc6;
+.body_inicial {
+    background-color: #4a3a10;
 }
 
 #inicial_header {
@@ -42,7 +42,7 @@ button {
     height: 4vh;
 }
 
-.inicial_contato {
+#inicial_contato {
     font-size: 10px;
     color: #e6ddc6;
     margin-right: 10px;
