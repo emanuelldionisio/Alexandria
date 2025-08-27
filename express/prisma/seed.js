@@ -46,7 +46,26 @@ async function main() {
     await prisma.denuncia.createMany({
         data: seed.denuncia
     });
+
+     await prisma.carrinho_disco.createMany({
+        data: seed.carrinho_disco
+    });
+
+    await prisma.carrinho_livro.createMany({
+        data: seed.carrinho_livro
+    });
+
+    await prisma.desejos_livro.createMany({
+        data: seed.desejos_livro
+    });
+
+    await prisma.desejos_disco.createMany({
+        data: seed.desejos_disco
+    });
+
 }
+
+
 
 main()
     .then(async () => {

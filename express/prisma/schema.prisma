@@ -42,6 +42,10 @@ model Usuario {
   palavras_chave PalavraUsuario[]
   denunciou Denuncia[] @relation("denunciante")
   denunciadopor Denuncia[] @relation("denunciado")
+
+  desejos_disco desejos_disco[]
+
+  desejos_livro desejos_livro[]
 }
 
 model Denuncia {
@@ -121,4 +125,18 @@ model PalavraDisco {
   discoRef Disco @relation(fields: [disco], references: [id_prod])
   palavraRef PalavraChave @relation(fields: [palavra], references: [nome])
   @@id([disco, palavra])
+}
+
+model desejos_disco {
+  id_usuario String
+  id_prod String
+  usuario Usuario @relation(fields: [id_usuario], references: [cod])
+  @@id([id_usuario, id_prod])
+}
+
+model desejos_livro {
+  id_usuario String
+  id_prod String
+  usuario Usuario @relation(fields: [id_usuario], references: [cod])
+  @@id([id_usuario, id_prod])
 }
