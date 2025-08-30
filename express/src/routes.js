@@ -63,12 +63,12 @@ router.post('/avaliar', async (req, res) => {
     return res.sendStatus(204);
 });
 
-router.get('/produtoByUsuario', async (req, res) => {
-    const { id_usuario, modo } = req.query;
+router.post('/produtoByUsuario', async (req, res) => {
+    const { id_usuario, modo, filtros } = req.body;
     if (!id_usuario) {
         throw new HttpError('Faltam parâmetros: id_usuario', 400);
     }
-    const produtos = await Produto.readByUsuario(id_usuario, modo);
+    const produtos = await Produto.readByUsuario(id_usuario, modo, filtros);
     return res.json(produtos);
 });
 

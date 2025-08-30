@@ -1,11 +1,46 @@
 
+
 export async function menu_perfil(id, pagina, id_user=-1) {
+    
+    async function renderizarProdutos(produtos) {
+        let container_produtos = document.getElementById("menu-produtos__produtos");
+        container_produtos.innerHTML = "";
+        for (let livro of produtos.livros) {
+            container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${livro.id_prod}&id_user=${id_user}&tipo=livro'">
+                    <img src="imgs/livros/${livro.id_prod}.jpg" class="card-img-top" alt="...">
+                    <div>
+                        <h5>${livro.nome}</h5>
+                        <h6>R$ ${(livro.valor / 100).toFixed(2)}</h6>
+                    </div>
+                </div>`)
+        }
+    
+        for (let disco of produtos.discos) {
+            container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${disco.id_prod}&id_user=${id_user}&tipo=disco'">
+                    <img src="imgs/discos/${disco.id_prod}.jpg" class="card-img-top" alt="...">
+                    <div>
+                        <h5>${disco.nome}</h5>
+                        <h6>R$ ${(disco.valor / 100).toFixed(2)}</h6>
+                    </div>
+                </div>`)
+        }
+    }
+
     id_user = id_user == -1 ? id : id_user;
     const palavras = await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
     const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
     const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
-    const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=incluir`).then(response => response.json());
-    
+    let produtos = await fetch("data/produtoByUsuario", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id_usuario: id,
+            modo: "incluir",
+        })
+    }).then(response => response.json());
+
     const coresBootstrap = [
             'primary', 'secondary', 'success', 'danger',
             'warning', 'info', 'dark'
@@ -59,26 +94,25 @@ export async function menu_perfil(id, pagina, id_user=-1) {
         }
     }
 
-    //Adicionar os produtos
-    let container_produtos = document.getElementById("menu-produtos__produtos");
+    renderizarProdutos(produtos, { id });
 
-    for (let livro of produtos.livros) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${livro.id_prod}&id_user=${id_user}&tipo=livro'">
-                <img src="imgs/livros/${livro.id_prod}.jpg" class="card-img-top" alt="...">
-                <div>
-                    <h5>${livro.nome}</h5>
-                    <h6>R$ ${(livro.valor/100).toFixed(2)}</h6>
-                </div>
-            </div>`)
-    }
+    const input_pesquisar = document.getElementById("pesquisar_produtos");
 
-    for (let disco of produtos.discos) {
-        container_produtos.insertAdjacentHTML("beforeend", `<div class="menu-produtos__produtos_produto" onclick="window.location.href = 'produto.html?id_prod=${disco.id_prod}&id_user=${id_user}&tipo=disco'">
-                <img src="imgs/discos/${disco.id_prod}.jpg" class="card-img-top" alt="...">
-                <div>
-                    <h5>${disco.nome}</h5>
-                    <h6>R$ ${(disco.valor/100).toFixed(2)}</h6>
-                </div>
-            </div>`)
-    }
+    input_pesquisar.addEventListener("input", async (e) => {
+        const valor = e.target.value.toLowerCase();
+        produtos = await fetch("data/produtoByUsuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_usuario: id,
+                modo: "incluir",
+                filtros: {
+                    nome: valor
+                }
+            })
+        }).then(response => response.json());
+        renderizarProdutos(produtos);
+    });
 }
