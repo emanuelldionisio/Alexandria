@@ -193,7 +193,7 @@ document.getElementById("menu-usuario__avaliacao").onclick = async function () {
         const nome = await fetch(`data/usuarionome/${avaliador.cod_avaliador}`).then(response => response.json());
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id}'">
+                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id_user}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>
