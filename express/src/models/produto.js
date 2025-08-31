@@ -115,7 +115,7 @@ async function readById(id_prod, tipo) {
     return produto;
 }
 
-async function readByUsuario(id_usuario, modo = "incluir") {
+async function readByUsuario(id_usuario, modo = "incluir", filtros = {}) {
     if (!id_usuario) {
         throw new Error("O campo 'id_usuario' é obrigatório");
     }
@@ -123,15 +123,21 @@ async function readByUsuario(id_usuario, modo = "incluir") {
         throw new Error("Modo inválido. Deve ser 'incluir' ou 'excluir'.");
     }
 
+    let where = {
+        ...filtros.nome && { nome: { contains: filtros.nome } },
+    }
+
     if (modo === "incluir") {
         const livros = await prisma.livro.findMany({
             where: {
-                id_usuario: id_usuario
+                id_usuario: id_usuario,
+                ...where
             }
         });
         const discos = await prisma.disco.findMany({
             where: {
-                id_usuario: id_usuario
+                id_usuario: id_usuario,
+                ...where
             }
         });
         return {
@@ -143,14 +149,16 @@ async function readByUsuario(id_usuario, modo = "incluir") {
             where: {
                 id_usuario: {
                     not: id_usuario
-                }
+                },
+                ...where
             }
         });
         const discos = await prisma.disco.findMany({
             where: {
                 id_usuario: {
                     not: id_usuario
-                }
+                },
+                ...where
             }
         });
         return {

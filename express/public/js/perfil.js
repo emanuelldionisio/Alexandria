@@ -15,8 +15,22 @@ if (id == id_user) {
 }
 
 const nome = await fetch(`data/usuarionome/${id}`).then(response => response.json());
-const seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
+let seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
 const avaliacao = await fetch(`data/mediaavaliacao/${id}`).then(response => response.json());
+
+function renderizarSeguidores() {
+    if (seguidores.find(user => user == id_user)) {
+        let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
+        container_seguir.innerHTML = "Seguindo";
+        container_seguir.style = "background-color: #595336; color: lightgrey";
+    } else {
+        let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
+        container_seguir.innerHTML = "Seguir";
+        container_seguir.style = "background-color: #44593E; color: white";
+    } 
+    let container_seguidores = document.getElementById("menu-usuario__informacoes__seguidores");
+    container_seguidores.innerHTML = seguidores.length + " seguidores";
+}
 
 function carregarPerfil() {
     if ((! id || ! id_user) || (id == id_user)) {
@@ -33,14 +47,8 @@ function carregarPerfil() {
     //Adicionar avaliação
 
     let container_avaliacao = document.getElementById("menu-usuario__avaliacao");
-    container_avaliacao.insertAdjacentHTML('beforeend', `<p>${avaliacao}</p>`);
-
-    if (seguidores.find(user => user == id_user)) {
-        let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
-        container_seguir.innerHTML = "Seguindo";
-        container_seguir.style = "background-color: #595336; color: lightgrey";
-    }
-      
+    container_avaliacao.insertAdjacentHTML('beforeend', `<p id="media-avaliacao">${avaliacao}</p>`);
+    renderizarSeguidores();
 }
 
 const botao_ir_para_inicial = document.querySelector(".botao-pagina-inicial");
@@ -66,6 +74,8 @@ botao_seguir.onclick = async function () {
             },
             body: JSON.stringify({ seguido: id, seguinte: id_user })
         });
+        seguidores.push(id_user);
+        renderizarSeguidores();
     } else {
         await fetch(`data/segue`, {
             method: 'DELETE',
@@ -73,9 +83,11 @@ botao_seguir.onclick = async function () {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ seguido: id, seguinte: id_user })
-        });   
+        });
+        seguidores = seguidores.filter(user => user != id_user);
+        renderizarSeguidores();
     }
-    window.location.reload();
+    
 }
 
 const botao_avaliar = document.getElementById("menu-usuario__opcoes__avaliar");
@@ -84,7 +96,7 @@ botao_avaliar.onclick = function () {
     janela_aberta = true;
     botao_avaliar.insertAdjacentHTML('beforebegin', `
         <form id="form-avaliacao">
-            <button type="button" id="cancelar-avaliacao" onclick="window.location.reload()"> X </button>
+            <button type="button" id="cancelar-avaliacao""> X </button>
             <label for="nota">Nota (1 a 5):</label>
             <input type="number" id="nota" name="nota" min="1" max="5" required>
             <label for="descricao">Descrição:</label>
@@ -92,17 +104,21 @@ botao_avaliar.onclick = function () {
             <button type="submit">Enviar Avaliação</button>
         </form>
     `);
+    document.getElementById("cancelar-avaliacao").onclick = async function() {
+        janela_aberta = false;
+        document.getElementById("form-avaliacao").remove();
+    };
     const form_avaliacao = document.getElementById("form-avaliacao");
     form_avaliacao.onsubmit = async function (event) {
         event.preventDefault();
         const nota = document.getElementById("nota").value;
         const descricao = document.getElementById("descricao").value;
-
+        
         if (! nota || ! descricao) {
             alert("Por favor, preencha todos os campos.");
             return;
         }
-
+        
         await fetch(`data/avaliar`, {
             method: 'POST',
             headers: {
@@ -110,7 +126,10 @@ botao_avaliar.onclick = function () {
             },
             body: JSON.stringify({ cod_avaliador: id_user, cod_avaliado: id, nota: parseInt(nota), descricao })
         });
-        window.location.reload();
+        
+        document.getElementById("form-avaliacao").remove();
+        document.getElementById("media-avaliacao").innerHTML = await fetch(`data/mediaavaliacao/${id}`).then(response => response.json());
+        janela_aberta = false;
     };
 }
 
@@ -120,12 +139,16 @@ botao_denuncia.onclick = function () {
     janela_aberta = true;
     botao_denuncia.insertAdjacentHTML('beforebegin', `
         <form id="form-denuncia">
-            <button type="button" id="cancelar-denuncia" onclick="window.location.reload()"> X </button>
+            <button type="button" id="cancelar-denuncia"> X </button>
             <label for="descricao">Descrição:</label>
             <textarea id="descricao" name="descricao"></textarea>
             <button type="submit">Enviar Denúncia</button>
         </form>
     `);
+    document.getElementById("cancelar-denuncia").onclick = function() {
+        janela_aberta = false;
+        document.getElementById("form-denuncia").remove();
+    };
     const form_denuncia = document.getElementById("form-denuncia");
     form_denuncia.onsubmit = async function (event) {
         event.preventDefault();
@@ -136,6 +159,8 @@ botao_denuncia.onclick = function () {
             return;
         }
 
+        document.getElementById("form-denuncia").remove();
+        
         await fetch(`data/denunciar`, {
             method: 'POST',
             headers: {
@@ -143,7 +168,6 @@ botao_denuncia.onclick = function () {
             },
             body: JSON.stringify({ denunciante: id_user, denunciado: id, descricao })
         });
-        window.location.reload();
     };
 }
 
@@ -152,20 +176,24 @@ document.getElementById("menu-usuario__avaliacao").onclick = async function () {
     janela_aberta = true;
     document.getElementById("menu-usuario__avaliacao").insertAdjacentHTML('beforebegin', `
         <div class="avaliacoes">
-        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
+        <button type="button" id="cancelar-avaliacoes" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
         <h2>Avaliações</h2>
         <div class="avaliacoes-container">
         
         </div>
     </div>
     `);
+    document.getElementById("cancelar-avaliacoes").onclick = function() {
+        janela_aberta = false;
+        document.querySelector(".avaliacoes").remove();
+    };
     const container_avaliacao = document.querySelector(".avaliacoes-container");
     const avaliadores = await fetch(`data/avaliadores/${id}`).then(response => response.json());
     for (const avaliador of avaliadores) {
         const nome = await fetch(`data/usuarionome/${avaliador.cod_avaliador}`).then(response => response.json());
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id}'">
+                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id_user}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>

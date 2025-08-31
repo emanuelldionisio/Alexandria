@@ -7,6 +7,7 @@ import PalavraUsuario from './models/palavra_usuario.js'
 import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 import Denuncia from './models/denuncia.js'
+import Desejo from './models/desejos.js';
 
 /*
  import { segue } from './data/segue.js'
@@ -62,12 +63,12 @@ router.post('/avaliar', async (req, res) => {
     return res.sendStatus(204);
 });
 
-router.get('/produtoByUsuario', async (req, res) => {
-    const { id_usuario, modo } = req.query;
+router.post('/produtoByUsuario', async (req, res) => {
+    const { id_usuario, modo, filtros } = req.body;
     if (!id_usuario) {
         throw new HttpError('Faltam parâmetros: id_usuario', 400);
     }
-    const produtos = await Produto.readByUsuario(id_usuario, modo);
+    const produtos = await Produto.readByUsuario(id_usuario, modo, filtros);
     return res.json(produtos);
 });
 
@@ -240,6 +241,20 @@ router.get('/vendedores', async (req, res) => {
     const {id_user} = req.query;
     const vendedores = await Usuario.readVendedoresDisponíveis(id_user);
     return res.json(vendedores);
+});
+
+router.post('/Desejos', async (req, res) => {
+  const { id_usuario, id_prod, tipo } = req.body;
+  try {
+    const novoDesejo = await Desejo.adicionar(id_usuario, id_prod, tipo);
+    res.status(201).json({
+      success: true,
+      message: 'Produto adicionado à lista de desejos',
+      data: novoDesejo
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
 
 export default router;

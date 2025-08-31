@@ -1,7 +1,16 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
-const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=excluir`).then(response => response.json());
+const produtos = await fetch("data/produtoByUsuario", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        id_usuario: id,
+        modo: "excluir"
+    })
+}).then(response => response.json());
 
 function carregarInicial() { 
     // foto do usuário

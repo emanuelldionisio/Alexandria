@@ -16,7 +16,17 @@ if (id == id_user) {
     window.location.href = `menu.html?id_user=${id_user}`;
 }
 
-const produtos = await fetch(`data/produtoByUsuario?id_usuario=${id}&modo=excluir`).then(response => response.json());
+const produtos = await fetch("data/produtoByUsuario", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        id_usuario: id_user,
+        modo: "excluir"
+    })
+}).then(response => response.json());
+
 const vendedores = await fetch(`data/vendedores?id_usuario=${id}`).then(response => response.json());
 
 // Evento de pesquisa
