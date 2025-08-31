@@ -1,4 +1,5 @@
 import { menu_perfil } from './lib/menu_perfil.js';
+import { renderizarPalavras } from './lib/renderizarPalavras.js';
 
 let janela_aberta = false;
 
@@ -43,7 +44,7 @@ botao_adicionar_palavra.onclick = function() {
     }
     let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
     botao_adicionar_palavra.insertAdjacentHTML('beforebegin', `
-        <span class= "badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra" >
+        <span class= "badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra" id="input_palavra">
                 <input type="text">
         </span>
     `);
@@ -71,7 +72,7 @@ document.getElementById("editar_nome").onclick = function() {
                     },
                     body: JSON.stringify({ nome: novoNome })
                 });
-                window.location.reload();
+                nomeUsuario.innerHTML = `Olá, ${novoNome}`;
             }
         }
     });
@@ -100,7 +101,9 @@ document.addEventListener('keydown', async function (e) {
                 },
                 body: JSON.stringify({ usuario: id, nome: nomePalavra })
             });
-            window.location.reload();
+            const palavras = await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
+            document.getElementById("input_palavra").remove();
+            renderizarPalavras(palavras, id, "menu");
         }
     }
 });
@@ -111,13 +114,17 @@ botao_avaliacoes.onclick = async function() {
     janela_aberta = true;
     botao_avaliacoes.insertAdjacentHTML('beforebegin', `
         <div class="avaliacoes">
-        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
+        <button type="button" id="fechar_avaliacoes" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
         <h2>Avaliações</h2>
         <div class="avaliacoes-container">
         
         </div>
     </div>
     `);
+    document.getElementById("fechar_avaliacoes").onclick = function() {
+        janela_aberta = false;
+        document.querySelector(".avaliacoes").remove();
+    }
     const container_avaliacao = document.querySelector(".avaliacoes-container");
     const avaliadores = await fetch(`data/avaliadores/${id}`).then(response => response.json());
     for (const avaliador of avaliadores) {
@@ -141,13 +148,19 @@ botao_denuncias.onclick = async function() {
     janela_aberta = true;
     botao_denuncias.insertAdjacentHTML('beforebegin', `
         <div class="denuncias">
-        <button type="button" onclick="window.location.reload()" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
+        <button type="button" id="fechar_denuncias" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
         <h2>Denúncias</h2>
         <div class="denuncias-container">
 
         </div>
     </div>
+    
     `);
+
+    document.getElementById("fechar_denuncias").onclick = function() {
+        janela_aberta = false;
+        document.querySelector(".denuncias").remove();
+    }
     const container_denuncia = document.querySelector(".denuncias-container");
     const denuncias = await fetch(`data/denuncias/${id}`).then(response => response.json());
 

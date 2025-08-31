@@ -321,6 +321,11 @@ input[type="submit"]:hover {
     margin-top: 55px;
 }
 
+.menu-usuario__avaliacao:hover{
+    cursor: pointer;
+    color: #B6935B;
+}
+
 .menu-palavras-chave__palavras-chave {
     display: flex;
         align-items: center;
