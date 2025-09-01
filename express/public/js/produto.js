@@ -58,4 +58,38 @@ export function irParaPerfil() {
     window.location.href = `perfil.html?id_user=${id_user}&id_visitado=${produto.id_usuario}`;
 }
 
+async function addListaDeDesejos() {
+    if (!id_produto || !cod_usuario) {
+        alert("ID do produto ou ID do usuário inválido.");
+        return;
+    }
+
+    try {
+        const res = await fetch('/desejos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_usuario: id_usuario,
+                id_prod: id_prod,
+                tipo: tipo
+            })
+        });
+        if (!res.ok) {
+            const erro = await res.json();
+            throw new Error(erro.message || "Erro ao adicionar produto à lista de desejos");
+        }
+        const resultado = await res.json();
+        alert("Produto adicionado à lista de desejos com sucesso!");
+    } catch (error) {
+        alert(error.message || "Erro ao adicionar produto à lista de desejos");
+    }
+}
+
+document.getElementById("btn-adicionar-desejo").addEventListener("click", (event) => {
+    event.preventDefault();
+    addListaDeDesejos();
+});
+
 window.irParaPerfil = irParaPerfil;
