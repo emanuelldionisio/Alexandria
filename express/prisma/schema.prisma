@@ -42,10 +42,11 @@ model Usuario {
   palavras_chave PalavraUsuario[]
   denunciou Denuncia[] @relation("denunciante")
   denunciadopor Denuncia[] @relation("denunciado")
-
   desejos_disco desejos_disco[]
-
   desejos_livro desejos_livro[]
+  carrinho_disco carrinho_disco[]
+  carrinho_livro carrinho_livro[]
+
 }
 
 model Denuncia {
@@ -135,6 +136,20 @@ model desejos_disco {
 }
 
 model desejos_livro {
+  id_usuario String
+  id_prod String
+  usuario Usuario @relation(fields: [id_usuario], references: [cod])
+  @@id([id_usuario, id_prod])
+}
+
+model carrinho_disco {
+  id_usuario String
+  id_prod String
+  usuario Usuario @relation(fields: [id_usuario], references: [cod])
+  @@id([id_usuario, id_prod])
+}
+
+model carrinho_livro {
   id_usuario String
   id_prod String
   usuario Usuario @relation(fields: [id_usuario], references: [cod])

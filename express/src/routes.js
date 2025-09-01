@@ -8,6 +8,7 @@ import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 import Denuncia from './models/denuncia.js'
 import Desejo from './models/desejos.js';
+import carrinho from './models/carrinho.js';
 
 /*
  import { segue } from './data/segue.js'
@@ -251,6 +252,20 @@ router.post('/Desejos', async (req, res) => {
       success: true,
       message: 'Produto adicionado à lista de desejos',
       data: novoDesejo
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.post('/Carrinho', async (req, res) => {
+  const { id_usuario, id_prod, tipo } = req.body;
+  try {
+    const Addcart = await Carrinho.adicionar(id_usuario, id_prod, tipo);
+    res.status(201).json({
+      success: true,
+      message: 'Produto adicionado ao seu carrinho',
+      data: Addcart
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
