@@ -73,12 +73,15 @@ router.post('/produtoByUsuario', async (req, res) => {
     return res.json(produtos);
 });
 
-router.post('/usuario', async (req, res) => {
+router.post('/cadastroUsuario', async (req, res) => {
     const { nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa } = req.body;
     if (!nome || !email || !senha || !dt_nascimento || !pais || !estado || !cidade || !bairro || !rua || !num_casa) {
         throw new HttpError('Faltam parâmetros', 400);
     }
     const new_user = await Usuario.create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa });
+    if (!new_user) {
+        throw new HttpError('Erro ao cadastrar usuário', 500);
+    }
     return res.json(new_user);
 });
 

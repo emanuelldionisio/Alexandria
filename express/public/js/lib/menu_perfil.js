@@ -27,6 +27,9 @@ export async function menu_perfil(id, pagina, id_user=-1) {
     //Adicionar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");
     img_fotodeperfil.src = `imgs/usuario/${id}.jpg`;
+    img_fotodeperfil.onerror = () => {
+        img_fotodeperfil.src = "imgs/usuario/0.jpg";
+    };
 
     renderizarProdutos(produtos, id_user);
     renderizarPalavras(palavras, id, pagina);

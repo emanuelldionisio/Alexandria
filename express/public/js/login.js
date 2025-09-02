@@ -15,7 +15,7 @@ form.onsubmit=async () => {
         return;
     }
 
-    window.location.href = `inicial.html?id_user=${id["cod"]}`;
+    window.location.href = `inicial.html?id_user=${id}`;
 };
 
 

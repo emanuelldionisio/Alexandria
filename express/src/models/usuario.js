@@ -1,27 +1,45 @@
 import prisma from "../database/database.js";
-import Database from "../database/database.js";
+import bcrypt from 'bcrypt';
+
+const saltRounds = Number(process.env.BCRYPT_SALT);
 
 async function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa }) {
-    const db = await Database.connect();
-    const new_user = { nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa };
-    for (const [key, val] of Object.entries(new_user)) {
+    const data = { nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa };
+    for (const [key, val] of Object.entries(data)) {
         if (!val && !["tel1", "tel2"].includes(key)) {
             throw new Error(`O campo ${key} é obrigatório`);
         }
     }
-    
-    if (nome && tel1 && email && dt_nascimento && pais && estado && cidade && bairro && rua && senha) {
-        const sql = `
-            INSERT INTO usuario (nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-        
-        const { lastID } = await db.run(sql, [nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa]);
-        return await readById(lastID);
-    } else {
-        throw new Error("Erro ao inserir usuário no banco de dados: campos obrigatórios não preenchidos");
+    dt_nascimento = new Date(dt_nascimento);
+
+    const hash = await bcrypt.hash(senha, saltRounds);
+
+    if (await prisma.usuario.findUnique({
+        where: {
+            email: email
+        }
+    })) {
+        throw new Error(`Usuário com email ${email} já existe`);
     }
-    
+
+    const newUser = prisma.usuario.create({
+        data: {
+            nome,
+            tel1,
+            tel2,
+            email,
+            dt_nascimento,
+            pais,
+            estado,
+            cidade,
+            bairro,
+            rua,
+            senha: hash,
+            num_casa: Number(num_casa)
+        }
+    });
+
+    return newUser;
 }
 
 async function updateName(id_user, nome) {
@@ -51,11 +69,23 @@ async function readById(id) {
     return user;
 }
 
-async function readLogin(senha, email) {
-    const db = await Database.connect();
-    const query = 'SELECT cod FROM usuario WHERE email = ? AND senha = ?';
-    const resultado = await db.get(query, [email, senha]);
-    return resultado
+async function readLogin(senha, email) { 
+    const user = await prisma.usuario.findUnique({
+        where: {
+            email: email
+        },
+        select: {
+            cod: true,
+            senha: true
+        }
+    });
+    if (!user) {
+        throw new Error(`Usuário com email ${email} não encontrado`);
+    }
+    if (! await bcrypt.compare(senha, user.senha)) {
+        throw new Error(`Senha incorreta`);
+    }
+    return user.cod;
 }
 
 async function readVendedoresDisponíveis(id_user) {

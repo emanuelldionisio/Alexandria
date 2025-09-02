@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Usuário</h1>
+        <form method="post" id="form-cadastro">
+        
+            <div class="input-box">
+                <input type="text" name="nome" placeholder="Nome completo" maxlength="64" required>
+                <i class='bx bx-user'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="tel" name="tel1" placeholder="Telefone 1" maxlength="16" required>
+                <i class='bx bx-phone'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="tel" name="tel2" placeholder="Telefone 2" maxlength="16">
+                <i class='bx bx-phone'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email" maxlength="64" required>
+                <i class='bx bx-envelope'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="date" name="dt_nascimento" required>
+                <i class='bx bx-calendar'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="text" name="pais" placeholder="País" maxlength="32" required>
+                <i class='bx bx-world'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="text" name="estado" placeholder="Estado" maxlength="16" required>
+                <i class='bx bx-map'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="text" name="cidade" placeholder="Cidade" maxlength="32" required>
+                <i class='bx bx-buildings'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="text" name="bairro" placeholder="Bairro" maxlength="32" required>
+                <i class='bx bx-map-pin'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="text" name="rua" placeholder="Rua" maxlength="128" required>
+                <i class='bx bx-road'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="number" name="num_casa" placeholder="Número da casa" required>
+                <i class='bx bx-home'></i>
+            </div>
+    
+            <div class="input-box">
+                <input type="password" name="senha" placeholder="Senha" maxlength="32" required>
+                <i class='bx bx-lock'></i>
+            </div>
+    
+            <button type="submit">Cadastrar</button>
+    
+            <div class="register-link">
+                <p>Já tem conta? <a href="login.html">Entrar</a></p>
+            </div>
+        </form>
+    </div>
+    <script type="module" src="./js/cadastro_usuario.js"></script>
+</body>
+</html>

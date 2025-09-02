@@ -3,7 +3,7 @@ const tipo = new URLSearchParams(location.search).get("tipo");
 
 id ? carregaproduto(id, tipo) : alert("ID do produto inválido na URL."); 
 
-const id_user = +new URLSearchParams(location.search).get("id_user");
+const id_user = new URLSearchParams(location.search).get("id_user");
 
 
 let produto = null;
