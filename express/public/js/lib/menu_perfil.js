@@ -4,10 +4,10 @@ import { renderizarPalavras } from "./renderizarPalavras.js";
 export async function menu_perfil(id, pagina, id_user=-1) {
       
     id_user = id_user == -1 ? id : id_user;
-    const palavras = await fetch(`data/palavra_usuario/${id}`).then(response => response.json());
-    const seguidores =  await fetch(`data/seguidores/${id}`).then(response => response.json());
-    const seguidos = await fetch(`data/seguidos/${id}`).then(response => response.json());
-    let produtos = await fetch("data/produtoByUsuario", {
+    const palavras = await fetch(`api/palavras/me`).then(response => response.json());
+    const seguidores =  await fetch(`api/seguidores/me`).then(response => response.json());
+    const seguidos = await fetch(`api/seguidos/me`).then(response => response.json());
+    let produtos = await fetch("api/produtos/me", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export async function menu_perfil(id, pagina, id_user=-1) {
 
     input_pesquisar.addEventListener("input", async (e) => {
         const valor = e.target.value.toLowerCase();
-        produtos = await fetch("data/produtoByUsuario", {
+        produtos = await fetch("api/produtos/me", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
