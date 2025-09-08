@@ -35,6 +35,18 @@ class HttpError extends Error {
     }
 }
 
+router.post('/api/usuario', async (req, res) => {
+    try {
+        const user = req.body;       
+        const newUser = await Usuario.create(user);
+        res.status(201).json(newUser);
+    } catch (error) {
+        throw new HTTPError('Unable to create user', 400);
+    }
+});
+
+
+
 router.get('/mediaavaliacao', isAuthenticated, async (req, res) => {
     const id_user = req.userId;
     if (!id_user) {
@@ -67,5 +79,7 @@ router.get("/produtos/me", isAuthenticated, async (req, res) => {
     const produtos = await Produto.readByUsuario(id_user, "incluir");
     return res.json(produtos);
 });
+
+router.get
 
 export default router;

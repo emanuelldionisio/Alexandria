@@ -3,7 +3,9 @@ form_cadastro.onsubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(form_cadastro);
     const data = Object.fromEntries(formData);
-    await fetch("data/cadastroUsuario", {
+
+
+    await fetch("api/usuario", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
