@@ -1,18 +1,40 @@
 @host = http://localhost:3000
+@token = 
 
 ###
-get {{host}}/data/mediaavaliacao/3
+get {{host}}/api/usuario/3/mediaavaliacao
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzU3NDc1MDgzLCJleHAiOjE3NTc0Nzg2ODN9.XOLeJU6TJn-XKTSWLN_WRAvRLx6cm6IjqNnE-0CXZzc
+###
+get {{host}}/api/usuario/2/avaliadores
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM2OTFkZC1iNWFhLTRhNzktOTliNy00ZjRkYTFlYTNjZDAiLCJpYXQiOjE3NTc0NzA5OTgsImV4cCI6MTc1NzQ3NDU5OH0.u9MSG7ZERh2CGLMB7joo1y1PuSB2ypJ8NiyOjLOis2A
 
 ###
-get {{host}}/data/produtoByUsuario?id_usuario=5&modo=incluir
-
-###
-get {{host}}/data/usuario
+post {{host}}/api/signin
 Content-Type: application/json
 
 {
+    "email": "emanuel.eduardo@academico.ifpb.edu.br",
+    "senha": "krobus123"
+}
 
-}       
+###
+post {{host}}/api/usuario/3/denuncia
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzU3NDc1MDgzLCJleHAiOjE3NTc0Nzg2ODN9.XOLeJU6TJn-XKTSWLN_WRAvRLx6cm6IjqNnE-0CXZzc
+
+{
+    "denunciado": "3",
+    "descricao": "Usuário muito bom, recomendo!"
+}
+
+###
+delete {{host}}/api/usuario/2/seguir
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzU3NDc1MDgzLCJleHAiOjE3NTc0Nzg2ODN9.XOLeJU6TJn-XKTSWLN_WRAvRLx6cm6IjqNnE-0CXZzc
+
+{
+    "seguido": "3"
+}
 
 ###
 post {{host}}

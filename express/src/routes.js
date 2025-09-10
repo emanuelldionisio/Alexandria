@@ -15,6 +15,7 @@ import Desejo from './models/desejos.js';
 import carrinho from './models/carrinho.js';
 import segue from './models/segue.js';
 import produto from './models/produto.js';
+import usuario from './models/usuario.js';
 
 
 /*
@@ -35,7 +36,7 @@ class HttpError extends Error {
     }
 }
 
-router.post('/api/usuario', async (req, res) => {
+router.post('/usuario', async (req, res) => {
     try {
         const user = req.body;       
         const newUser = await Usuario.create(user);
@@ -45,10 +46,8 @@ router.post('/api/usuario', async (req, res) => {
     }
 });
 
-
-
-router.get('/mediaavaliacao', isAuthenticated, async (req, res) => {
-    const id_user = req.userId;
+router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
     }
@@ -56,30 +55,166 @@ router.get('/mediaavaliacao', isAuthenticated, async (req, res) => {
     return res.json(media);
 });
 
-router.get("/palavras/me", isAuthenticated, async (req, res) => {
-    const id_user = req.userId;
-    const media = await Avaliacao.readMediaUsuario(id_user);
-    return res.json(media);
+router.get('/usuario/:id_user/avaliadores', isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const avaliadores = await usuario.readAvaliadores(id_user);
+    return res.json(avaliadores);
 });
 
-router.get("/seguidores/me", isAuthenticated, async (req, res) => {
-    const id_user = req.userId;
-    const seguidores = await Segue.readSeguidores(id_user);
+router.post("/usuario/:id_user/avaliacao", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const { nota, avaliado } = req.body;
+    if (!id_user || !nota || !avaliado) {
+        throw new HttpError('Faltam parâmetros: id_user, nota, avaliado', 400);
+    }
+    await Usuario.createAvaliacao(id_user, avaliado, nota);
+    return res.status(201).end();
+});
+
+router.post("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const { denunciado, descricao } = req.body;
+    if (!id_user || !denunciado || !descricao) {
+        throw new HttpError('Faltam parâmetros: id_user, denunciado, descricao', 400);
+    }
+    await Usuario.createDenuncia(id_user, denunciado, descricao);
+    return res.status(201).end();
+});
+
+router.get("/usuario/:id_user/denuncias", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const denuncias = await Usuario.readDenuncias(id_user);
+    return res.json(denuncias);
+});
+
+
+router.get("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const { nome } = await Usuario.readById(id_user);
+    return res.json(nome);
+});
+
+router.put("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const { nome } = req.body;
+    if (!id_user || !nome) {
+        throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+    }
+    await Usuario.updateName(id_user, nome);
+    return res.status(204).end();
+});
+
+router.get("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const palavras = await Usuario.readPalavras(id_user);
+    return res.json(palavras);
+});
+
+router.post("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const { nome } = req.body;
+    if (!id_user || !nome) {
+        throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+    }
+    await PalavraUsuario.create({ usuario: id_user, nome });
+    return res.status(201).end();
+});
+
+router.delete("/usuario/:id_user/palavras/:nome/", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const nome = req.params.nome;
+    if (!id_user || !nome) {
+        throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+    }
+    await PalavraUsuario.remove({ usuario: id_user, nome });
+    if (await PalavraUsuario.readByUsuarioCod(id_user).length == 0) {
+        await Palavra.deletar({ nome });
+    }
+    return res.status(204).end();
+});
+
+router.get("/usuario/:id_user/seguidores", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const seguidores = await Usuario.readSeguidores(id_user);
     return res.json(seguidores);
 });
 
-router.get("/seguidos/me", isAuthenticated, async (req, res) => {
-    const id_user = req.userId;
-    const seguidos = await Segue.readSeguidos(id_user);
+router.get("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const seguidos = await Usuario.readSeguidos(id_user);
     return res.json(seguidos);
 });
 
-router.get("/produtos/me", isAuthenticated, async (req, res) => {
-    const id_user = req.userId;
-    const produtos = await Produto.readByUsuario(id_user, "incluir");
+router.post("/usuario/:id_user/seguir", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const { seguido } = req.body;
+    if (!id_user || !seguido) {
+        throw new HttpError('Faltam parâmetros: id_user, seguido', 400);
+    }
+    await Usuario.seguir(id_user, seguido);
+    return res.status(204).end();
+});
+
+router.delete("/usuario/:id_user/seguir", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const { seguido } = req.body;
+    if (!id_user || !seguido) {
+        throw new HttpError('Faltam parâmetros: id_user, seguido', 400);
+    }
+    await Usuario.deixarDeSeguir(id_user, seguido);
+    return res.status(204).end();
+});
+
+router.get("/usuario/:id_user/produtos", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    const search = req.query.search || "";
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const produtos = await Usuario.readProdutos(id_user, search);
     return res.json(produtos);
 });
 
-router.get
+router.post("/signin", async (req, res) => {
+    try {
+        const { email, senha } = req.body;
+        const { cod, senha: hash } = await Usuario.readByEmail(email);
+        if (! await bcrypt.compare(senha, hash)) {
+            throw new HttpError('Senha incorreta', 400);
+        }
+
+        
+
+        const token = jwt.sign(
+            { userId: cod },
+            process.env.JWT_SECRET,
+            { expiresIn: '3600000' }
+        );
+
+        return res.json({ auth: true, token });
+    
+    } catch (error) {
+        throw new HttpError('Erro ao fazer login', 400);
+    }
+});
+
 
 export default router;

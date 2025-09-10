@@ -4,19 +4,10 @@ import { renderizarPalavras } from "./renderizarPalavras.js";
 export async function menu_perfil(id, pagina, id_user=-1) {
       
     id_user = id_user == -1 ? id : id_user;
-    const palavras = await fetch(`api/palavras/me`).then(response => response.json());
-    const seguidores =  await fetch(`api/seguidores/me`).then(response => response.json());
-    const seguidos = await fetch(`api/seguidos/me`).then(response => response.json());
-    let produtos = await fetch("api/produtos/me", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            id_usuario: id,
-            modo: "incluir",
-        })
-    }).then(response => response.json());
+    const palavras = await fetch(`api/usuario/me/palavras`).then(response => response.json());
+    const seguidores =  await fetch(`api/usuario/me/seguidores`).then(response => response.json());
+    const seguidos = await fetch(`api/usuario/me/seguidos`).then(response => response.json());
+    let produtos = await fetch("api/usuario/me/produtos").then(response => response.json());
     
     let container_seguidores = document.getElementById("menu-usuario__informacoes__seguidores");
     container_seguidores.innerHTML = seguidores.length + " seguidores";
@@ -38,19 +29,7 @@ export async function menu_perfil(id, pagina, id_user=-1) {
 
     input_pesquisar.addEventListener("input", async (e) => {
         const valor = e.target.value.toLowerCase();
-        produtos = await fetch("api/produtos/me", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id_usuario: id,
-                modo: "incluir",
-                filtros: {
-                    nome: valor
-                }
-            })
-        }).then(response => response.json());
+        produtos = await fetch(`api/usuario/me/produtos?search=${valor}`).then(response => response.json());
         renderizarProdutos(produtos);
     });
 }

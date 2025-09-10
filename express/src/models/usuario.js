@@ -3,6 +3,66 @@ import bcrypt from 'bcrypt';
 
 const saltRounds = Number(process.env.BCRYPT_SALT);
 
+async function readProdutos(cod, search="") {
+    const where = {...search && {contains: search}};
+    return await prisma.usuario.findMany({
+        where: {
+            cod: cod,
+        },
+        select: {
+            livros: {
+                where: {
+                    nome: where
+                }
+            },
+            discos: {
+                where: {
+                    nome: where
+                }
+            }
+        }
+    })
+}
+
+async function readPalavras(cod) {
+    return await prisma.usuario.findUnique({
+        where: {
+            cod: cod
+        },
+        select: {
+            palavras_chave: true
+        }
+    });
+}
+
+async function readSeguidores(cod) {
+    return await prisma.usuario.findUnique({
+        where: {
+            cod: cod
+        },
+        select: {
+            seguidores: true
+        }
+    });
+}
+
+async function readSeguidos(cod) {
+    return await prisma.usuario.findUnique({
+        where: {
+            cod: cod
+        },
+        select: {
+            seguindo: true
+        }
+    });
+}
+
+async function seguir(seguinte, seguido) {
+    return await prisma.segue.create({
+        data: { seguinte, seguido }
+    });
+}
+
 async function create({ nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa }) {
     const data = { nome, tel1, tel2, email, dt_nascimento, pais, estado, cidade, bairro, rua, senha, num_casa };
     for (const [key, val] of Object.entries(data)) {
@@ -69,7 +129,7 @@ async function readById(id) {
     return user;
 }
 
-async function readLogin(senha, email) { 
+async function readByEmail(email) { 
     const user = await prisma.usuario.findUnique({
         where: {
             email: email
@@ -82,10 +142,82 @@ async function readLogin(senha, email) {
     if (!user) {
         throw new Error(`Usuário com email ${email} não encontrado`);
     }
-    if (! await bcrypt.compare(senha, user.senha)) {
-        throw new Error(`Senha incorreta`);
-    }
-    return user.cod;
+    return user;
+}
+
+async function deixarDeSeguir(seguinte, seguido) {
+    return await prisma.segue.deleteMany({
+        where: { seguinte, seguido }
+    });
+}
+
+async function createAvaliacao(cod_avaliador, cod_avaliado, nota, descricao="") {
+    await prisma.avaliacao.upsert({
+        where: {
+            cod_avaliador_cod_avaliado: { cod_avaliador, cod_avaliado }
+        },
+        update: {
+            nota, descricao
+        },
+        create: {
+            cod_avaliador,
+            cod_avaliado,
+            nota, descricao
+        }
+    });
+}
+
+async function createDenuncia(denunciante, denunciado, descricao) {
+    await prisma.denuncia.upsert({
+        where: {
+            denunciante_denunciado: { denunciante, denunciado }
+        },
+        update: {
+            descricao
+        },
+        create: {
+            denunciante,
+            denunciado,
+            descricao
+        }
+    });
+}
+
+async function readAvaliadores(id_user) {
+    return await prisma.usuario.findUnique({
+        where: {
+            cod: id_user
+        },
+        select: {
+            avaliado: {
+                select: {
+                    nota: true,
+                    avaliador: {
+                        select: {
+                            cod: true,
+                            nome: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+async function readDenuncias(id_user) {
+    return await prisma.usuario.findUnique({
+        where: {
+            cod: id_user
+        },
+        select: {
+            denunciou: {
+                select: {
+                    descricao: true,
+                    denunciado: true
+                }
+            }
+        }
+    });
 }
 
 async function readVendedoresDisponíveis(id_user) {
@@ -98,4 +230,9 @@ async function readVendedoresDisponíveis(id_user) {
     return vendedores
 }
 
-export default { create, readById, readLogin, updateName, readVendedoresDisponíveis }
+export default { create, readById, updateName, 
+    readVendedoresDisponíveis, readProdutos, 
+    readByEmail, readPalavras, readSeguidores,
+    readSeguidos, readAvaliadores, readDenuncias,
+    seguir, deixarDeSeguir, createAvaliacao, createDenuncia
+};
