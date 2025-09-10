@@ -84,7 +84,7 @@ router.post("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
     return res.status(201).end();
 });
 
-router.get("/usuario/:id_user/denuncias", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -132,7 +132,7 @@ router.post("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
     return res.status(201).end();
 });
 
-router.delete("/usuario/:id_user/palavras/:nome/", isAuthenticated, async (req, res) => {
+router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const nome = req.params.nome;
     if (!id_user || !nome) {
@@ -163,7 +163,7 @@ router.get("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
     return res.json(seguidos);
 });
 
-router.post("/usuario/:id_user/seguir", isAuthenticated, async (req, res) => {
+router.post("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { seguido } = req.body;
     if (!id_user || !seguido) {
@@ -173,7 +173,7 @@ router.post("/usuario/:id_user/seguir", isAuthenticated, async (req, res) => {
     return res.status(204).end();
 });
 
-router.delete("/usuario/:id_user/seguir", isAuthenticated, async (req, res) => {
+router.delete("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { seguido } = req.body;
     if (!id_user || !seguido) {
