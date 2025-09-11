@@ -10,10 +10,10 @@ export async function menu_perfil(id, pagina) {
     let produtos = await API.read(`/usuario/${id}/produtos`);
 
     let container_seguidores = document.getElementById("menu-usuario__informacoes__seguidores");
-    container_seguidores.innerHTML = seguidores.seguidores.length + " seguidores";
+    container_seguidores.innerHTML = seguidores.length + " seguidores";
 
     let container_segue = document.getElementById("menu-usuario__informacoes__seguindo");
-    container_segue.innerHTML = seguidos.seguindo.length + " seguindo";
+    container_segue.innerHTML = seguidos.length + " seguindo";
 
     //Adicionar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");

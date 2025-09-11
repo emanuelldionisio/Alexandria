@@ -21,7 +21,7 @@ export async function renderizarPalavras(palavras, id, pagina) {
 
     let menu_palavras = document.getElementById("menu-palavras-chave__palavras-chave");
     menu_palavras.innerHTML = "";
-    for (let palavra of palavras.palavras_chave) {
+    for (let palavra of palavras) {
         let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
         if (pagina == "menu") {
             menu_palavras.insertAdjacentHTML("beforeend", `<span class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra">
@@ -31,7 +31,7 @@ export async function renderizarPalavras(palavras, id, pagina) {
             const lixo_palavra = document.getElementById(`lixo_palavra_${palavra.nome}`);
             lixo_palavra.onclick = async function () {
                 await API.remove(`/usuario/${id}/palavras/${palavra.nome}`);
-                palavras.palavras_chave = palavras.palavras_chave.filter(p => p.nome !== palavra.nome);
+                palavras = palavras.filter(p => p.nome !== palavra.nome);
                 renderizarPalavras(palavras, id, pagina);
             }
         } else if (pagina == "perfil") {

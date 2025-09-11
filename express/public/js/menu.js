@@ -114,11 +114,11 @@ botao_avaliacoes.onclick = async function() {
     }
     const container_avaliacao = document.querySelector(".avaliacoes-container");
     const avaliadores = await API.read(`/usuario/me/avaliadores`);
-    for (const avaliador of avaliadores.avaliado) {
+    for (const avaliador of avaliadores) {
         const nome = avaliador.avaliador.nome;
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="../imgs/usuario/${avaliador.avaliador.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.avaliador.cod}'">
+                <img src="../imgs/usuario/${avaliador.avaliador.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>
@@ -151,7 +151,7 @@ botao_denuncias.onclick = async function() {
     const container_denuncia = document.querySelector(".denuncias-container");
     const denuncias = await API.read(`/usuario/me/denuncia`);
 
-    for (const denuncia of denuncias.denunciou) {
+    for (const denuncia of denuncias) {
         container_denuncia.insertAdjacentHTML(`beforeend`, `
             <div class="denuncia-item">
                 <img src="../imgs/usuario/${denuncia.denunciadoRef.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${denuncia.denunciadoRef.cod}'">

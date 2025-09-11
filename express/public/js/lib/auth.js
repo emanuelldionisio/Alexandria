@@ -9,6 +9,13 @@ function isAuthenticated() {
     window.location.href = '/login.html';
 }
 
+function getUserId() {
+    const token = getToken();
+    if (!token) return null;
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.userId;
+}
+
 function signin(token) {
     localStorage.setItem('@alexandria:token', token);
     window.location.href = '/inicial.html';
@@ -19,4 +26,4 @@ function signout() {
     window.location.href = '/login.html';
 }
 
-export default { isAuthenticated, getToken, signin, signout }
+export default { isAuthenticated, getUserId, getToken, signin, signout }

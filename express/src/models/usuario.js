@@ -25,7 +25,7 @@ async function readProdutos(cod, search="") {
 }
 
 async function readPalavras(cod) {
-    return await prisma.usuario.findUnique({
+    const palavras = await prisma.usuario.findUnique({
         where: {
             cod: cod
         },
@@ -33,10 +33,11 @@ async function readPalavras(cod) {
             palavras_chave: true
         }
     });
+    return palavras.palavras_chave;
 }
 
 async function readSeguidores(cod) {
-    return await prisma.usuario.findUnique({
+    const seguidores = await prisma.usuario.findUnique({
         where: {
             cod: cod
         },
@@ -44,10 +45,12 @@ async function readSeguidores(cod) {
             seguidores: true
         }
     });
+    return seguidores.seguidores;
 }
 
+
 async function readSeguidos(cod) {
-    return await prisma.usuario.findUnique({
+    const seguidos = await prisma.usuario.findUnique({
         where: {
             cod: cod
         },
@@ -55,7 +58,10 @@ async function readSeguidos(cod) {
             seguindo: true
         }
     });
+    return seguidos.seguindo;
 }
+          
+
 
 async function seguir(seguinte, seguido) {
     return await prisma.segue.create({
@@ -151,7 +157,7 @@ async function deixarDeSeguir(seguinte, seguido) {
     });
 }
 
-async function createAvaliacao(cod_avaliador, cod_avaliado, nota, descricao="") {
+async function createAvaliacao(cod_avaliador, cod_avaliado, nota, descricao) {
     await prisma.avaliacao.upsert({
         where: {
             cod_avaliador_cod_avaliado: { cod_avaliador, cod_avaliado }
@@ -184,7 +190,7 @@ async function createDenuncia(denunciante, denunciado, descricao) {
 }
 
 async function readAvaliadores(id_user) {
-    return await prisma.usuario.findUnique({
+    const avaliadores = await prisma.usuario.findUnique({
         where: {
             cod: id_user
         },
@@ -206,10 +212,11 @@ async function readAvaliadores(id_user) {
             }
         }
     });
+    return avaliadores.avaliado;
 }
 
 async function readDenuncias(id_user) {
-    return await prisma.usuario.findUnique({
+    const denuncias = await prisma.usuario.findUnique({
         where: {
             cod: id_user
         },
@@ -228,6 +235,7 @@ async function readDenuncias(id_user) {
             }
         }
     });
+    return denuncias.denunciou;
 }
 
 async function readVendedoresDisponíveis(id_user) {

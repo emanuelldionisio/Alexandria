@@ -1,25 +1,34 @@
 import { menu_perfil } from './lib/menu_perfil.js';
+import API from './services/api.js';
+import Auth from './lib/auth.js';
+import auth from './lib/auth.js';
+
+if (! Auth.isAuthenticated()) {
+    document.body.innerHTML = "<h1>Não estás logado!!!!!</h1>";
+    throw new Error("Não estás logado!!!!!", 400);
+}
 
 let janela_aberta = false;
-const params = new URLSearchParams(window.location.search);
-const id_user = params.get("id_user");
-const id = params.get("id_visitado");
 
-if ((!id || !id_user)) {
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+const me = Auth.getUserId();
+
+if ((!id)) {
     document.body.innerHTML = "<h1>Verifique se os parâmetros da url são válidos!</h1>";
     throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
 }
 
-if (id == id_user) {
-    window.location.href = `menu.html?id_user=${id_user}`;
-}
+// if (id == id_user) {
+//     window.location.href = `menu.html?id_user=${id_user}`;
+// }
 
-const nome = await fetch(`data/usuarionome/${id}`).then(response => response.json());
-let seguidores = await fetch(`data/seguidores/${id}`).then(response => response.json());
-const avaliacao = await fetch(`data/mediaavaliacao/${id}`).then(response => response.json());
+const nome = await API.read(`/usuario/${id}/nome`);
+let seguidores = await API.read(`/usuario/${id}/seguidores`);
+const avaliacao = await API.read(`/usuario/${id}/mediaavaliacao`);
 
 function renderizarSeguidores() {
-    if (seguidores.find(user => user == id_user)) {
+    if (seguidores.find(user => user.seguinte == me)) {
         let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
         container_seguir.innerHTML = "Seguindo";
         container_seguir.style = "background-color: #595336; color: lightgrey";
@@ -33,12 +42,7 @@ function renderizarSeguidores() {
 }
 
 function carregarPerfil() {
-    if ((! id || ! id_user) || (id == id_user)) {
-        document.body.innerHTML = "<h1>Verifique se os parâmetros da url são válidos!</h1>";
-        throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
-    }
-
-    menu_perfil(id, "perfil", id_user);
+    menu_perfil(id, "perfil");
 
     //Adicionar o nome do user
     let mensagem_boasvindas = document.getElementById("menu-usuario__mensagem");
@@ -54,37 +58,21 @@ function carregarPerfil() {
 const botao_ir_para_inicial = document.querySelector(".botao-pagina-inicial");
 
 botao_ir_para_inicial.onclick = function () {
-    window.location.href = `inicial.html?id_user=${id_user}`;
+    window.location.href = `inicial.html`;
 }
 
 const botao_seguir = document.getElementById("menu-usuario__opcoes__seguir");
 
 botao_seguir.onclick = async function () {
     let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
-
-    if ((!id || !id_user) || (id == id_user)) {
-        throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
-    }
     
     if (botao_seguir.innerHTML === "Seguir") {
-        await fetch(`data/segue`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ seguido: id, seguinte: id_user })
-        });
-        seguidores.push(id_user);
+        await API.create(`/usuario/${me}/seguidos`, { seguido: id });
+        seguidores.push({ seguinte: me, seguido: id });
         renderizarSeguidores();
     } else {
-        await fetch(`data/segue`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ seguido: id, seguinte: id_user })
-        });
-        seguidores = seguidores.filter(user => user != id_user);
+        await API.remove(`/usuario/${me}/seguidos`, { seguido: id });
+        seguidores = seguidores.filter(user => user.seguido != id);
         renderizarSeguidores();
     }
     
@@ -118,17 +106,11 @@ botao_avaliar.onclick = function () {
             alert("Por favor, preencha todos os campos.");
             return;
         }
-        
-        await fetch(`data/avaliar`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ cod_avaliador: id_user, cod_avaliado: id, nota: parseInt(nota), descricao })
-        });
-        
+
+        await API.create(`/usuario/${me}/avaliacao`, { avaliado: id, nota: Number(nota), descricao });
+
         document.getElementById("form-avaliacao").remove();
-        document.getElementById("media-avaliacao").innerHTML = await fetch(`data/mediaavaliacao/${id}`).then(response => response.json());
+        document.getElementById("media-avaliacao").innerHTML = await API.read(`/usuario/${id}/mediaavaliacao`);
         janela_aberta = false;
     };
 }
@@ -161,13 +143,7 @@ botao_denuncia.onclick = function () {
 
         document.getElementById("form-denuncia").remove();
         
-        await fetch(`data/denunciar`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ denunciante: id_user, denunciado: id, descricao })
-        });
+        API.create(`/usuario/${me}/denuncia`, { denunciado: id, descricao });
     };
 }
 
@@ -188,12 +164,12 @@ document.getElementById("menu-usuario__avaliacao").onclick = async function () {
         document.querySelector(".avaliacoes").remove();
     };
     const container_avaliacao = document.querySelector(".avaliacoes-container");
-    const avaliadores = await fetch(`data/avaliadores/${id}`).then(response => response.json());
+    const avaliadores = await API.read(`/usuario/${id}/avaliadores`);
     for (const avaliador of avaliadores) {
-        const nome = await fetch(`data/usuarionome/${avaliador.cod_avaliador}`).then(response => response.json());
+        const nome = avaliador.avaliador.nome;
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="../imgs/usuario/${avaliador.cod_avaliador}.jpg" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${avaliador.cod_avaliador}&id_user=${id_user}'">
+                <img src="../imgs/usuario/${avaliador.avaliador.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>

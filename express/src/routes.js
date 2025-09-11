@@ -66,11 +66,11 @@ router.get('/usuario/:id_user/avaliadores', isAuthenticated, async (req, res) =>
 
 router.post("/usuario/:id_user/avaliacao", isAuthenticated, async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    const { nota, avaliado } = req.body;
-    if (!id_user || !nota || !avaliado) {
-        throw new HttpError('Faltam parâmetros: id_user, nota, avaliado', 400);
+    const { nota, avaliado, descricao } = req.body;
+    if (!id_user || !nota || !avaliado || !descricao) {
+        throw new HttpError('Faltam parâmetros: id_user, nota, avaliado, descricao', 400);
     }
-    await Usuario.createAvaliacao(id_user, avaliado, nota);
+    await Usuario.createAvaliacao(id_user, avaliado, nota, descricao);
     return res.status(201).json({ status: 'ok' });
 });
 
