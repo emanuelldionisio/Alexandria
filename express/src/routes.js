@@ -71,7 +71,7 @@ router.post("/usuario/:id_user/avaliacao", isAuthenticated, async (req, res) => 
         throw new HttpError('Faltam parâmetros: id_user, nota, avaliado', 400);
     }
     await Usuario.createAvaliacao(id_user, avaliado, nota);
-    return res.status(201).end();
+    return res.status(201).json({ status: 'ok' });
 });
 
 router.post("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
@@ -81,7 +81,7 @@ router.post("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
         throw new HttpError('Faltam parâmetros: id_user, denunciado, descricao', 400);
     }
     await Usuario.createDenuncia(id_user, denunciado, descricao);
-    return res.status(201).end();
+    return res.status(201).json({ status: 'ok' });
 });
 
 router.get("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
@@ -93,6 +93,14 @@ router.get("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
     return res.json(denuncias);
 });
 
+router.get("/usuario/:id_user/img", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+    if (!id_user) {
+        throw new HttpError('Faltam parâmetros: id_user', 400);
+    }
+    const { foto_perfil } = await Usuario.readById(id_user);
+    return res.json(foto_perfil);
+});
 
 router.get("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
@@ -110,7 +118,7 @@ router.put("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
         throw new HttpError('Faltam parâmetros: id_user, nome', 400);
     }
     await Usuario.updateName(id_user, nome);
-    return res.status(204).end();
+    return res.status(204).json({ status: 'ok' });
 });
 
 router.get("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
@@ -129,7 +137,7 @@ router.post("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
         throw new HttpError('Faltam parâmetros: id_user, nome', 400);
     }
     await PalavraUsuario.create({ usuario: id_user, nome });
-    return res.status(201).end();
+    return res.status(201).json({ status: 'ok' });
 });
 
 router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, async (req, res) => {
@@ -142,7 +150,7 @@ router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, async (req, r
     if (await PalavraUsuario.readByUsuarioCod(id_user).length == 0) {
         await Palavra.deletar({ nome });
     }
-    return res.status(204).end();
+    return res.status(204).json({  status: 'ok' });
 });
 
 router.get("/usuario/:id_user/seguidores", isAuthenticated, async (req, res) => {
@@ -170,7 +178,7 @@ router.post("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
         throw new HttpError('Faltam parâmetros: id_user, seguido', 400);
     }
     await Usuario.seguir(id_user, seguido);
-    return res.status(204).end();
+    return res.status(201).json({ status: 'ok' });
 });
 
 router.delete("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
@@ -180,7 +188,7 @@ router.delete("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) =>
         throw new HttpError('Faltam parâmetros: id_user, seguido', 400);
     }
     await Usuario.deixarDeSeguir(id_user, seguido);
-    return res.status(204).end();
+    return res.status(204).json({ status: 'ok' });
 });
 
 router.get("/usuario/:id_user/produtos", isAuthenticated, async (req, res) => {

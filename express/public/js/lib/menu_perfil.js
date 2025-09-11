@@ -1,35 +1,36 @@
 import { renderizarProdutos } from "./renderizarProdutos.js";
 import { renderizarPalavras } from "./renderizarPalavras.js";
+import API from '../services/api.js';
 
-export async function menu_perfil(id, pagina, id_user=-1) {
-      
-    id_user = id_user == -1 ? id : id_user;
-    const palavras = await fetch(`api/usuario/me/palavras`).then(response => response.json());
-    const seguidores =  await fetch(`api/usuario/me/seguidores`).then(response => response.json());
-    const seguidos = await fetch(`api/usuario/me/seguidos`).then(response => response.json());
-    let produtos = await fetch("api/usuario/me/produtos").then(response => response.json());
-    
+export async function menu_perfil(id, pagina) {
+
+    const palavras = await API.read(`/usuario/${id}/palavras`);
+    const seguidores =  await API.read(`/usuario/${id}/seguidores`);
+    const seguidos = await API.read(`/usuario/${id}/seguidos`);
+    let produtos = await API.read(`/usuario/${id}/produtos`);
+
     let container_seguidores = document.getElementById("menu-usuario__informacoes__seguidores");
-    container_seguidores.innerHTML = seguidores.length + " seguidores";
+    container_seguidores.innerHTML = seguidores.seguidores.length + " seguidores";
 
     let container_segue = document.getElementById("menu-usuario__informacoes__seguindo");
-    container_segue.innerHTML = seguidos.length + " seguindo";
+    container_segue.innerHTML = seguidos.seguindo.length + " seguindo";
 
     //Adicionar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");
-    img_fotodeperfil.src = `imgs/usuario/${id}.jpg`;
+    const path_foto = await API.read(`/usuario/${id}/img`);
+    img_fotodeperfil.src = `imgs/usuario/${path_foto}`;
     img_fotodeperfil.onerror = () => {
         img_fotodeperfil.src = "imgs/usuario/0.jpg";
     };
 
-    renderizarProdutos(produtos, id_user);
+    renderizarProdutos(produtos);
     renderizarPalavras(palavras, id, pagina);
 
     const input_pesquisar = document.getElementById("pesquisar_produtos");
 
     input_pesquisar.addEventListener("input", async (e) => {
         const valor = e.target.value.toLowerCase();
-        produtos = await fetch(`api/usuario/me/produtos?search=${valor}`).then(response => response.json());
+        produtos = await API.read(`/usuario/${id}/produtos?search=${valor}`);
         renderizarProdutos(produtos);
     });
 }

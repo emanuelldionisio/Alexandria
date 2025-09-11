@@ -5,7 +5,7 @@ const saltRounds = Number(process.env.BCRYPT_SALT);
 
 async function readProdutos(cod, search="") {
     const where = {...search && {contains: search}};
-    return await prisma.usuario.findMany({
+    return await prisma.usuario.findUnique({
         where: {
             cod: cod,
         },
@@ -192,10 +192,14 @@ async function readAvaliadores(id_user) {
             avaliado: {
                 select: {
                     nota: true,
+                    descricao: true,
                     avaliador: {
                         select: {
                             cod: true,
-                            nome: true
+                            nome: true,
+                            foto_perfil: true,
+                            cod: true
+                            
                         }
                     }
                 }
@@ -213,7 +217,13 @@ async function readDenuncias(id_user) {
             denunciou: {
                 select: {
                     descricao: true,
-                    denunciado: true
+                    denunciadoRef: {
+                        select: {
+                            foto_perfil: true,
+                            nome: true,
+                            cod: true
+                        }
+                    }
                 }
             }
         }

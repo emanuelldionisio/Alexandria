@@ -46,6 +46,7 @@ model Usuario {
   desejos_livro desejos_livro[]
   carrinho_disco carrinho_disco[]
   carrinho_livro carrinho_livro[]
+  foto_perfil String?
 
 }
 
