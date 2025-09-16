@@ -19,9 +19,9 @@ if ((!id)) {
     throw new Error("Faltam parâmetros na URL: id_visitado e/ou id_user", 400);
 }
 
-// if (id == id_user) {
-//     window.location.href = `menu.html?id_user=${id_user}`;
-// }
+if (id == Auth.getUserId()) {
+     window.location.href = `menu.html`;
+}
 
 const nome = await API.read(`/usuario/${id}/nome`);
 let seguidores = await API.read(`/usuario/${id}/seguidores`);
@@ -72,7 +72,7 @@ botao_seguir.onclick = async function () {
         renderizarSeguidores();
     } else {
         await API.remove(`/usuario/${me}/seguidos`, { seguido: id });
-        seguidores = seguidores.filter(user => user.seguido != id);
+        seguidores = seguidores.filter(user => user.seguinte != Auth.getUserId());
         renderizarSeguidores();
     }
     

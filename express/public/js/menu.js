@@ -27,11 +27,11 @@ function carregarMenu() {
 const botao_ir_para_inicial = document.querySelector(".botao-pagina-inicial");
 
 botao_ir_para_inicial.onclick = function() {
-    window.location.href = `inicial.html?id_user=${id}`;
+    window.location.href = `inicial.html`;
 }
 
 document.querySelector(".menu-produtos__produtos_adicionar").onclick = function() {
-    window.location.href = `cadastro_produto.html?id_user=${id}`;
+    window.location.href = `cadastro_produto.html`;
 }
 
 const botao_adicionar_palavra = document.querySelector("#botao_adicionar")
@@ -102,7 +102,7 @@ botao_avaliacoes.onclick = async function() {
     botao_avaliacoes.insertAdjacentHTML('beforebegin', `
         <div class="avaliacoes">
         <button type="button" id="fechar_avaliacoes" style="align-self: flex-end;"> <i class="bi bi-x-lg"></i> </button>
-        <h2>Avaliações</h2>
+        <h2>Avaliações</h2> <div id="media-avaliacao"> ⭐ ${await API.read(`/usuario/me/mediaavaliacao`)}</div>
         <div class="avaliacoes-container">
         
         </div>
@@ -154,7 +154,7 @@ botao_denuncias.onclick = async function() {
     for (const denuncia of denuncias) {
         container_denuncia.insertAdjacentHTML(`beforeend`, `
             <div class="denuncia-item">
-                <img src="../imgs/usuario/${denuncia.denunciadoRef.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id_visitado=${denuncia.denunciadoRef.cod}'">
+                <img src="../imgs/usuario/${denuncia.denunciadoRef.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${denuncia.denunciadoRef.cod}'">
                 <div class="denuncia-conteudo">
                     <span class="denuncia-nome">${denuncia.denunciadoRef.nome}</span>
                     <span class="denuncia-texto">${denuncia.descricao}</span>
