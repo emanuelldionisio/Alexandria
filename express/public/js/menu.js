@@ -178,4 +178,8 @@ botao_uploadfoto.addEventListener("change", async function() {
     novafoto = true;
 });
 
+document.querySelector(".botao-logout").onclick = function() {
+    Auth.signout();
+}
+
 carregarMenu();
