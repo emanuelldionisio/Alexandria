@@ -11,9 +11,8 @@ const coresBootstrap = [
     'warning', 'info', 'dark'
 ];
 
-if (!Auth.getToken()) {
-    document.body.innerHTML = "<h1>Não estás logado!!!!!</h1>";
-    throw new Error("Não estás logado!!!!!", 400);
+if (!Auth.isAuthenticated()) {
+    throw new Error("Usuário não autenticado", 400);
 }
 
 const nome = await API.read(`/usuario/me/nome`);

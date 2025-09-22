@@ -4,8 +4,7 @@ import Auth from './lib/auth.js';
 import auth from './lib/auth.js';
 
 if (! Auth.isAuthenticated()) {
-    document.body.innerHTML = "<h1>Não estás logado!!!!!</h1>";
-    throw new Error("Não estás logado!!!!!", 400);
+    throw new Error("Usuário não autenticado", 400);
 }
 
 let janela_aberta = false;
