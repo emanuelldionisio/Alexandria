@@ -1,11 +1,14 @@
 import API from './services/api.js';
 import Auth from './lib/auth.js';
+
 const id = +new URLSearchParams(location.search).get("id_prod");
 const tipo = new URLSearchParams(location.search).get("tipo"); 
 
-id ? carregaproduto(id, tipo) : alert("ID do produto inválido na URL."); 
+if (! Auth.isAuthenticated()) {
+    throw new Error("Usuário não autenticado", 400);
+}
 
-const id_user = await Auth.getUserId();
+id ? carregaproduto(id, tipo) : alert("ID do produto inválido na URL."); 
 
 let produto = null;
 
