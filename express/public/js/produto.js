@@ -1,10 +1,11 @@
+import API from './services/api.js';
+import Auth from './lib/auth.js';
 const id = +new URLSearchParams(location.search).get("id_prod");
 const tipo = new URLSearchParams(location.search).get("tipo"); 
 
 id ? carregaproduto(id, tipo) : alert("ID do produto inválido na URL."); 
 
-const id_user = new URLSearchParams(location.search).get("id_user");
-
+const id_user = await Auth.getUserId();
 
 let produto = null;
 
@@ -18,8 +19,8 @@ async function carregaproduto(id, tipo) {
 
         produto = await res.json();
 
-        const usuarionome = await fetch ((`data/usuarionome/${produto.id_usuario}`));
-        const vendedor = await usuarionome.json();
+        const usuarionome = await API.read((`/api/usuario/${produto.id_usuario}/nome`));
+        const vendedor = await usuarionome.nome;
 
         preencherPagina(produto, tipo, vendedor);
     } catch (error) {
