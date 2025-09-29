@@ -11,16 +11,12 @@ let produto = null;
 
 async function carregaproduto(id, tipo) { 
     try {
-        const res = await fetch(`data/produto/${id}/${tipo}`);
-        if (!res.ok) {
-            const erro = await res.json();
-            throw new Error(erro.message || "Erro ao carregar produto");
-        }
+        produto = await API.read(`/produto/${id}/${tipo}`);
+        
+        
 
-        produto = await res.json();
-
-        const usuarionome = await API.read((`/api/usuario/${produto.id_usuario}/nome`));
-        const vendedor = await usuarionome.nome;
+        const usuarionome = await API.read(`/usuario/${produto.id_usuario}/nome`);
+        const vendedor = await usuarionome;
 
         preencherPagina(produto, tipo, vendedor);
     } catch (error) {
@@ -56,7 +52,7 @@ function preencherPagina(produto, tipo, vendedor) {
 }
 
 export function irParaPerfil() {
-    window.location.href = `perfil.html?id_user=${id_user}&id_visitado=${produto.id_usuario}`;
+    window.location.href = `perfil.html?id=${produto.id_usuario}`;
 }
 
 async function addListaDeDesejos() {

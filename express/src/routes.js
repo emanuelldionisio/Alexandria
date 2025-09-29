@@ -224,6 +224,30 @@ router.post("/signin", async (req, res) => {
     }
 });
 
+router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => {
+     const id_prod = req.params.id_prod;
+    const tipo = req.params.tipo;
+
+    
+    if (!id_prod || (tipo !== 'livro' && tipo !== 'disco')) {
+        return res.status(400).json({ message: 'Parâmetros inválidos: id_prod e/ou tipo' });
+    }
+
+    try {
+        const produto = await Produto.readById(id_prod, tipo);
+        if (!produto) {
+            return res.status(404).json({ message: 'Produto não encontrado' });
+        }
+
+        return res.json(produto);
+    } catch (err) {
+        console.error('Erro ao buscar produto:', err);
+        return res.status(500).json({ message: 'Erro interno ao buscar produto' });
+    }
+});
+
+
+
 
 
 export default router;
