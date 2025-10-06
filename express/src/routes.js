@@ -1,31 +1,17 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import express from 'express';
+import { z } from 'zod';
 
 import { isAuthenticated } from './middleware/auth.js'
+import { validate } from './middleware/validate.js';
 
 import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
-import Segue from './models/segue.js'
 import PalavraUsuario from './models/palavra_usuario.js'
 import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
-import Denuncia from './models/denuncia.js'
-import Desejo from './models/desejos.js';
-import carrinho from './models/carrinho.js';
-import segue from './models/segue.js';
-import produto from './models/produto.js';
 import usuario from './models/usuario.js';
-
-
-/*
- import { segue } from './data/segue.js'
- import { palavra_usuario } from './data/palavra_usuario.js'
- import { disco } from './data/disco.js'
- import { livro } from './data/livro.js'
- import { avaliacao_disco } from './data/avaliacao_disco.js'
- import { avaliacao_livro } from './data/avaliacao_livro.js'
-*/
 
 const router = express.Router()
 
@@ -36,7 +22,7 @@ class HttpError extends Error {
     }
 }
 
-router.post('/usuario', async (req, res) => {
+router.post('/usuario', async (req, res) => { //Alice faz
     try {
         const user = req.body;       
         const newUser = await Usuario.create(user);
@@ -46,7 +32,13 @@ router.post('/usuario', async (req, res) => {
     }
 });
 
-router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, async (req, res) => {
+router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.string(),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -64,9 +56,21 @@ router.get('/usuario/:id_user/avaliadores', isAuthenticated, async (req, res) =>
     return res.json(avaliadores);
 });
 
-router.post("/usuario/:id_user/avaliacao", isAuthenticated, async (req, res) => {
+router.post("/usuario/:id_user/avaliacao", isAuthenticated, validate(
+    z.object({
+        body: z.object({
+            nota: z.number().min(1).max(5),
+            avaliado: z.uuid().or(z.literal("me")),
+            descricao: z.string().max(500),
+        }),
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { nota, avaliado, descricao } = req.body;
+    avaliado = req.body.avaliado == "me" ? req.userId : req.body.avaliado;
     if (!id_user || !nota || !avaliado || !descricao) {
         throw new HttpError('Faltam parâmetros: id_user, nota, avaliado, descricao', 400);
     }
@@ -74,9 +78,20 @@ router.post("/usuario/:id_user/avaliacao", isAuthenticated, async (req, res) => 
     return res.status(201).json({ status: 'ok' });
 });
 
-router.post("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
+router.post("/usuario/:id_user/denuncia", isAuthenticated, validate(
+    z.object({
+        body: z.object({
+            denunciado: z.uuid().or(z.literal("me")),
+            descricao: z.string().max(500),
+        }),
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { denunciado, descricao } = req.body;
+    denunciado = req.body.denunciado == "me" ? req.userId : req.body.denunciado;
     if (!id_user || !denunciado || !descricao) {
         throw new HttpError('Faltam parâmetros: id_user, denunciado, descricao', 400);
     }
@@ -84,7 +99,13 @@ router.post("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
     return res.status(201).json({ status: 'ok' });
 });
 
-router.get("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/denuncia", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -93,7 +114,13 @@ router.get("/usuario/:id_user/denuncia", isAuthenticated, async (req, res) => {
     return res.json(denuncias);
 });
 
-router.get("/usuario/:id_user/img", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/img", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -102,7 +129,13 @@ router.get("/usuario/:id_user/img", isAuthenticated, async (req, res) => {
     return res.json(foto_perfil);
 });
 
-router.get("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/nome", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -111,7 +144,16 @@ router.get("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
     return res.json(nome);
 });
 
-router.put("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
+router.put("/usuario/:id_user/nome", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        }),
+        body: z.object({
+            nome: z.string().min(2).max(128),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { nome } = req.body;
     if (!id_user || !nome) {
@@ -121,7 +163,13 @@ router.put("/usuario/:id_user/nome", isAuthenticated, async (req, res) => {
     return res.status(204).json({ status: 'ok' });
 });
 
-router.get("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/palavras", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -130,7 +178,16 @@ router.get("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
     return res.json(palavras);
 });
 
-router.post("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
+router.post("/usuario/:id_user/palavras", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        }),
+        body: z.object({
+            nome: z.string().min(2).max(32),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { nome } = req.body;
     if (!id_user || !nome) {
@@ -140,7 +197,14 @@ router.post("/usuario/:id_user/palavras", isAuthenticated, async (req, res) => {
     return res.status(201).json({ status: 'ok' });
 });
 
-router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, async (req, res) => {
+router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+            nome: z.string().min(2).max(32),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const nome = req.params.nome;
     if (!id_user || !nome) {
@@ -153,7 +217,13 @@ router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, async (req, r
     return res.status(204).json({  status: 'ok' });
 });
 
-router.get("/usuario/:id_user/seguidores", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/seguidores", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -162,7 +232,13 @@ router.get("/usuario/:id_user/seguidores", isAuthenticated, async (req, res) => 
     return res.json(seguidores);
 });
 
-router.get("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/seguidos", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
@@ -171,9 +247,19 @@ router.get("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
     return res.json(seguidos);
 });
 
-router.post("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
+router.post("/usuario/:id_user/seguidos", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        }),
+        body: z.object({
+            seguido: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { seguido } = req.body;
+    seguido = req.body.seguido == "me" ? req.userId : req.body.seguido;
     if (!id_user || !seguido) {
         throw new HttpError('Faltam parâmetros: id_user, seguido', 400);
     }
@@ -181,7 +267,16 @@ router.post("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
     return res.status(201).json({ status: 'ok' });
 });
 
-router.delete("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) => {
+router.delete("/usuario/:id_user/seguidos", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        }),
+        body: z.object({
+            seguido: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const { seguido } = req.body;
     if (!id_user || !seguido) {
@@ -191,7 +286,16 @@ router.delete("/usuario/:id_user/seguidos", isAuthenticated, async (req, res) =>
     return res.status(204).json({ status: 'ok' });
 });
 
-router.get("/usuario/:id_user/produtos", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/produtos", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        }),
+        query: z.object({
+            search: z.string().max(128).optional(),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
     const search = req.query.search || "";
     if (!id_user) {
@@ -201,7 +305,7 @@ router.get("/usuario/:id_user/produtos", isAuthenticated, async (req, res) => {
     return res.json(produtos);
 });
 
-router.post("/signin", async (req, res) => {
+router.post("/signin", async (req, res) => { //Alice faz
     try {
         const { email, senha } = req.body;
         const { cod, senha: hash } = await Usuario.readByEmail(email);
@@ -224,7 +328,7 @@ router.post("/signin", async (req, res) => {
     }
 });
 
-router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => {
+router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => { //Oliver faz
      const id_prod = req.params.id_prod;
     const tipo = req.params.tipo;
 
