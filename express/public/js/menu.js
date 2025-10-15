@@ -38,6 +38,8 @@ let adicionando_palavra = false;
 
 botao_adicionar_palavra.onclick = function() {
     if (adicionando_palavra) {
+        document.getElementById("input_palavra").remove();
+        adicionando_palavra = false;
         return;
     }
     let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
@@ -62,10 +64,28 @@ document.getElementById("editar_nome").onclick = function() {
     inputNome.addEventListener('keydown', async function(e) {
         if (e.key === 'Enter') {
             const novoNome = inputNome.value.trim();
-            if (novoNome) {
-                await API.update(`/usuario/me/nome`, { nome: novoNome });
-                nomeUsuario.innerHTML = `Olá, ${novoNome}`;
+            if (!novoNome) {
+                inputNome.setCustomValidity("O nome não pode ser vazio.");
+                inputNome.reportValidity();
+                return;
             }
+
+            if (novoNome.length > 128) {
+                inputNome.setCustomValidity("O nome não pode ter mais que 128 caracteres.");
+                inputNome.reportValidity();
+                return;
+            }
+
+            if (novoNome.length < 2) {
+                inputNome.setCustomValidity("O nome deve ter ao menos 2 caracteres.");
+                inputNome.reportValidity();
+                return;
+            }
+
+            await API.update(`/usuario/me/nome`, { nome: novoNome });
+            nomeUsuario.innerHTML = `Olá, ${novoNome}`;
+        } else {
+            inputNome.setCustomValidity("");
         }
     });
     
@@ -73,24 +93,52 @@ document.getElementById("editar_nome").onclick = function() {
 
 document.addEventListener('input', function (e) {
     if (e.target.matches('.menu-palavras-chave__palavra input')) {
+        document.querySelector("#input_palavra input").setCustomValidity("");
         e.target.style.width = (e.target.value.length + 2) + 'ch';
     }
 });
 
 document.addEventListener('keydown', async function (e) {
-    if (
-        e.target.matches('.menu-palavras-chave__palavra input') &&
-        e.key === 'Enter' 
-    ) {
-        adicionando_palavra = false;
-        e.preventDefault();
-        const nomePalavra = e.target.value.trim();
-        if (nomePalavra) {
-            await API.create(`/usuario/me/palavras`, { nome: nomePalavra });
-            const palavras = await API.read(`/usuario/me/palavras`);
-            document.getElementById("input_palavra").remove();
-            renderizarPalavras(palavras, "me", "menu");
-        }
+    
+    if ( !e.target.matches('.menu-palavras-chave__palavra input') 
+        ||  e.key !== 'Enter') return;
+    
+    e.preventDefault();
+    
+    const nomePalavra = e.target.value.trim();
+    const inputElement = document.querySelector("#input_palavra input");
+    
+    if (! nomePalavra) {
+        inputElement.setCustomValidity("O nome da palavra não pode ser vazio.");
+        inputElement.reportValidity();
+        return;
+    }
+
+    if (nomePalavra.length > 32) {
+        inputElement.setCustomValidity("O nome da palavra não pode ter mais que 32 caracteres.");
+        inputElement.reportValidity();
+        return;
+    }
+
+    if (nomePalavra.length < 2) {
+        inputElement.setCustomValidity("O nome da palavra deve ter ao menos 3 caracteres.");
+        inputElement.reportValidity();
+        return;
+    }
+
+    if (await API.read(`/usuario/me/palavras`).then(palavras => palavras.map(p => p.nome)).then(nomes => nomes.includes(nomePalavra))) {
+        inputElement.setCustomValidity("Você já adicionou essa palavra.");
+        inputElement.reportValidity();
+        return;
+    }
+
+    adicionando_palavra = false;
+
+    if (nomePalavra) {
+        await API.create(`/usuario/me/palavras`, { nome: nomePalavra });
+        const palavras = await API.read(`/usuario/me/palavras`);
+        document.getElementById("input_palavra").remove();
+        renderizarPalavras(palavras, "me", "menu");
     }
 });
 
