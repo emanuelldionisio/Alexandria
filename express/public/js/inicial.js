@@ -1,22 +1,26 @@
+import Auth from "./lib/auth.js";
+import API from './services/api.js';
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id_user");
 
-const produtos = await fetch("data/produtoByUsuario", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        id_usuario: id,
-        modo: "excluir"
-    })
-}).then(response => response.json());
+if (!Auth.isAuthenticated()) {
+    throw new Error("Usuário não autenticado", 400);
+}
+
+const modo = "excluir";
+let produtos = await API.read(`/usuario/${id}/${modo}/produtos_exibidos`);
 
 function carregarInicial() { 
+   
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
-    img_perfil.src = `imgs/usuario/${id}.jpg`;
-    
+    const foto = API.read(`/usuario/${id}/img`);
+    img_perfil.src = `imgs/usuario/${foto}`;
+    img_perfil.onerror = () => {
+        img_perfil.src = "imgs/usuario/0.jpg";
+    };
+
     // exibição de produtos
     let grid_discos = document.getElementById("grid_discos");
     let grid_livros = document.getElementById("grid_livros");

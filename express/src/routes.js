@@ -12,6 +12,7 @@ import PalavraUsuario from './models/palavra_usuario.js'
 import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 import usuario from './models/usuario.js';
+import produto from './models/produto.js';
 
 const router = express.Router()
 
@@ -311,9 +312,7 @@ router.post("/signin", async (req, res) => { //Alice faz
         const { cod, senha: hash } = await Usuario.readByEmail(email);
         if (! await bcrypt.compare(senha, hash)) {
             throw new HttpError('Senha incorreta', 400);
-        }
-
-        
+        }        
 
         const token = jwt.sign(
             { userId: cod },
@@ -350,8 +349,24 @@ router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => { //O
     }
 });
 
+router.get("/usuario/:id_user/:modo/produtos_exibidos", isAuthenticated, async (req, res) => {
+    const id_user = req.params.id_user;
+    const modo = req.params.modo;
 
-
-
+    if (!id_user, !modo) {
+        return res.status(400).json({ message: 'Parâmetros inválidos: id_user'});
+        }
+    
+    try {
+        const produto = await Produto.readByUsuario(id_user, modo);
+        if (!produto) {
+            return res.status(404).json({message: 'Produto não existente' });
+        }
+    return res.json(produto);
+    } catch (err) {
+        console.error('Erro ao buscar produto:', err);
+        return res.status(500).json({ message: 'Erro interno ao buscar produto' });
+    }
+});
 
 export default router;
