@@ -2,21 +2,22 @@ import Auth from "./lib/auth.js";
 import API from './services/api.js';
 
 const params = new URLSearchParams(window.location.search);
-const id = params.get("id_user");
 
 if (!Auth.isAuthenticated()) {
     throw new Error("Usuário não autenticado", 400);
 }
 
+const id = params.get("id");
+
 const modo = "excluir";
-let produtos = await API.read(`/usuario/${id}/${modo}/produtos_exibidos`);
+let produtos = await API.read(`/usuario/me/${modo}/produtos_exibidos`);
 
 function carregarInicial() { 
    
     // foto do usuário
     let img_perfil = document.getElementById("inicial_perfil");
-    const foto = API.read(`/usuario/${id}/img`);
-    img_perfil.src = `imgs/usuario/${foto}`;
+    const path_foto = API.read(`/usuario/${id}/imgq`);
+    img_perfil.src = `imgs/usuario/${path_foto}`;
     img_perfil.onerror = () => {
         img_perfil.src = "imgs/usuario/0.jpg";
     };
