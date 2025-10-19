@@ -31,7 +31,7 @@ botao_ir_para_inicial.onclick = function() {
 }
 
 document.querySelector(".menu-produtos__produtos_adicionar").onclick = function() {
-    window.location.href = `cadastro_produto.html`;
+    window.location.href = `cadastro_produto.html?id_user=${'me'}`;
 }
 
 const botao_adicionar_palavra = document.querySelector("#botao_adicionar")

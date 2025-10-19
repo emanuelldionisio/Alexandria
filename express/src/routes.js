@@ -13,6 +13,7 @@ import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 import usuario from './models/usuario.js';
 import produto from './models/produto.js';
+import { id } from 'zod/v4/locales';
 
 const router = express.Router()
 
@@ -380,4 +381,26 @@ router.get("/usuario/:id_user/:modo/produtos_exibidos", isAuthenticated, validat
         return res.status(500).json({ message: 'Erro interno ao buscar produto' });
     }
 });
+
+router.post("/usuario/id/criarproduto", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me"))
+            }),
+        body: z.object({
+            titulo: z.string().min(2).max(128),
+            autor: z.string().min(1).max(64),
+            descricao: z.string().min(2).max(256),
+        })
+        })
+), async (req, res) => {
+    try {
+        const id_user = req.params.id_user == "id" ? req.userId : req.params.id_user;
+        return res;
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
+    }
+})
+
 export default router;
