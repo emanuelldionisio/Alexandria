@@ -24,32 +24,32 @@
 
     <form id="productForm" class="product-form">
       <div class="form-group">
-        <label for="title" class="form-label">Título</label>
-        <input id="title" name="title" type="text" required placeholder="Ex: Alice no País das Maravilhas" class="form-input">
+        <label for="nome" class="form-label">Título</label>
+        <input id="nome" name="title" type="text" required placeholder="Ex: Alice no País das Maravilhas" class="form-input">
       </div>
 
       <div class="form-group">
-        <label for="author" class="form-label">Autor/Artista</label>
-        <input id="author" name="author" type="text" required placeholder="Nome do autor/artista" class="form-input">
+        <label for="autor" class="form-label">Autor/Artista</label>
+        <input id="autor" name="author" type="text" required placeholder="Nome do autor/artista" class="form-input">
       </div>
 
       <div class="form-group">
-        <label for="publisher" class="form-label">Editora/Gravadora</label>
-        <input id="publisher" name="publisher" type="text" required placeholder="Nome da editora ou da gravadora" class="form-input">
+        <label for="gravadora" class="form-label">Editora/Gravadora</label>
+        <input id="gravadora" name="publisher" type="text" required placeholder="Nome da editora ou da gravadora" class="form-input">
       </div>
 
       <div class="form-group">
-        <label for="description" class="form-label">Descrição </label>
-        <textarea id="description" name="description" required placeholder="Descreva o enredo do livro, o contexto da música/álbum, a condição do produto, se há avarias, ect." class="form-textarea"></textarea>
+        <label for="descricao" class="form-label">Descrição </label>
+        <textarea id="descricao" name="description" required placeholder="Descreva o enredo do livro, o contexto da música/álbum, a condição do produto, se há avarias, ect." class="form-textarea"></textarea>
       </div>
 
       <div class="form-group">
-        <label for="genre" class="form-label"> Gênero</label>
-        <input id="genre" name="genre" type="text" required placeholder="Ex: Ficção Científica; Fantasia" class="form-input">
+        <label for="genero" class="form-label"> Gênero</label>
+        <input id="genero" name="genre" type="text" required placeholder="Ex: Ficção Científica; Fantasia" class="form-input">
       </div>
 
       <div class="form-group">    
-        <label for="tagInput" class="form-label" id="tagContainer"> Palavras-chave</label>
+        <label for="tagContainer" class="form-label" id="tagContainer"> Palavras-chave</label>
         <br/>
         <input  id="tagInput" name="tagInput" class="form-tag-input" type="text" placeholder="Digite uma palavra-chave e pressione o botão ao lado parainserir mais tags">
         <button type="button" id="addTagButton" class="btn btn-add-tag">Adicionar Tag</button>
@@ -57,8 +57,8 @@
     </div>
 
       <div class="form-group">
-        <label for="condition" class="form-label">Categoria</label>
-        <select id="condition" name="condition" required class="form-select">
+        <label for="condicao" class="form-label">Categoria</label>
+        <select id="condicao" name="condition" required class="form-select">
           <option value="" disabled selected>Selecione a condição mais apropriada para classificar o produto</option>
           <option value="pessimo">Péssimo</option>
           <option value="ruim">Ruim</option>
@@ -85,6 +85,6 @@
     </section>
   </main>
 
-    <script type="module" src="./js/cadastro.js"></script>
+    <script type="module" src="./js/cadastro_produto.js"></script>
 </body>
 </html>
