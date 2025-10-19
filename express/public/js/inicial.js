@@ -12,14 +12,14 @@ const id = params.get("id");
 const modo = "excluir";
 let produtos = await API.read(`/usuario/me/${modo}/produtos_exibidos`);
 
-function carregarInicial() { 
+async function carregarInicial() { 
    
     // foto do usuário
-    let img_perfil = document.getElementById("inicial_perfil");
-    const path_foto = API.read(`/usuario/${id}/imgq`);
-    img_perfil.src = `imgs/usuario/${path_foto}`;
-    img_perfil.onerror = () => {
-        img_perfil.src = "imgs/usuario/0.jpg";
+    let img_fotodeperfil = document.getElementById("inicial_perfil");
+    const path_foto = await API.read(`/usuario/${'me'}/img`);
+    img_fotodeperfil.src = `imgs/usuario/${path_foto}`;
+    img_fotodeperfil.onerror = () => {
+        img_fotodeperfil.src = "imgs/usuario/0.jpg";
     };
 
     // exibição de produtos
