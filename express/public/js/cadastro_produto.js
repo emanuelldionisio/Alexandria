@@ -7,10 +7,9 @@ if (!Auth.isAuthenticated()) {
     throw new Error("Usuário não autenticado", 400);
 }
 
-const id = params.get("id_user");
+const id = Auth.getUserId()
 
-const form_cadastro = document.getElementById("form-cadastro");
-
+const form_cadastro = document.getElementById("productForm");
 form_cadastro.onsubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(form_cadastro);
@@ -21,17 +20,12 @@ form_cadastro.onsubmit = async (event) => {
         return
     }
     
-    const tipoprod = formData.elements['tipo'];
+    const tipoprod = data['tipo'];
 
     if (tipoprod == 'livro'){
-        API.create(`/usuario/${id}/${'livro'}/criarproduto`);
+        API.create(`/usuario/${id}/${'livro'}/${data}/criarproduto`);
     } else {
-        API.create(`/usuario/${id}/${'disco'}/criarproduto`);
+        API.create(`/usuario/${id}/${'disco'}/${data}/criarproduto`);
     }
 
 }
-
-
-
-
-carregarCadProd(id)
