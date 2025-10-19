@@ -9,78 +9,50 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="css/cadastro_produto.css">
 </head>
-<body class="cadastro-body">
-    <header class="cadastro-header">
-        <div class="botao-titulo">
-            <button class="botao-de-voltar" onclick="history.back()">
-            <i class="bi bi-arrow-left"></i>
-        </button>
-        </div>
-        <div class="cab-titulo">
-            <p >Adicione um novo item ao seu perfil de vendas</p>
-        </div>
-    </header>
-    
-    <main class="cadastro-main">
-        <div class="left">
-            <form id="product-img-form" class="product-img-form">
-                <input type="file" id="product-img-input" accept="image/*">
-                <label for="product-img-input" class="product-img-label"></label>
-                <br>
-                <span>Adicione imagem do seu produto</span>
-            </form>
+<body>
+  <main class="container" role="main">
+    <h1 class="form-title">Cadastro de Produto</h1>
+
+    <form id="productForm" class="product-form">
+      <div class="form-group">
+        <label for="title" class="form-label">Título</label>
+        <input id="title" name="title" type="text" required placeholder="Ex: Aprendendo JavaScript" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label for="author" class="form-label">Autor</label>
+        <input id="author" name="author" type="text" required placeholder="Nome do autor" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Descrição</label>
+        <textarea id="description" name="description" required placeholder="Descreva o produto..." class="form-textarea"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group form-group-keywords">
+          <label for="keywordsSelect" class="form-label">Palavras-chave</label>
+          <select id="keywordsSelect" name="keywords" multiple class="form-input"></select>
+          <div class="hint">Selecione ou digite novas palavras-chave e pressione Enter</div>
         </div>
 
-        <div class="right">
-            <form id="cadastro-produto-form">
-                <div class="div-descricao">
-                    <label for="descricao" class="subtitulos">Descrição</label>
-                    <textarea id="descricao" name="descricao" rows="4"></textarea>
-                    <div class="subtexto">Descreva seu produto (avarias, edições especiais, etc.)
-                    </div>
-                </div>
-                <div>
-                    <label class="subtitulos">Informações adicionais</label>
-                    <div class="subtexto">Preencha os itens a seguir de acordo com seu produto</div>
-
-                    <label for="preco">Preço: R$</label>
-                    <input type="text" id="preco" name="preco">
-                        <br>
-                    <label>Tipo de Mídia</label>
-                    <fieldset class="grupo-radio" id="midia">
-                    <label><input type="radio" name="midia" value="disco"> Disco</label>
-                    <label><input type="radio" name="midia" value="livro"> Livro</label>
-                    </fieldset>
-                        
-                    <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" name="titulo">
-                        
-                    <label for="autor">Artista/Autor:</label>
-                    <input type="text" id="autor" name="autor">
-                        
-                    <label for="gravadora">Gravadora/Editora:</label>
-                    <input type="text" id="gravadora" name="gravadora">
-                
-                    <label for="genero">Gênero:</label>
-                    <input type="text" id="genero" name="genero">
-                        
-                    <label for="estado">Estado:</label>
-                    <input type="text" id="estado" name="estado">
-                </div>
-                <div class="div-descricao">
-                    <label for="palavras" class="subtitulos" >Palavras-chave</label>
-                    <div class="subtexto">Descreva seu produto em até 5 palavras-chave</div>
-                    <select name="select-palavras" id="select-palavras"></select>
-                    <button type="button" id="select-palavras-submit" class="btn btn-secondary btn-sm ms-2">Adicionar</button>
-                    <div id="palavras-selecionadas"></div>
-                </div> 
-                <div class="div-cadastrar"> 
-                    <button type="submit" class="botao-cadastrar">Cadastrar Produto</button>
-                </div>
-                
-            </form>
+        <div class="form-group form-group-price">
+          <label for="price" class="form-label">Preço (R$)</label>
+          <input id="price" name="price" type="number" min="0" step="0.01" required placeholder="0.00" class="form-input">
         </div>
-    </main>
+      </div>
+
+      <div class="form-actions">
+        <button type="reset" class="btn btn-reset">Limpar</button>
+        <button type="submit" class="btn btn-submit">Cadastrar</button>
+      </div>
+    </form>
+
+    <section aria-live="polite">
+      <div id="output" class="result" hidden></div>
+    </section>
+  </main>
+
     <script type="module" src="./js/cadastro.js"></script>
     <script src="js/lib/scroll_x.js"></script>
 </body>
