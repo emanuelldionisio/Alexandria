@@ -23,43 +23,15 @@ class HttpError extends Error {
     }
 }
 
-router.post('/usuario', async (req, res) => { // Alice faz
+router.post('/usuario', async (req, res) => { //Alice faz
     try {
-        const user = req.body;
-        const { nome, email, senha } = user;
-
-    
-        if (!nome || !email || !senha) {
-            throw new HttpError("Preencha todos os campos obrigatórios.", 400);
-        }
-
-  
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            throw new HttpError("E-mail inválido.", 400);
-        }
-
-
-        const existingUser = await Usuario.readByEmail(email);
-        if (existingUser) {
-            throw new HttpError("E-mail já cadastrado.", 409);
-        }
-
-      
+        const user = req.body;       
         const newUser = await Usuario.create(user);
-
-        return res.status(201).json(newUser);
+        res.status(201).json(newUser);
     } catch (error) {
-        console.error(error);
-        if (error instanceof HttpError) {
-            return res.status(error.code || 400).json({ message: error.message });
-        }
-        return res.status(500).json({ message: "Erro interno ao criar usuário." });
+        throw new HTTPError('Unable to create user', 400);
     }
 });
-
-
-
 
 router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, validate(
     z.object({
@@ -334,27 +306,26 @@ router.get("/usuario/:id_user/produtos", isAuthenticated, validate(
     return res.json(produtos);
 });
 
-router.post('/login/:email/:senha', async (req, res) => { // Alice faz
-  try {
-    const { email, senha } = req.params;
+router.post("/signin", async (req, res) => { //Alice faz
+    try {
+        const { email, senha } = req.body;
+        const { cod, senha: hash } = await Usuario.readByEmail(email);
+        if (! await bcrypt.compare(senha, hash)) {
+            throw new HttpError('Senha incorreta', 400);
+        }        
 
-    if (!email || !senha) {
-      return res.status(400).json({ erro: 'Preencha todos os campos.' });
+        const token = jwt.sign(
+            { userId: cod },
+            process.env.JWT_SECRET,
+            { expiresIn: '3600000' }
+        );
+
+        return res.json({ auth: true, token });
+    
+    } catch (error) {
+        throw new HttpError('Erro ao fazer login', 400);
     }
-
-    const resultado = await Usuario.readLogin(senha, email);
-
-    if (!resultado || resultado.length === 0) {
-      return res.status(401).json({ erro: 'Senha incorreta ou usuário não encontrado.' });
-    }
-
-    return res.json(resultado[0]); 
-  } catch (error) {
-    console.error('Erro no login:', error);
-    return res.status(500).json({ erro: 'Erro interno no servidor.' });
-  }
 });
-
 
 router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => { //Oliver faz
      const id_prod = req.params.id_prod;
