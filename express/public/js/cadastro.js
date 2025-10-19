@@ -118,4 +118,49 @@ function carregarPalavras() {
         })
 }
 
+const tagInput = document.getElementById('tagInput');
+    const addTagBtn = document.getElementById('addTagBtn');
+    const tagContainer = document.getElementById('tagContainer');
+    const form = document.getElementById('produtoForm');
+    let tags = [];
+
+    function renderTags() {
+      tagContainer.innerHTML = '';
+      tags.forEach((tag, index) => {
+        const tagEl = document.createElement('div');
+        tagEl.classList.add('tag');
+        tagEl.textContent = tag;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = '×';
+        removeBtn.addEventListener('click', () => {
+          tags.splice(index, 1);
+          renderTags();
+        });
+
+        tagEl.appendChild(removeBtn);
+        tagContainer.appendChild(tagEl);
+      });
+    }
+
+    addTagBtn.addEventListener('click', () => {
+      const newTag = tagInput.value.trim();
+      if (newTag !== '' && !tags.includes(newTag)) {
+        tags.push(newTag);
+        renderTags();
+        tagInput.value = '';
+        tagInput.focus();
+      }
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const produto = {
+        nome: form.nome.value,
+        tags: tags
+      };
+      console.log('Produto cadastrado:', produto);
+      alert(`Produto cadastrado:\nNome: ${produto.nome}\nTags: ${produto.tags.join(', ')}`);
+    });
+
 carregarPalavras();
