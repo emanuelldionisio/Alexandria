@@ -16,30 +16,33 @@
     <form id="productForm" class="product-form">
       <div class="form-group">
         <label for="title" class="form-label">Título</label>
-        <input id="title" name="title" type="text" required placeholder="Ex: Aprendendo JavaScript" class="form-input">
+        <input id="title" name="title" type="text" required placeholder="Ex: Alice no País das Maravilhas" class="form-input">
       </div>
 
       <div class="form-group">
-        <label for="author" class="form-label">Autor</label>
-        <input id="author" name="author" type="text" required placeholder="Nome do autor" class="form-input">
+        <label for="author" class="form-label">Autor/Cantor</label>
+        <input id="author" name="author" type="text" required placeholder="Nome do autor/cantor" class="form-input">
       </div>
 
       <div class="form-group">
-        <label for="description" class="form-label">Descrição</label>
-        <textarea id="description" name="description" required placeholder="Descreva o produto..." class="form-textarea"></textarea>
+        <label for="description" class="form-label">Descrição </label>
+        <textarea id="description" name="description" required placeholder="Descreva o enredo do livro; o contexto da música/álbum; a condição do produto; ect." class="form-textarea"></textarea>
       </div>
 
-      <div class="form-row">
-        <div class="form-group form-group-keywords">
-          <label for="keywordsSelect" class="form-label">Palavras-chave</label>
-          <select id="keywordsSelect" name="keywords" multiple class="form-input"></select>
-          <div class="hint">Selecione ou digite novas palavras-chave e pressione Enter</div>
-        </div>
+      <div class="form-group">
+        <label for="category" class="form-label">Categoria</label>
+        <select id="category" name="category" required class="form-select">
+          <option value="" disabled selected>Selecione uma categoria</option>
+          <option value="livro">Livro</option>
+          <option value="disco">Disco</option>
+        </select>
 
-        <div class="form-group form-group-price">
-          <label for="price" class="form-label">Preço (R$)</label>
-          <input id="price" name="price" type="number" min="0" step="0.01" required placeholder="0.00" class="form-input">
-        </div>
+
+
+      <div class="form-group form-group-price">
+        <label for="price" class="form-label">Preço (R$)</label>
+        <input id="price" name="price" type="number" min="0" step="0.01" required placeholder="0.00" class="form-input">
+      </div>
       </div>
 
       <div class="form-actions">
@@ -54,6 +57,5 @@
   </main>
 
     <script type="module" src="./js/cadastro.js"></script>
-    <script src="js/lib/scroll_x.js"></script>
 </body>
 </html>
