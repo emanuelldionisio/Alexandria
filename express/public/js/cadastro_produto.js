@@ -21,7 +21,13 @@ form_cadastro.onsubmit = async (event) => {
         return
     }
     
-    API.create(`/usuario/${id}/criarproduto`);
+    const tipoprod = formData.elements['tipo'];
+
+    if (tipoprod == 'livro'){
+        API.create(`/usuario/${id}/${'livro'}/criarproduto`);
+    } else {
+        API.create(`/usuario/${id}/${'disco'}/criarproduto`);
+    }
 
 }
 
