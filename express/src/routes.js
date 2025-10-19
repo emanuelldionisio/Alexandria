@@ -387,17 +387,14 @@ router.post("/usuario/id/:tipo/criarproduto", isAuthenticated, validate(
         params: z.object({
             id_user: z.uuid().or(z.literal("me"))
             }),
-        body: z.object({
-            titulo: z.string().min(2).max(128),
-            autor: z.string().min(1).max(64),
-            descricao: z.string().min(2).max(256),
-        })
     })
 ), async (req, res) => {
     try {
         const id_user = req.params.id_user == "id" ? req.userId : req.params.id_user;
+        const tipo = req.params.tipo
         const prod = req.body;
-        await Produto.create(prod, tipo)
+
+        await Produto.create(id_user, prod, tipo)
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
