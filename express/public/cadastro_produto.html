@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="css/cadastro_produto.css">
 </head>
 <body>
+
   <main class="container" role="main">
     <h1 class="form-title">Cadastro de Produto</h1>
 
     <div class="form-group">
         <label for="category" class="form-label">Categoria</label>
         <select id="category" name="category" required class="form-select">
-          <option value="" disabled selected>Selecione uma categoria</option>
+          <option value="tipo" disabled selected>Selecione uma categoria</option>
           <option value="livro">Livro</option>
           <option value="disco">Disco</option>
         </select>
@@ -47,7 +48,13 @@
         <input id="genre" name="genre" type="text" required placeholder="Ex: Ficção Científica; Fantasia" class="form-input">
       </div>
 
-      
+      <div class="form-group">    
+        <label for="tagInput" class="form-label" id="tagContainer"> Palavras-chave</label>
+        <br/>
+        <input  id="tagInput" name="tagInput" class="form-tag-input" type="text" placeholder="Digite uma palavra-chave e pressione o botão ao lado parainserir mais tags">
+        <button type="button" id="addTagButton" class="btn btn-add-tag">Adicionar Tag</button>
+        <div id="tagsContainer" class="tags-container"></div>
+    </div>
 
       <div class="form-group">
         <label for="condition" class="form-label">Categoria</label>
