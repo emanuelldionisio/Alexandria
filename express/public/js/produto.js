@@ -1,7 +1,7 @@
 import API from './services/api.js';
 import Auth from './lib/auth.js';
 
-const id = +new URLSearchParams(location.search).get("id_prod");
+const id = new URLSearchParams(location.search).get("id_prod");
 const tipo = new URLSearchParams(location.search).get("tipo"); 
 
 if (! Auth.isAuthenticated()) {

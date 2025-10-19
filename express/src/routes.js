@@ -36,7 +36,7 @@ router.post('/usuario', async (req, res) => { //Alice faz
 router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, validate(
     z.object({
         params: z.object({
-            id_user: z.string(),
+            id_user: z.uuid(),
         })
     })
 ), async (req, res) => {
@@ -189,13 +189,18 @@ router.post("/usuario/:id_user/palavras", isAuthenticated, validate(
         })
     })
 ), async (req, res) => {
-    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    const { nome } = req.body;
-    if (!id_user || !nome) {
-        throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        const { nome } = req.body;
+        if (!id_user || !nome) {
+            throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+        }
+        await PalavraUsuario.create({ usuario: id_user, nome });
+        return res.status(201).json({ status: 'ok' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
     }
-    await PalavraUsuario.create({ usuario: id_user, nome });
-    return res.status(201).json({ status: 'ok' });
 });
 
 router.delete("/usuario/:id_user/palavras/:nome", isAuthenticated, validate(

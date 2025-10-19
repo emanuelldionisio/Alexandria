@@ -1,7 +1,7 @@
 import { menu_perfil } from './lib/menu_perfil.js';
 import API from './services/api.js';
 import Auth from './lib/auth.js';
-import auth from './lib/auth.js';
+import showToast from './lib/showToast.js';
 
 if (! Auth.isAuthenticated()) {
     throw new Error("Usuário não autenticado", 400);
@@ -23,6 +23,12 @@ if (id == Auth.getUserId()) {
 }
 
 const nome = await API.read(`/usuario/${id}/nome`);
+
+if (nome.status === "error") {
+    document.body.innerHTML = "<h1>Usuário não encontrado</h1>";
+    throw new Error("Usuário não encontrado", 404);
+}
+
 let seguidores = await API.read(`/usuario/${id}/seguidores`);
 const avaliacao = await API.read(`/usuario/${id}/mediaavaliacao`);
 

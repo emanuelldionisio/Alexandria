@@ -3,6 +3,7 @@ import API from './services/api.js';
 import { menu_perfil } from './lib/menu_perfil.js';
 import { renderizarPalavras } from './lib/renderizarPalavras.js';
 import api from './services/api.js';
+import showToast from './lib/showToast.js';
 
 let janela_aberta = false;
 
@@ -44,56 +45,17 @@ botao_adicionar_palavra.onclick = function() {
     }
     let corAleatoria = coresBootstrap[Math.floor(Math.random() * coresBootstrap.length)];
     botao_adicionar_palavra.insertAdjacentHTML('beforebegin', `
-        <span class= "badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra" id="input_palavra">
-                <input type="text">
-        </span>
+        <div class="badge rounded-pill text-bg-${corAleatoria} menu-palavras-chave__palavra position-relative" id="input_palavra">
+        <input type="text" class="form-control">
+        <div class="invalid-feedback position-absolute start-0 top-100 mt-1"></div>
+    </div>
     `);
     adicionando_palavra = true;
 }
 
-document.getElementById("editar_nome").onclick = function() {
-    const nomeUsuario = document.getElementById("menu-usuario__mensagem");
-    nomeUsuario.innerHTML = `Olá, <input type="text" id="nome_usuario_input" value="${nome}">`;
-    const inputNome = document.getElementById("nome_usuario_input");
-    inputNome.style.width = (inputNome.value.length + 2) + 'ch';
-    inputNome.focus();
-    inputNome.addEventListener('input', function() {
-        inputNome.style.width = (inputNome.value.length + 2) + 'ch';
-    });
-    
-    inputNome.addEventListener('keydown', async function(e) {
-        if (e.key === 'Enter') {
-            const novoNome = inputNome.value.trim();
-            if (!novoNome) {
-                inputNome.setCustomValidity("O nome não pode ser vazio.");
-                inputNome.reportValidity();
-                return;
-            }
-
-            if (novoNome.length > 128) {
-                inputNome.setCustomValidity("O nome não pode ter mais que 128 caracteres.");
-                inputNome.reportValidity();
-                return;
-            }
-
-            if (novoNome.length < 2) {
-                inputNome.setCustomValidity("O nome deve ter ao menos 2 caracteres.");
-                inputNome.reportValidity();
-                return;
-            }
-
-            await API.update(`/usuario/me/nome`, { nome: novoNome });
-            nomeUsuario.innerHTML = `Olá, ${novoNome}`;
-        } else {
-            inputNome.setCustomValidity("");
-        }
-    });
-    
-}
-
 document.addEventListener('input', function (e) {
     if (e.target.matches('.menu-palavras-chave__palavra input')) {
-        document.querySelector("#input_palavra input").setCustomValidity("");
+        document.querySelector("#input_palavra input").classList.remove("is-invalid");
         e.target.style.width = (e.target.value.length + 2) + 'ch';
     }
 });
@@ -104,42 +66,50 @@ document.addEventListener('keydown', async function (e) {
         ||  e.key !== 'Enter') return;
     
     e.preventDefault();
-    
-    const nomePalavra = e.target.value.trim();
+
+    const nomePalavra = e.target.value.trim().toLowerCase();
     const inputElement = document.querySelector("#input_palavra input");
-    
+    const feedbackElement = document.querySelector("#input_palavra .invalid-feedback");
+
     if (! nomePalavra) {
-        inputElement.setCustomValidity("O nome da palavra não pode ser vazio.");
-        inputElement.reportValidity();
+        inputElement.classList.add("is-invalid");
+        feedbackElement.textContent = "O nome da palavra não pode ser vazio.";
+        inputElement.style.width = (feedbackElement.textContent.length - 15) + 'ch';
         return;
     }
 
-    if (nomePalavra.length > 32) {
-        inputElement.setCustomValidity("O nome da palavra não pode ter mais que 32 caracteres.");
-        inputElement.reportValidity();
+    if (nomePalavra.length < 2 || nomePalavra.length > 128) {
+        inputElement.classList.add("is-invalid");
+        feedbackElement.textContent = "O nome da palavra deve ter entre 2 e 128 caracteres.";
+        inputElement.style.width = (feedbackElement.textContent.length - 23) + 'ch';
         return;
     }
 
-    if (nomePalavra.length < 2) {
-        inputElement.setCustomValidity("O nome da palavra deve ter ao menos 3 caracteres.");
-        inputElement.reportValidity();
-        return;
-    }
+    let palavras = await API.read(`/usuario/me/palavras`);
 
-    if (await API.read(`/usuario/me/palavras`).then(palavras => palavras.map(p => p.nome)).then(nomes => nomes.includes(nomePalavra))) {
-        inputElement.setCustomValidity("Você já adicionou essa palavra.");
-        inputElement.reportValidity();
+    if (palavras.some(p => p.nome.toLowerCase() === nomePalavra.toLowerCase())) {
+        inputElement.classList.add("is-invalid");
+        feedbackElement.textContent = "Você já adicionou essa palavra-chave.";
+        inputElement.style.width = (feedbackElement.textContent.length - 18) + 'ch';
         return;
     }
 
     adicionando_palavra = false;
 
-    if (nomePalavra) {
-        await API.create(`/usuario/me/palavras`, { nome: nomePalavra });
-        const palavras = await API.read(`/usuario/me/palavras`);
+    const { status, message } = await API.create(`/usuario/me/palavras`, { nome: nomePalavra });
+    
+    if (status != "ok") {
         document.getElementById("input_palavra").remove();
-        renderizarPalavras(palavras, "me", "menu");
+        adicionando_palavra = false;
+        showToast(`Erro ao adicionar palavra-chave: ${message}`);
+        return;
     }
+
+    palavras = await API.read(`/usuario/me/palavras`);
+    document.getElementById("input_palavra").remove();
+    adicionando_palavra = false;
+
+    renderizarPalavras(palavras, "me", "menu");
 });
 
 const botao_avaliacoes = document.querySelector(".botao-avaliacoes");

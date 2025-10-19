@@ -100,11 +100,18 @@ input[type="submit"]:hover {
 
 .menu-usuario__informacoes__nome {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
 }
 
 .menu-usuario__informacoes__nome i {
+    font-size: 20px;
+    color: #44593E;
+    cursor: pointer;
+}
+
+.menu-usuario__informacoes__nome .invalid-feedback {
     font-size: 20px;
     color: #44593E;
     cursor: pointer;
@@ -154,11 +161,16 @@ input[type="submit"]:hover {
     border-radius: 5px;
     padding-left: 5px;
     transition: width 0.1s;
+    box-shadow: none !important;
 }
+
 
 .menu-palavras-chave__palavra input:focus {
     outline: none;
+    background-color: transparent;
+    box-shadow: none !important;
 }
+
 
 .menu-palavras-chave__palavra:hover i {
     visibility: visible;

@@ -6,11 +6,15 @@ export function validate(schema) {
         query: req.query,
         params: req.params,
       });
- 
+
       next();
     } catch (err) {
-      return res.status(400).send(err.errors);
+      console.log(err.message)
+      return res.status(400).send({
+        status: "error",
+        message: "Formato dos dados inválidos.",
+        errors: err.message
+      });
     }
   };
 }
- 
