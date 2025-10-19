@@ -10,6 +10,7 @@ if (!Auth.isAuthenticated()) {
 const id = params.get("id_user");
 
 const form_cadastro = document.getElementById("form-cadastro");
+
 form_cadastro.onsubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(form_cadastro);
@@ -19,7 +20,7 @@ form_cadastro.onsubmit = async (event) => {
         alert("Preencha os campos corretamente, valeu!");
         return
     }
-
+    
     API.create(`/usuario/${id}/criarproduto`);
 
 }
