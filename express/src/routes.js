@@ -70,14 +70,18 @@ router.post("/usuario/:id_user/avaliacao", isAuthenticated, validate(
         })
     })
 ), async (req, res) => {
-    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    let { nota, avaliado, descricao } = req.body;
-    avaliado = req.body.avaliado == "me" ? req.userId : req.body.avaliado;
-    if (!id_user || !nota || !avaliado || !descricao) {
-        throw new HttpError('Faltam parâmetros: id_user, nota, avaliado, descricao', 400);
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        let { nota, avaliado, descricao } = req.body;
+        avaliado = req.body.avaliado == "me" ? req.userId : req.body.avaliado;
+        if (!id_user || !nota || !avaliado || !descricao) {
+            throw new HttpError('Faltam parâmetros: id_user, nota, avaliado, descricao', 400);
+        }
+        await Usuario.createAvaliacao(id_user, avaliado, nota, descricao);
+        return res.status(201).json({ status: 'ok' });
+    } catch (error) {
+        return res.status(500).json({ status: 'error', message: error.message || 'Erro ao criar avaliação' });
     }
-    await Usuario.createAvaliacao(id_user, avaliado, nota, descricao);
-    return res.status(201).json({ status: 'ok' });
 });
 
 router.post("/usuario/:id_user/denuncia", isAuthenticated, validate(
@@ -91,14 +95,21 @@ router.post("/usuario/:id_user/denuncia", isAuthenticated, validate(
         })
     })
 ), async (req, res) => {
-    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    let { denunciado, descricao } = req.body;
-    denunciado = req.body.denunciado == "me" ? req.userId : req.body.denunciado;
-    if (!id_user || !denunciado || !descricao) {
-        throw new HttpError('Faltam parâmetros: id_user, denunciado, descricao', 400);
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        let { denunciado, descricao } = req.body;
+        denunciado = req.body.denunciado == "me" ? req.userId : req.body.denunciado;
+        if (!id_user || !denunciado || !descricao) {
+            throw new HttpError('Faltam parâmetros: id_user, denunciado, descricao', 400);
+        }
+        await Usuario.createDenuncia(id_user, denunciado, descricao);
+        return res.status(201).json({ status: 'ok' });
+    } catch (error) {
+        if (error.message == "Faltam parâmetros: id_user, denunciado, descricao") {
+            return res.status(400).json({ status: 'error', message: error.message });
+        }
+        return res.status(500).json({ status: 'error', message: 'Erro ao criar denúncia' });
     }
-    await Usuario.createDenuncia(id_user, denunciado, descricao);
-    return res.status(201).json({ status: 'ok' });
 });
 
 router.get("/usuario/:id_user/denuncia", isAuthenticated, validate(
@@ -156,13 +167,18 @@ router.put("/usuario/:id_user/nome", isAuthenticated, validate(
         })
     })
 ), async (req, res) => {
-    const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    const { nome } = req.body;
-    if (!id_user || !nome) {
-        throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        const { nome } = req.body;
+        if (!id_user || !nome) {
+            throw new HttpError('Faltam parâmetros: id_user, nome', 400);
+        }
+        await Usuario.updateName(id_user, nome);
+        return res.status(204).json({ status: 'ok' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'error', message: error.message || 'Erro interno do servidor' });
     }
-    await Usuario.updateName(id_user, nome);
-    return res.status(204).json({ status: 'ok' });
 });
 
 router.get("/usuario/:id_user/palavras", isAuthenticated, validate(
@@ -199,8 +215,12 @@ router.post("/usuario/:id_user/palavras", isAuthenticated, validate(
         await PalavraUsuario.create({ usuario: id_user, nome });
         return res.status(201).json({ status: 'ok' });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
+        if (error.message === "A palavra já está associada ao usuário") {
+            return res.status(409).json({ status: 'error', message: 'A palavra já está associada ao usuário' });
+        } else {
+            console.error(error);
+            return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
+        }
     }
 });
 
