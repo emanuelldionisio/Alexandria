@@ -70,7 +70,7 @@ router.post("/usuario/:id_user/avaliacao", isAuthenticated, validate(
     })
 ), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    const { nota, avaliado, descricao } = req.body;
+    let { nota, avaliado, descricao } = req.body;
     avaliado = req.body.avaliado == "me" ? req.userId : req.body.avaliado;
     if (!id_user || !nota || !avaliado || !descricao) {
         throw new HttpError('Faltam parâmetros: id_user, nota, avaliado, descricao', 400);
@@ -91,7 +91,7 @@ router.post("/usuario/:id_user/denuncia", isAuthenticated, validate(
     })
 ), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    const { denunciado, descricao } = req.body;
+    let { denunciado, descricao } = req.body;
     denunciado = req.body.denunciado == "me" ? req.userId : req.body.denunciado;
     if (!id_user || !denunciado || !descricao) {
         throw new HttpError('Faltam parâmetros: id_user, denunciado, descricao', 400);
@@ -264,7 +264,7 @@ router.post("/usuario/:id_user/seguidos", isAuthenticated, validate(
     })
 ), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-    const { seguido } = req.body;
+    let { seguido } = req.body;
     seguido = req.body.seguido == "me" ? req.userId : req.body.seguido;
     if (!id_user || !seguido) {
         throw new HttpError('Faltam parâmetros: id_user, seguido', 400);
