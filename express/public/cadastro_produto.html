@@ -13,23 +13,7 @@
   <main class="container" role="main">
     <h1 class="form-title">Cadastro de Produto</h1>
 
-    <form id="productForm" class="product-form">
-      <div class="form-group">
-        <label for="title" class="form-label">Título</label>
-        <input id="title" name="title" type="text" required placeholder="Ex: Alice no País das Maravilhas" class="form-input">
-      </div>
-
-      <div class="form-group">
-        <label for="author" class="form-label">Autor/Cantor</label>
-        <input id="author" name="author" type="text" required placeholder="Nome do autor/cantor" class="form-input">
-      </div>
-
-      <div class="form-group">
-        <label for="description" class="form-label">Descrição </label>
-        <textarea id="description" name="description" required placeholder="Descreva o enredo do livro; o contexto da música/álbum; a condição do produto; ect." class="form-textarea"></textarea>
-      </div>
-
-      <div class="form-group">
+    <div class="form-group">
         <label for="category" class="form-label">Categoria</label>
         <select id="category" name="category" required class="form-select">
           <option value="" disabled selected>Selecione uma categoria</option>
@@ -37,13 +21,51 @@
           <option value="disco">Disco</option>
         </select>
 
+    <form id="productForm" class="product-form">
+      <div class="form-group">
+        <label for="title" class="form-label">Título</label>
+        <input id="title" name="title" type="text" required placeholder="Ex: Alice no País das Maravilhas" class="form-input">
+      </div>
 
+      <div class="form-group">
+        <label for="author" class="form-label">Autor/Artista</label>
+        <input id="author" name="author" type="text" required placeholder="Nome do autor/artista" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label for="publisher" class="form-label">Editora/Gravadora</label>
+        <input id="publisher" name="publisher" type="text" required placeholder="Nome da editora ou da gravadora" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Descrição </label>
+        <textarea id="description" name="description" required placeholder="Descreva o enredo do livro, o contexto da música/álbum, a condição do produto, se há avarias, ect." class="form-textarea"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="genre" class="form-label"> Gênero</label>
+        <input id="genre" name="genre" type="text" required placeholder="Ex: Ficção Científica; Fantasia" class="form-input">
+      </div>
+
+      
+
+      <div class="form-group">
+        <label for="condition" class="form-label">Categoria</label>
+        <select id="condition" name="condition" required class="form-select">
+          <option value="" disabled selected>Selecione a condição mais apropriada para classificar o produto</option>
+          <option value="pessimo">Péssimo</option>
+          <option value="ruim">Ruim</option>
+          <option value="neutro">Neutro/regular</option>
+          <option value="bom">Bom</option>
+          <option value="excelente">Excelente</option>
+        </select>
+      </div>
 
       <div class="form-group form-group-price">
         <label for="price" class="form-label">Preço (R$)</label>
         <input id="price" name="price" type="number" min="0" step="0.01" required placeholder="0.00" class="form-input">
       </div>
-      </div>
+
 
       <div class="form-actions">
         <button type="reset" class="btn btn-reset">Limpar</button>
