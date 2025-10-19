@@ -60,6 +60,47 @@ document.addEventListener('input', function (e) {
     }
 });
 
+document.getElementById("editar_nome").onclick = function () {
+    const nomeUsuario = document.getElementById("menu-usuario__mensagem");
+    nomeUsuario.style.position = 'relative';
+    nomeUsuario.innerHTML = `Olá, <input type="text" id="nome_usuario_input" class="d-inline-block form-control" value="${nome}"> <div class="invalid-feedback position-absolute start-0 top-100 mt-1"></div>`;
+    const inputNome = document.getElementById("nome_usuario_input");
+    inputNome.style.width = (inputNome.value.length + 2) + 'ch';
+    inputNome.focus();
+    inputNome.addEventListener('input', function () {
+        inputNome.style.width = (inputNome.value.length + 2) + 'ch';
+    });
+
+    inputNome.addEventListener('keydown', async function (e) {
+        const inputNome = document.getElementById("nome_usuario_input");
+        const novoNome = inputNome.value.trim();
+        const feedbackElement = document.querySelector("#nome_usuario_input + .invalid-feedback");
+        if (e.key === 'Enter') {
+            if (!novoNome) {
+                inputNome.classList.add("is-invalid");
+                feedbackElement.textContent = "O nome não pode ser vazio.";
+                inputNome.style.width = (feedbackElement.textContent.length - 10) + 'ch';
+                return;
+            }
+
+            if (novoNome.length > 128 || novoNome.length < 2) {
+                inputNome.setCustomValidity("O nome deve ter entre 2 e 128 caracteres.");
+                feedbackElement.textContent = "O nome deve ter entre 2 e 128 caracteres.";
+                inputNome.classList.add("is-invalid");
+                inputNome.style.width = (feedbackElement.textContent.length - 23) + 'ch';
+                return;
+            }
+
+            await API.update(`/usuario/me/nome`, { nome: novoNome });
+            nomeUsuario.innerHTML = `Olá, ${novoNome}`;
+        } else {
+            inputNome.classList.remove("is-invalid");
+            feedbackElement.textContent = "";
+        }
+    });
+
+}
+
 document.addEventListener('keydown', async function (e) {
     
     if ( !e.target.matches('.menu-palavras-chave__palavra input') 

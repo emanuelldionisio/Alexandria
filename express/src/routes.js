@@ -36,7 +36,7 @@ router.post('/usuario', async (req, res) => { //Alice faz
 router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, validate(
     z.object({
         params: z.object({
-            id_user: z.uuid(),
+            id_user: z.uuid().or(z.literal("me")),
         })
     })
 ), async (req, res) => {

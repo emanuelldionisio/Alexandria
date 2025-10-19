@@ -11,10 +11,19 @@ body {
 #nome_usuario_input {
     background-color: transparent;
     border: none;
+    box-shadow: none !important;
+    font-size: 30px;
+}
+
+.menu-usuario__mensagem .invalid-feedback {
+    color: #722D14 !important;
+    font-size: 15px !important;
+    text-align: right;
 }
 
 #nome_usuario_input:focus {
     outline: none;
+    box-shadow: none !important;
 }
 
 .menu-header {
@@ -125,6 +134,8 @@ input[type="submit"]:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
+
 
 .menu-palavras-chave {
     display: flex;
