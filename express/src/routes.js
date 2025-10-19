@@ -349,7 +349,14 @@ router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => { //O
     }
 });
 
-router.get("/usuario/:id_user/:modo/produtos_exibidos", isAuthenticated, async (req, res) => {
+router.get("/usuario/:id_user/:modo/produtos_exibidos", isAuthenticated, validate(
+    z.object({
+        params: z.object({
+                id_user: z.uuid().or(z.literal('me')),
+                modo: z.string().max(30),
+        })
+    })
+), async (req, res) => {
     const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user; 
     const modo = req.params.modo;
 
@@ -368,14 +375,4 @@ router.get("/usuario/:id_user/:modo/produtos_exibidos", isAuthenticated, async (
         return res.status(500).json({ message: 'Erro interno ao buscar produto' });
     }
 });
-
-router.get("/usuario/:id_user/imgq", isAuthenticated, async (req, res) => {
-    const id_user = req.params.id_user
-    if (!id_user) {
-        throw new HttpError('Faltam parâmetros: id_user', 400);
-    }
-    const { foto_perfil } = await Usuario.readById(id_user);
-    return res.json(foto_perfil);
-});
-
 export default router;
