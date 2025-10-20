@@ -333,37 +333,57 @@ router.get("/usuario/:id_user/produtos", isAuthenticated, validate(
 });
 
 router.post("/signin", async (req, res) => { //Alice faz
-     try {
-        const { email, senha } = req.body;
+      try {
+    
+    const incoming = {
+      email: req.body?.email ?? req.body?.id_user,
+      senha: req.body?.senha ?? req.body?.password
+    };
 
-      
-        if (!email || !senha) {
-            return res.status(400).json({ auth: false, message: "Preencha todos os campos antes de continuar." });
-        }
+    
+    const schema = z.object({
+      email: z
+        .string({ required_error: "O campo email é obrigatório." })
+        .min(1, "O campo email é obrigatório.")
+        .email("Formato de email inválido."),
+      senha: z
+        .string({ required_error: "O campo senha é obrigatório." })
+        .min(1, "O campo senha é obrigatório."),
+    });
 
-        
-        const user = await Usuario.readByEmail(email);
-        if (!user) {
-            return res.status(404).json({ auth: false, message: "Usuário não encontrado." });
-        }
-
-
-        const senhaCorreta = await bcrypt.compare(senha, user.senha);
-        if (!senhaCorreta) {
-            return res.status(401).json({ auth: false, message: "Senha incorreta." });
-        }
-
-        const token = jwt.sign(
-            { userId: user.cod },
-            process.env.JWT_SECRET,
-            { expiresIn: '3600000' }
-        );
-
-        return res.json({ auth: true, token });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ auth: false, message: "Erro interno ao fazer login." });
+ 
+    const parsed = schema.safeParse(incoming);
+    if (!parsed.success) {
+      const message = parsed.error.errors[0]?.message || "Dados inválidos.";
+      return res.status(400).json({ auth: false, message });
     }
+
+    const { email, senha } = parsed.data;
+
+    
+    const user = await Usuario.readByEmail(email);
+    if (!user) {
+      return res.status(404).json({ auth: false, message: "Usuário não encontrado." });
+    }
+
+    
+    const senhaCorreta = await bcrypt.compare(senha, user.senha);
+    if (!senhaCorreta) {
+      return res.status(401).json({ auth: false, message: "Senha incorreta." });
+    }
+
+    
+    const token = jwt.sign(
+      { userId: user.cod },
+      process.env.JWT_SECRET,
+      { expiresIn: "3600000" }
+    );
+
+    return res.json({ auth: true, token });
+  } catch (error) {
+    console.error("Erro no login:", error);
+    return res.status(500).json({ auth: false, message: "Erro interno ao fazer login." });
+  }
 });
 
 router.get("/produto/:id_prod/:tipo", isAuthenticated, async (req, res) => { //Oliver faz
