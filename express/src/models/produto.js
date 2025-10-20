@@ -1,8 +1,13 @@
 import prisma from '../database/database.js';
 
-async function create(id, obj, tipo) {
-    const { nome, valor, condicao, descricao } = obj;
+async function create(id, type, name, value, cond, des, aut_art, ed_grav, publicacao) {
+    
     const {id_usuario} = id
+    const tipo = type
+    const nome = name
+    const valor = value
+    const condicao = cond
+    const descricao = des
 
     if (!nome || !valor || !condicao || !descricao) {
         throw new Error(`Todos os campos são obrigatórios: id_usuario, nome, valor, condicao, descricao`);
@@ -16,11 +21,30 @@ async function create(id, obj, tipo) {
         id_usuario
     };
 
+    if (tipo === "livro") {
+        const autor = aut_art
+        const edicao = ed_grav
+        const qtd_pag = publicacao
+        
+        produtoData = {
+            ...produtoData,
+            autor,
+            edicao,
+            qtd_pag: parseInt(qtd_pag)
+        };
+
+        const livro = await prisma.livro.create({
+            data: produtoData
+        });
+
+        return readById(livro.id_prod, tipo);
+    }
+
     if (tipo === 'disco') {
-        const { artista, ano, gravadora } = obj;
-        if (!artista || !ano || !gravadora) {
-            throw new Error("Campos obrigatórios para disco: artista, ano, gravadora");
-        }
+        const artista = aut_art
+        const ano = publicacao
+        const gravadora = ed_grav
+
         
         produtoData = {
             ...produtoData,
@@ -34,25 +58,6 @@ async function create(id, obj, tipo) {
         });
 
         return readById(disco.id_prod, tipo);
-
-    } else if (tipo === "livro") {
-        const { autor, edicao, qtd_pag } = obj;
-        if (!autor || !edicao || !qtd_pag) {
-            throw new Error("Campos obrigatórios para livro: autor, edicao, qtd_pag");
-        }
-
-        produtoData = {
-            ...produtoData,
-            autor,
-            edicao,
-            qtd_pag: parseInt(qtd_pag)
-        };
-
-        const livro = await prisma.livro.create({
-            data: produtoData
-        });
-
-        return readById(livro.id_prod, tipo);
 
     } else {
         throw new Error("Tipo de produto inválido. Deve ser 'disco' ou 'livro'.");

@@ -14,15 +14,14 @@
   <main class="container" role="main">
     <h1 class="form-title">Cadastro de Produto</h1>
 
-    <div class="form-group">
-        <label for="category" class="form-label">Categoria</label>
+    <form id="productForm" class="product-form">
+      <div class="form-group">
         <select id="category" name="category" required class="form-select">
           <option value="tipo">Selecione uma categoria</option>
           <option value="livro">Livro</option>
           <option value="disco">Disco</option>
         </select>
-
-    <form id="productForm" class="product-form">
+      
       <div class="form-group">
         <label for="nome" class="form-label">Título</label>
         <input id="nome" name="title" type="text" required placeholder="Ex: Alice no País das Maravilhas" class="form-input">
@@ -46,19 +45,6 @@
         <label for="descricao" class="form-label">Descrição </label>
         <textarea id="descricao" name="description" required placeholder="Descreva o enredo do livro, o contexto da música/álbum, a condição do produto, se há avarias, ect." class="form-textarea"></textarea>
       </div>
-
-      <div class="form-group">
-        <label for="genero" class="form-label"> Gênero</label>
-        <input id="genero" name="genre" type="text" required placeholder="Ex: Ficção Científica; Fantasia" class="form-input">
-      </div>
-
-      <div class="form-group">    
-        <label for="tagContainer" class="form-label" id="tagContainer"> Palavras-chave</label>
-        <br/>
-        <input  id="chave" name="tagInput" class="form-tag-input" type="text" placeholder="Digite uma palavra-chave e pressione o botão ao lado parainserir mais tags">
-        <button type="button" id="addTagButton" class="btn btn-add-tag">Adicionar Tag</button>
-        <div id="tagsContainer" class="tags-container"></div>
-    </div>
 
       <div class="form-group">
         <label for="condicao" class="form-label">Condição do produto</label>
