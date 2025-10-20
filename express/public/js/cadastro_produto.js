@@ -25,7 +25,8 @@ const form_cadastro = document.getElementById("productForm");
     const ano = fd.get('ano');
     const tipo = fd.get('category');
 
-    await API.create(`/usuario/${id}/${tipo}/${nome}/${valor}/${cond}/${des}/${aut_art}/${ed_grav}/${ano}/criarproduto`);
+    const resultado = await API.create(`/usuario/${id}/criarproduto`, data);
+    return resultado;
 
 }    
 ))

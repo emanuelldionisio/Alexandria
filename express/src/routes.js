@@ -402,7 +402,7 @@ router.get("/usuario/:id_user/:modo/produtos_exibidos", isAuthenticated, validat
     }
 });
 
-router.post("/usuario/:id_user/:tipo/:nome/:valor/:cond/:des/:aut_art/:ed_grav/:ano/criarproduto", isAuthenticated, validate(
+router.post("/usuario/:id_user/:obj/criarproduto", isAuthenticated, validate(
     z.object({
         params: z.object({
             id_user: z.uuid().or(z.literal("me")),
@@ -412,16 +412,11 @@ router.post("/usuario/:id_user/:tipo/:nome/:valor/:cond/:des/:aut_art/:ed_grav/:
 ), async (req, res) => {
     try {
         const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-        const tipo = req.params.tipo;
-        const nome = req.params.nome;
-        const valor = req.params.valor;
-        const cond = req.params.cond;
-        const des = req.params.des;
-        const aut_art = req.params.aut_art;
-        const ed_grav = req.params.ed_grav;
-        const ano = req.params.ano;
+        const obj = req.params.obj;
 
-        await Produto.create(id_user, tipo, nome, valor, cond, des, aut_art, ed_grav, ano)
+        produto = await Produto.create(id_user, obj);
+
+        return res.status(201).json({ status: 'ok', produto });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
