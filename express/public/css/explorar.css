@@ -7,6 +7,33 @@ body {
     justify-content: space-between;
     gap: none;
 }
+.menu-pesquisar-produtos {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.menu-pesquisar-produtos input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.menu-pesquisar-produtos input[type="text"]:focus {
+    outline: none;
+    border-color: #B6935B;
+}
+
+.menu-pesquisar-produtos i {
+    margin-left: 10px;
+    color: #44593E;
+    font-size: 20px;
+}
+
 .menu-header0 {
     display: flex;
     justify-content: space-between;
@@ -166,4 +193,49 @@ footer {
     width: 100%;
     text-align: center;
     margin-top: 20px;
+}
+#grid_livros, 
+#grid_discos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 10px;
+}
+
+/* Cards compartilhados */
+.card-livro, 
+.card-disco {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 200px; /* altura fixa */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-livro:hover,
+.card-disco:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Imagens */
+.card-img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+}
+
+/* Corpo */
+.card-body {
+  padding: 8px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
