@@ -6,6 +6,14 @@ async function create({ usuario, nome }) {
     }
     nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
 
+    if (await prisma.palavraUsuario.count({
+        where: {
+            usuario: usuario
+        }
+    }) >= 10) {
+        throw new Error("O usuário já atingiu o limite de 10 palavras-chave");
+    }
+
     if (await prisma.palavraUsuario.findFirst({
         where: {
             usuario: usuario,

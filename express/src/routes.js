@@ -215,8 +215,8 @@ router.post("/usuario/:id_user/palavras", isAuthenticated, validate(
         await PalavraUsuario.create({ usuario: id_user, nome });
         return res.status(201).json({ status: 'ok' });
     } catch (error) {
-        if (error.message === "A palavra já está associada ao usuário") {
-            return res.status(409).json({ status: 'error', message: 'A palavra já está associada ao usuário' });
+        if (error.message === "A palavra já está associada ao usuário" || error.message === "O usuário já atingiu o limite de 10 palavras-chave") {
+            return res.status(409).json({ status: 'error', message: error.message });
         } else {
             console.error(error);
             return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
