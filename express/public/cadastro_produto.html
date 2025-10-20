@@ -17,7 +17,7 @@
     <div class="form-group">
         <label for="category" class="form-label">Categoria</label>
         <select id="category" name="category" required class="form-select">
-          <option value="tipo" disabled selected>Selecione uma categoria</option>
+          <option value="tipo">Selecione uma categoria</option>
           <option value="livro">Livro</option>
           <option value="disco">Disco</option>
         </select>
@@ -30,12 +30,12 @@
 
       <div class="form-group">
         <label for="autor" class="form-label">Autor/Artista</label>
-        <input id="autor" name="author" type="text" required placeholder="Nome do autor/artista" class="form-input">
+        <input id="autor_artista" name="author" type="text" required placeholder="Nome do autor/artista" class="form-input">
       </div>
 
       <div class="form-group">
         <label for="gravadora" class="form-label">Editora/Gravadora</label>
-        <input id="gravadora" name="publisher" type="text" required placeholder="Nome da editora ou da gravadora" class="form-input">
+        <input id="editora_gravadora" name="publisher" type="text" required placeholder="Nome da editora ou da gravadora" class="form-input">
       </div>
 
       <div class="form-group">
@@ -51,7 +51,7 @@
       <div class="form-group">    
         <label for="tagContainer" class="form-label" id="tagContainer"> Palavras-chave</label>
         <br/>
-        <input  id="tagInput" name="tagInput" class="form-tag-input" type="text" placeholder="Digite uma palavra-chave e pressione o botão ao lado parainserir mais tags">
+        <input  id="chave" name="tagInput" class="form-tag-input" type="text" placeholder="Digite uma palavra-chave e pressione o botão ao lado parainserir mais tags">
         <button type="button" id="addTagButton" class="btn btn-add-tag">Adicionar Tag</button>
         <div id="tagsContainer" class="tags-container"></div>
     </div>
@@ -70,7 +70,7 @@
 
       <div class="form-group form-group-price">
         <label for="price" class="form-label">Preço (R$)</label>
-        <input id="price" name="price" type="number" min="0" step="0.01" required placeholder="0.00" class="form-input">
+        <input id="valor" name="price" type="number" min="0" step="0.01" required placeholder="0.00" class="form-input">
       </div>
 
 

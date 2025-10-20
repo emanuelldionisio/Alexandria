@@ -10,6 +10,23 @@ if (!Auth.isAuthenticated()) {
 const id = Auth.getUserId()
 
 const form_cadastro = document.getElementById("productForm");
+
+form_cadastro.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(form_cadastro);
+    const obj = Object.fromEntries(fd)
+    const data = JSON.stringify(obj);
+    const nome = fd.get('nome');
+    const valor = fd.get('valor');
+    const cond = fd.get('condicao');
+    const des = fd.get('descricao');
+    const aut_art = fd.get('autor_artista');
+    const ed_grav = fd.get('editora_gravadora');
+    const gen = fd.get('genero');
+    const pal = fd.get('chave');
+    console.log(data, nome, valor, cond, des, aut_art, ed_grav, gen, pal);
+})
+
 form_cadastro.onsubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(form_cadastro);
