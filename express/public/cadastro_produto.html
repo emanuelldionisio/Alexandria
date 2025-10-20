@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/cadastro_produto.css">
 </head>
 <body>
-
+  
   <main class="container" role="main">
     <h1 class="form-title">Cadastro de Produto</h1>
 
@@ -37,6 +37,10 @@
         <label for="gravadora" class="form-label">Editora/Gravadora</label>
         <input id="editora_gravadora" name="publisher" type="text" required placeholder="Nome da editora ou da gravadora" class="form-input">
       </div>
+      <div class="form-group">
+        <label for="ano" class="form-label">Ano de publicação</label>
+        <input id="ano" name="ano" type="text" required placeholder="Ex.: 2018" class="form-input">
+      </div>
 
       <div class="form-group">
         <label for="descricao" class="form-label">Descrição </label>
@@ -57,7 +61,7 @@
     </div>
 
       <div class="form-group">
-        <label for="condicao" class="form-label">Categoria</label>
+        <label for="condicao" class="form-label">Condição do produto</label>
         <select id="condicao" name="condition" required class="form-select">
           <option value="" disabled selected>Selecione a condição mais apropriada para classificar o produto</option>
           <option value="pessimo">Péssimo</option>
