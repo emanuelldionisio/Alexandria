@@ -333,23 +333,36 @@ router.get("/usuario/:id_user/produtos", isAuthenticated, validate(
 });
 
 router.post("/signin", async (req, res) => { //Alice faz
-    try {
+     try {
         const { email, senha } = req.body;
-        const { cod, senha: hash } = await Usuario.readByEmail(email);
-        if (! await bcrypt.compare(senha, hash)) {
-            throw new HttpError('Senha incorreta', 400);
-        }        
+
+      
+        if (!email || !senha) {
+            return res.status(400).json({ auth: false, message: "Preencha todos os campos antes de continuar." });
+        }
+
+        
+        const user = await Usuario.readByEmail(email);
+        if (!user) {
+            return res.status(404).json({ auth: false, message: "Usuário não encontrado." });
+        }
+
+
+        const senhaCorreta = await bcrypt.compare(senha, user.senha);
+        if (!senhaCorreta) {
+            return res.status(401).json({ auth: false, message: "Senha incorreta." });
+        }
 
         const token = jwt.sign(
-            { userId: cod },
+            { userId: user.cod },
             process.env.JWT_SECRET,
             { expiresIn: '3600000' }
         );
 
         return res.json({ auth: true, token });
-    
     } catch (error) {
-        throw new HttpError('Erro ao fazer login', 400);
+        console.error(error);
+        return res.status(500).json({ auth: false, message: "Erro interno ao fazer login." });
     }
 });
 
