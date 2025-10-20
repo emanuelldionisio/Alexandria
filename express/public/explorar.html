@@ -18,22 +18,15 @@
                 <i class="bi bi-arrow-left"></i>
             </button>            
             <button class="botton-icon" onclick="irParaPerfil()"> 
-                <img id="inicial_perfil" alt="perfil">
+                <img id="inicial_perfil" alt="Foto de perfil">
             </button>
-            
-            <div class="input-group">
-                <div class = "input-incon"> 
-                    <i class="bi bi-search"></i>
-                </div>
-
-                <input 
-                id = "search"
-                class ="campo-input" 
-                type="text" 
-                placeholder="Pesquisando produto"
-                >
+             
+            <i class="input-group input-incon bi bi-search "></i>            
+            <div class="menu-pesquisar-produtos">
+               <input type="text" placeholder="Pesquisar produtos..." id="pesquisar_produtos">
             </div>
         </div>
+        
         <div class="lateral-direita">
             <button id="inicial-icon"class="botton-icon" onclick="irParaInicial()">
                 <i class="bi bi-house-door"></i>
@@ -44,17 +37,12 @@
             </button> 
         </div>
     </header>
-
-    <div class="container-itens-pesquisados">
-        <div id="container-produtos">
-        </div>
-        <div id="container-usuarios">
-            <h2>Vendedores</h2>
-            <ul class="lista-vendedores">
-            </ul>
-        </div>
+    <h2 class="inicial_discos"> Discos </h2>
+        <div id="grid_discos" >
     </div>
-
+    <h2 class="inicial_livros"> Livros </h2>
+    <div id="grid_livros">
+    </div>
 
     <script type="module" src="js/explorar.js"></script>
 </body>
