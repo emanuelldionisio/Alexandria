@@ -91,7 +91,11 @@ document.getElementById("editar_nome").onclick = function () {
                 return;
             }
 
-            await API.update(`/usuario/me/nome`, { nome: novoNome });
+            const { status, message } = await API.update(`/usuario/me/nome`, { nome: novoNome });
+            if (status != "ok") {
+                showToast(message || "Erro ao atualizar nome");
+                return;
+            }
             nomeUsuario.innerHTML = `Olá, ${novoNome}`;
         } else {
             inputNome.classList.remove("is-invalid");
@@ -142,7 +146,7 @@ document.addEventListener('keydown', async function (e) {
     if (status != "ok") {
         document.getElementById("input_palavra").remove();
         adicionando_palavra = false;
-        showToast(`Erro ao adicionar palavra-chave: ${message}`);
+        showToast(message || "Erro ao adicionar palavra-chave");
         return;
     }
 

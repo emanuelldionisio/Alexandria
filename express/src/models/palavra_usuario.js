@@ -5,6 +5,24 @@ async function create({ usuario, nome }) {
         throw new Error("Os campos 'usuario' e 'nome' são obrigatórios");
     }
     nome = nome.toLowerCase().replace(/\s+/g, ' ').trim();
+
+    if (await prisma.palavraUsuario.count({
+        where: {
+            usuario: usuario
+        }
+    }) >= 10) {
+        throw new Error("O usuário já atingiu o limite de 10 palavras-chave");
+    }
+
+    if (await prisma.palavraUsuario.findFirst({
+        where: {
+            usuario: usuario,
+            nome: nome
+        }
+    })) {
+        throw new Error("A palavra já está associada ao usuário");
+    }
+
     await prisma.palavraUsuario.create({
         data: {
             usuarioRef: {

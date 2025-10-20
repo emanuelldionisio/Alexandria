@@ -72,7 +72,11 @@ botao_seguir.onclick = async function () {
     let container_seguir = document.getElementById("menu-usuario__opcoes__seguir");
     
     if (botao_seguir.innerHTML === "Seguir") {
-        await API.create(`/usuario/${me}/seguidos`, { seguido: id });
+        const { status, message } = await API.create(`/usuario/${me}/seguidos`, { seguido: id });
+        if (status != "ok") {
+            showToast(message || "Erro ao seguir usuário");
+            return;
+        }
         seguidores.push({ seguinte: me, seguido: id });
         renderizarSeguidores();
     } else {
@@ -91,9 +95,15 @@ botao_avaliar.onclick = function () {
         <form id="form-avaliacao">
             <button type="button" id="cancelar-avaliacao""> X </button>
             <label for="nota">Nota (1 a 5):</label>
-            <input type="number" id="nota" name="nota" min="1" max="5" required>
+            <div>
+                <input type="number" id="nota" name="nota" class="form-control">
+                <div class="invalid-feedback">Por favor, insira uma nota entre 1 e 5.</div>
+            </div>
             <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao"></textarea>
+            <div>
+                <textarea id="descricao" name="descricao" class="form-control"></textarea>
+                <div class="invalid-feedback">Por favor, insira uma descrição.</div>
+            </div>
             <button type="submit">Enviar Avaliação</button>
         </form>
     `);
@@ -102,18 +112,38 @@ botao_avaliar.onclick = function () {
         document.getElementById("form-avaliacao").remove();
     };
     const form_avaliacao = document.getElementById("form-avaliacao");
+
+    form_avaliacao.nota.oninput = function() {
+        document.getElementById("nota").classList.remove("is-invalid");
+    }
+
+    form_avaliacao.descricao.oninput = function() {
+        document.getElementById("descricao").classList.remove("is-invalid");
+    }
+
     form_avaliacao.onsubmit = async function (event) {
         event.preventDefault();
         const nota = document.getElementById("nota").value;
         const descricao = document.getElementById("descricao").value;
         
-        if (! nota || ! descricao) {
-            alert("Por favor, preencha todos os campos.");
+        if (! nota || nota < 1 || nota > 5) {
+            document.getElementById("nota").classList.add("is-invalid");
+        }
+
+        if (! descricao) {
+            document.getElementById("descricao").classList.add("is-invalid");
+        }
+
+        if (!nota || nota < 1 || nota > 5 || !descricao) {
             return;
         }
 
-        await API.create(`/usuario/${me}/avaliacao`, { avaliado: id, nota: Number(nota), descricao });
-
+        const { status, message } = await API.create(`/usuario/${me}/avaliacao`, { avaliado: id, nota: Number(nota), descricao });
+        if (status != "ok") {
+            showToast(message || "Erro ao enviar avaliação");
+            return;
+        }
+        showToast("Avaliação enviada com sucesso");
         document.getElementById("form-avaliacao").remove();
         document.getElementById("media-avaliacao").innerHTML = await API.read(`/usuario/${id}/mediaavaliacao`);
         janela_aberta = false;
@@ -127,8 +157,11 @@ botao_denuncia.onclick = function () {
     botao_denuncia.insertAdjacentHTML('beforebegin', `
         <form id="form-denuncia">
             <button type="button" id="cancelar-denuncia"> X </button>
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao"></textarea>
+            <div>
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" class="form-control"></textarea>
+                <div class="invalid-feedback">Por favor, insira uma descrição.</div>
+            </div>
             <button type="submit">Enviar Denúncia</button>
         </form>
     `);
@@ -137,18 +170,27 @@ botao_denuncia.onclick = function () {
         document.getElementById("form-denuncia").remove();
     };
     const form_denuncia = document.getElementById("form-denuncia");
+    form_denuncia.descricao.oninput = function() {
+        document.getElementById("descricao").classList.remove("is-invalid");
+    }
     form_denuncia.onsubmit = async function (event) {
         event.preventDefault();
         const descricao = document.getElementById("descricao").value;
+        janela_aberta = false;
 
         if (!descricao) {
-            alert("Por favor, preencha todos os campos.");
+            document.getElementById("descricao").classList.add("is-invalid");
             return;
         }
 
         document.getElementById("form-denuncia").remove();
-        
-        API.create(`/usuario/${me}/denuncia`, { denunciado: id, descricao });
+
+        const { status, message } = await API.create(`/usuario/${me}/denuncia`, { denunciado: id, descricao });
+        if (status != "ok") {
+            showToast(message || "Erro ao enviar denúncia");
+            return;
+        }
+        showToast("Denúncia enviada com sucesso");
     };
 }
 

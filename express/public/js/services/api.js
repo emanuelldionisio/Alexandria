@@ -69,6 +69,8 @@ async function update(resource, data, auth = true) {
         Auth.signout();
     }
 
+    return res.json();
+
 }
 
 async function remove(resource, data, auth = true) {
