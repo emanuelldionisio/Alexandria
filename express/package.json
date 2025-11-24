@@ -4,13 +4,13 @@
     "scripts": {
         "start": "node src/index.js",
         "dev": "node --watch src/index.js",
-        "abrido": "cp '.env copy' .env ; npx prisma generate ; npx prisma migrate dev ; npm run dev"
+        "abrido": "cp '.env copy' .env ; npm install nodemailer; npx prisma generate ; npx prisma migrate dev ; npm run dev"
     },
     "prisma": {
         "seed": "node prisma/seed.js"
     },
     "dependencies": {
-        "@prisma/client": "^6.17.1",
+        "@prisma/client": "^5.20.0",
         "bcrypt": "^6.0.0",
         "dotenv": "^17.2.1",
         "express": "^4.21.2",
@@ -18,10 +18,11 @@
         "jsonwebtoken": "^9.0.2",
         "morgan": "^1.10.0",
         "node": "^22.16.0",
+        "nodemailer": "^7.0.10",
         "uuid": "^9.0.1",
         "zod": "^4.1.11"
     },
     "devDependencies": {
-        "prisma": "^6.17.1"
+        "prisma": "^5.20.0"
     }
 }

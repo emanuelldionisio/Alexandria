@@ -9,3 +9,10 @@ BCRYPT_SALT=11
 
 # JWT
 JWT_SECRET="infortunio"
+
+# EMAIL
+EMAIL_HOST=smtp.ethereal.email
+EMAIL_PORT=587
+EMAIL_SECURE=false
+EMAIL_USER=
+EMAIL_PASS=

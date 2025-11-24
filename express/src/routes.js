@@ -1,10 +1,12 @@
+import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-import express from 'express';
 import { z } from 'zod';
 
 import { isAuthenticated } from './middleware/auth.js'
 import { validate } from './middleware/validate.js';
+
+import SendMail from './services/SendMail.js';
 
 import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
@@ -24,12 +26,29 @@ class HttpError extends Error {
     }
 }
 
-router.post('/usuario', async (req, res) => { //Alice faz
+router.post('/usuario', 
+    //validate (
+    //z.object({
+        //body: z.object({
+            //name:z.string(),
+            //email:z.string(),
+            //password: z.string().min(5),
+        //}),
+    //})
+//),
+ async (req, res) => { //Alice faz
     try {
-        const user = req.body;       
+        const user = req.body;  
+        //delete user.confirmationPassword;     
         const newUser = await Usuario.create(user);
+        //delete newUser.password;
+        //await SendMail.creatNewUser(user.email); 
         res.status(201).json(newUser);
     } catch (error) {
+        //if (
+            //error.message.includes(
+                //'unique constraint failed on the fields: (`email`)')){
+                //throw new HTTPError('Email already exists', 400); }
         throw new HTTPError('Unable to create user', 400);
     }
 });
