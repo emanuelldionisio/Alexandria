@@ -4,9 +4,12 @@ import Auth from './lib/auth.js';
 const id = new URLSearchParams(location.search).get("id_prod");
 const tipo = new URLSearchParams(location.search).get("tipo"); 
 
-if (! Auth.isAuthenticated()) {
+if (!Auth.isAuthenticated()) {
     throw new Error("Usuário não autenticado", 400);
 }
+
+const id_usuario = Auth.getUserId();
+
 
 id ? carregaproduto(id, tipo) : alert("ID do produto inválido na URL."); 
 
@@ -54,42 +57,74 @@ function preencherPagina(produto, tipo, vendedor) {
   infoDiv.innerHTML = infoItems.join('');
 }
 
+
+async function addCarrinho() {
+    console.log("DEBUG CARRINHO:", {
+      id_usuario,
+      id_prod: produto?.id_prod,
+      tipo
+    });
+    
+    if (!id_usuario) {
+        alert("Você precisa estar logado para adicionar ao carrinho.");
+        return;
+    }
+
+    if (!produto || !produto.id_prod) {
+        alert("Produto não carregado corretamente.");
+        return;
+    }
+
+    try {
+        const resposta = await API.create("/carrinho", {
+            id_usuario: id_usuario,
+            id_prod: produto.id_prod,
+            tipo: tipo
+        });
+
+        alert("Produto adicionado ao carrinho!");
+
+    } catch (err) {
+        console.error("Erro ao adicionar ao carrinho:", err);
+        alert("Erro: " + err.message);
+    }
+}
+
+const btnCarrinho = document.getElementById("btn-add-carrinho");
+
+if (btnCarrinho) {
+    btnCarrinho.addEventListener("click", (event) => {
+        event.preventDefault();
+        addCarrinho();
+    });
+}
+
+window.addCarrinho = addCarrinho;
+
+
 export function irParaPerfil() {
     window.location.href = `perfil.html?id=${produto.id_usuario}`;
 }
 
 async function addListaDeDesejos() {
-    if (!id_produto || !cod_usuario) {
-        alert("ID do produto ou ID do usuário inválido.");
+    if (!produto || !produto.id_prod || !id_usuario) {
+        alert("ID do produto ou usuário inválido.");
         return;
     }
 
     try {
-        const res = await fetch('/desejos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id_usuario: id_usuario,
-                id_prod: id_prod,
-                tipo: tipo
-            })
+        const resposta = await API.create('/desejos', {
+            id_usuario: id_usuario,
+            id_prod: produto.id_prod,
+            tipo: tipo
         });
-        if (!res.ok) {
-            const erro = await res.json();
-            throw new Error(erro.message || "Erro ao adicionar produto à lista de desejos");
-        }
-        const resultado = await res.json();
+
         alert("Produto adicionado à lista de desejos com sucesso!");
+
     } catch (error) {
-        alert(error.message || "Erro ao adicionar produto à lista de desejos");
+        console.error("Erro lista de desejos:", error);
+        alert(error.message);
     }
 }
-
-document.getElementById("btn-adicionar-desejo").addEventListener("click", (event) => {
-    event.preventDefault();
-    addListaDeDesejos();
-});
 
 window.irParaPerfil = irParaPerfil;

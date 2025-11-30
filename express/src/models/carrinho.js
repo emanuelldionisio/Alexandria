@@ -1,31 +1,48 @@
 import prisma from '../database/database.js';
 
- async function adicionar(id_usuario, id_prod, tipo) {
-    try {
-      const Addcart = await prisma.carrinho.create({
-        data: {
-          id_usuario,
-          id_prod,
-          tipo
-        }
-      });
-      return Addcart;
-    } catch (error) {
-      throw new Error(`Erro ao adicionar ao carrinho: ${error.message}`);
-    }
-  }
+// adiciona ao carrinho corretamente
+async function adicionar(id_usuario, id_prod, tipo) {
+  try {
 
-// carrinho de um user
-  async function listarPorUsuario(id_usuario) {
-    try {
-      const carrinho = await prisma.carrinho.findMany({
-        where: { id_usuario },
-        include: { produto: true } // Inclui informações do produto
+    if (tipo === "disco") {
+      const addcart = await prisma.carrinho_disco.create({
+        data: { id_usuario, id_prod }
       });
-      return carrinho;
-    } catch (error) {
-      throw new Error(`Erro ao listar itens no carrinho: ${error.message}`);
+      return addcart;
     }
-  }
 
-  export default (adicionar, listarPorUsuario)
+    if (tipo === "livro") {
+      const addcart = await prisma.carrinho_livro.create({
+        data: { id_usuario, id_prod }
+      });
+      return addcart;
+    }
+
+    throw new Error("Tipo inválido: esperado 'disco' ou 'livro'.");
+
+  } catch (error) {
+    throw new Error(`Erro ao adicionar ao carrinho: ${error.message}`);
+  }
+}
+
+
+async function listarPorUsuario(id_usuario) {
+  try {
+    const discos = await prisma.carrinho_disco.findMany({
+      where: { id_usuario },
+      include: { usuario: true }
+    });
+
+    const livros = await prisma.carrinho_livro.findMany({
+      where: { id_usuario },
+      include: { usuario: true }
+    });
+
+    return { discos, livros };
+
+  } catch (error) {
+    throw new Error(`Erro ao listar carrinho: ${error.message}`);
+  }
+}
+
+export default { adicionar, listarPorUsuario };

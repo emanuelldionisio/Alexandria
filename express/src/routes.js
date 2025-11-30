@@ -19,6 +19,7 @@ import Produto from './models/produto.js'
 import Avaliacao from './models/avaliacao.js'
 import usuario from './models/usuario.js';
 import produto from './models/produto.js';
+import carrinho from './models/carrinho.js';
 import { id } from 'zod/v4/locales';
 
 const router = express.Router()
@@ -537,6 +538,41 @@ router.put("/usuario/:id_user/img", isAuthenticated, multer(uploadConfig).single
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
     }
+});
+
+router.post("/carrinho", async (req, res) => {
+  try {
+    const { id_usuario, id_prod, tipo } = req.body;
+
+    const item = await carrinho.adicionar(id_usuario, id_prod, tipo);
+
+    let produto;
+    try {
+      produto = await Produto.readById(id_prod, tipo);
+    } catch (errProduto) {
+      console.warn('Não foi possível obter dados do produto para email:', errProduto.message);
+      produto = { id_prod, nome: null, tipo };
+    }
+
+    try {
+      
+      const destinatario = "teste@exemplo.com";
+      await SendMail.produtoAdicionadoCarrinho(destinatario, {
+        nome: produto.nome,
+        id_prod: produto.id_prod,
+        tipo: tipo
+      }, id_usuario);
+    } catch (errMail) {
+      
+      console.error('Falha ao enviar email (não bloqueante):', errMail);
+    }
+
+    return res.status(200).json(item);
+
+  } catch (error) {
+    console.error('ERRO NO CONTROLLER DO CARRINHO:', error);
+    return res.status(400).json({ message: error.message });
+  }
 });
 
 export default router;
