@@ -45,12 +45,20 @@ router.post('/usuario',
         const user = req.body;    
         const newUser = await Usuario.create(user);
         
-        delete newUser.password;
-        await SendMail.createNewUser(user.email); 
+        delete newUser.senha;
+        try {
+            await SendMail.createNewUser(user.email);
+            } catch (mailErr) {
+            console.error('Erro ao enviar e-mail de boas-vindas:', mailErr);
+            }
         
         res.status(201).json(newUser);
     } catch (error) {
-        throw new HttpError('Unable to create user', 400);
+        console.error('Erro ao criar usuário:', error);
+        if (error.code === 'P2002' || /duplicate/i.test(error.message || '')) {
+            return res.status(409).json({ status: 'error', message: 'Email já cadastrado' });
+        }
+    return res.status(400).json({ status: 'error', message: error.message || 'Unable to create user' });
     }
 });
 
