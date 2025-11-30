@@ -17,8 +17,12 @@ async function carregarInicial() {
     // foto do usuário
     let img_fotodeperfil = document.getElementById("inicial_perfil");
     const path_foto = await API.read(`/usuario/${'me'}/img`);
-    img_fotodeperfil.src = `imgs/usuario/${path_foto}`;
-    img_fotodeperfil.onerror = () => {
+    // img_fotodeperfil.src = `imgs/usuario/${path_foto}`;
+    // img_fotodeperfil.onerror = () => {
+    //    img_fotodeperfil.src = "imgs/usuario/0.jpg";
+    if (path_foto) {
+        img_fotodeperfil.src = `${path_foto}`;
+    } else {
         img_fotodeperfil.src = "imgs/usuario/0.jpg";
     };
 
