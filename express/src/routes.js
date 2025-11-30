@@ -42,18 +42,15 @@ router.post('/usuario',
 //),
  async (req, res) => { //Alice faz
     try {
-        const user = req.body;  
-        //delete user.confirmationPassword;     
+        const user = req.body;    
         const newUser = await Usuario.create(user);
-        //delete newUser.password;
-        //await SendMail.creatNewUser(user.email); 
+        
+        delete newUser.password;
+        await SendMail.createNewUser(user.email); 
+        
         res.status(201).json(newUser);
     } catch (error) {
-        //if (
-            //error.message.includes(
-                //'unique constraint failed on the fields: (`email`)')){
-                //throw new HTTPError('Email already exists', 400); }
-        throw new HTTPError('Unable to create user', 400);
+        throw new HttpError('Unable to create user', 400);
     }
 });
 
