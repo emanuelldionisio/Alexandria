@@ -216,7 +216,7 @@ document.getElementById("menu-usuario__avaliacao").onclick = async function () {
         const nome = avaliador.avaliador.nome;
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="../imgs/usuario/${avaliador.avaliador.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
+                <img src="${avaliador.avaliador.foto_de_perfil ? avaliador.avaliador.foto_de_perfil.path : "/imgs/0.jpg"}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>

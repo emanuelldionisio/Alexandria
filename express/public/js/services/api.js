@@ -72,7 +72,7 @@ async function update(resource, data, auth = true, formData = false) {
     }
 
     const res = await fetch(url, config);
-
+    
     if (res.status == 401) {
         Auth.signout();
     }

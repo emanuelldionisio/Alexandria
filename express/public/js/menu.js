@@ -180,7 +180,7 @@ botao_avaliacoes.onclick = async function() {
         const nome = avaliador.avaliador.nome;
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="${avaliador.avaliador.foto_de_perfil.path}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
+                <img src="${avaliador.avaliador.foto_de_perfil ? avaliador.avaliador.foto_de_perfil.path : "/imgs/0.jpg"}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>
@@ -216,7 +216,7 @@ botao_denuncias.onclick = async function() {
     for (const denuncia of denuncias) {
         container_denuncia.insertAdjacentHTML(`beforeend`, `
             <div class="denuncia-item">
-                <img src="${denuncia.denunciadoRef.foto_de_perfil.path}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${denuncia.denunciadoRef.cod}'">
+                <img src="${denuncia.denunciadoRef.foto_de_perfil ? denuncia.denunciadoRef.foto_de_perfil.path : "/imgs/0.jpg"}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${denuncia.denunciadoRef.cod}'">
                 <div class="denuncia-conteudo">
                     <span class="denuncia-nome">${denuncia.denunciadoRef.nome}</span>
                     <span class="denuncia-texto">${denuncia.descricao}</span>
@@ -236,12 +236,29 @@ foto_de_perfil.addEventListener("click", function() {
 });
 
 botao_uploadfoto.addEventListener("change", async function() {
+    if (botao_uploadfoto.files[0].size > 2 * 1024 * 1024) {
+        showToast("A foto deve ter no máximo 2MB");
+        return;
+    }
+
+    if (botao_uploadfoto.files[0].type != "image/jpeg" &&
+        botao_uploadfoto.files[0].type != "image/png" &&
+        botao_uploadfoto.files[0].type != "image/gif") {
+        showToast("A foto deve ser do tipo JPEG, PNG ou GIF");
+        return;
+    }
     foto_de_perfil.src = URL.createObjectURL(botao_uploadfoto.files[0]);
     novafoto = true;
 });
 
 botao_alterarfoto.onclick = async function() {
     const image = new FormData();
+
+    if (botao_uploadfoto.files.length == 0) {
+        showToast("Selecione uma foto para alterar");
+        return;
+    }
+
     image.append("image", botao_uploadfoto.files[0]);
 
     const usuario = await api.read(`/usuario/me`);
@@ -254,7 +271,12 @@ botao_alterarfoto.onclick = async function() {
             newImage = await api.create("/usuario/me/img", image, true, true);
         }
     } catch (error) {
-        showToast(error.message || "Erro ao atualizar foto de perfil");
+        showToast("Erro ao atualizar foto de perfil");
+        return;
+    }
+    
+    if (newImage.status != "ok") {
+        showToast(newImage.message || "Erro ao atualizar foto de perfil");
         return;
     }
     

@@ -530,7 +530,6 @@ router.put("/usuario/:id_user/img", isAuthenticated, multer(uploadConfig).single
         const user = await Usuario.readById(id_user);
         return res.status(200).json({ status: 'ok', path: user.foto_de_perfil.path });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
     }
 });
