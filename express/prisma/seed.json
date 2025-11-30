@@ -31,46 +31,6 @@
             "descricao": "CD bom, mas não atendeu totalmente às minhas expectativas. A música é boa, mas poderia ser melhor."
         }
     ],
-    "carrinho_disco": [
-        {
-            "cod_usuario": "3f988b44-a034-45e0-9e6b-07b949b28b74",
-            "id_prod": "136359f1-332e-4b71-a83a-d6af5d42b919"
-        },
-        {
-            "cod_usuario": "3f988b44-a034-45e0-9e6b-07b949b28b74",
-            "id_prod": "5b26715b-b98a-4c28-971c-79c8d5006b5f"
-        }
-    ],
-    "carrinho_livro": [
-        {
-            "cod_usuario": "3f988b44-a034-45e0-9e6b-07b949b28b74",
-            "id_prod": "f51953ce-0c1f-4ffb-8f3a-592f036720d2"
-        },
-        {
-            "cod_usuario": "2b6b0204-edcf-4963-9562-b9d3ff07641d",
-            "id_prod": "b8f4133f-9118-4a94-b258-29471138883b"
-        }
-    ],
-    "desejos_livro": [
-        {
-            "cod_usuario": "3f988b44-a034-45e0-9e6b-07b949b28b74",
-            "id_prod": "f51953ce-0c1f-4ffb-8f3a-592f036720d2"
-        },
-        {
-            "cod_usuario": "2b6b0204-edcf-4963-9562-b9d3ff07641d",
-            "id_prod": "6d729e2f-515a-471a-85d2-06858e5d0a64"
-        }
-    ],
-    "desejos_disco": [
-        {
-            "cod_usuario": "3f988b44-a034-45e0-9e6b-07b949b28b74",
-            "id_prod": "136359f1-332e-4b71-a83a-d6af5d42b919"
-        },
-        {
-            "cod_usuario": "2b6b0204-edcf-4963-9562-b9d3ff07641d",
-            "id_prod": "0f63ff4e-73e4-4a29-b611-3968e0d68800"
-        }
-    ],
     "disco": [
         {
             "id_prod": "0f63ff4e-73e4-4a29-b611-3968e0d68800",
@@ -550,8 +510,7 @@
             "bairro": "Jacarezinho do norte",
             "rua": "Rua Aposentada dos Tolos",
             "senha": "krobus123",
-            "num_casa": 215,
-            "foto_perfil": "1.jpg"
+            "num_casa": 215
         },
         {
             "cod": "2b6b0204-edcf-4963-9562-b9d3ff07641d",
@@ -566,8 +525,7 @@
             "bairro": "Geisel",
             "rua": "Rua Passarinho Bem-te-vi da Silva Assobiante",
             "senha": "alicinhagamer",
-            "num_casa": 479,
-            "foto_perfil": "2.jpg"
+            "num_casa": 479
         },
         {
             "cod": "04017639-688d-4a1d-a99b-d7b686259048",
@@ -582,8 +540,7 @@
             "bairro": "Treze de Maio",
             "rua": "Rua Samba Potente que Desce no Pé",
             "senha": "manuzinhadogera",
-            "num_casa": 791,
-            "foto_perfil": "3.jpg"
+            "num_casa": 791
         },
         {
             "cod": "8f3075c3-b45b-432a-a9e9-0639d73d63c4",
@@ -598,8 +555,7 @@
             "bairro": "José Américo",
             "rua": "Rua Padrinho Chico Xavier Astrólogo",
             "senha": "RatoQueRoeuARoupaDoRei",
-            "num_casa": 331,
-            "foto_perfil": "4.jpg"
+            "num_casa": 331
         },
         {
             "cod": "64cc6794-0d36-4074-a037-4d99c4c1a53c",
@@ -614,8 +570,8 @@
             "bairro": "Bancários",
             "rua": "Rua Banqueiros em Protesto por Aumento Salarial",
             "senha": "brocedes644",
-            "num_casa": 414,
-            "foto_perfil": "5.jpg"
+            "num_casa": 414
+
         }
     ]
 }

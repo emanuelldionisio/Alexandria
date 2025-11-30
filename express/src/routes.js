@@ -2,12 +2,16 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import { z } from 'zod';
+import multer from 'multer';
 
 import { isAuthenticated } from './middleware/auth.js'
 import { validate } from './middleware/validate.js';
+import uploadConfig from './config/multer.js';
 
 import SendMail from './services/SendMail.js';
 
+
+import ImagemUsuario from './models/imagem_usuario.js'
 import Palavra from './models/palavra_chave.js'
 import Usuario from './models/usuario.js'
 import PalavraUsuario from './models/palavra_usuario.js'
@@ -52,6 +56,27 @@ router.post('/usuario',
         throw new HTTPError('Unable to create user', 400);
     }
 });
+
+router.get('/usuario/:id_user/', isAuthenticated, validate(
+    z.object({
+        params: z.object({
+            id_user: z.uuid().or(z.literal("me")),
+        })
+    })
+), async (req, res) => {
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        if (!id_user) {
+            throw new HttpError('Faltam parâmetros: id_user', 400);
+        }
+        const user = await Usuario.readById(id_user);
+        return res.json(user);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'error', message: error.message || 'Erro interno do servidor' });
+    }
+}
+);
 
 router.get('/usuario/:id_user/mediaavaliacao', isAuthenticated, validate(
     z.object({
@@ -157,8 +182,11 @@ router.get("/usuario/:id_user/img", isAuthenticated, validate(
     if (!id_user) {
         throw new HttpError('Faltam parâmetros: id_user', 400);
     }
-    const { foto_perfil } = await Usuario.readById(id_user);
-    return res.json(foto_perfil);
+    const user = await Usuario.readById(id_user);
+    if (!user.foto_de_perfil) {
+        return res.json(null);
+    }
+    return res.json(user.foto_de_perfil.path);
 });
 
 router.get("/usuario/:id_user/nome", isAuthenticated, validate(
@@ -460,7 +488,7 @@ router.post("/usuario/:id_user/:obj/criarproduto", isAuthenticated, validate(
             id_user: z.uuid().or(z.literal("me")),
             tipo: z.string().max(16),
             }),
-    })
+    }),
 ), async (req, res) => {
     try {
         const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
@@ -474,5 +502,37 @@ router.post("/usuario/:id_user/:obj/criarproduto", isAuthenticated, validate(
         return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
     }
 })
+
+router.post("/usuario/:id_user/img", isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        if (!req.file) {
+            return res.status(400).json({ status: 'error', message: 'Arquivo de imagem não fornecido' });
+        }
+        const path = `/imgs/${req.file.filename}`;
+        await ImagemUsuario.create(id_user, path);    
+        const user = await Usuario.readById(id_user);
+        return res.status(201).json({ status: 'ok', path: user.foto_de_perfil.path });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
+    }
+});
+
+router.put("/usuario/:id_user/img", isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
+    try {
+        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
+        if (!req.file) {
+            return res.status(400).json({ status: 'error', message: 'Arquivo de imagem não fornecido' });
+        }
+        const path = `/imgs/${req.file.filename}`;
+        await ImagemUsuario.update(id_user, path);    
+        const user = await Usuario.readById(id_user);
+        return res.status(200).json({ status: 'ok', path: user.foto_de_perfil.path });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
+    }
+});
 
 export default router;

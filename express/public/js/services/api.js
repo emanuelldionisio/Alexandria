@@ -2,16 +2,19 @@ import Auth from '../lib/auth.js'
 
 const domain = '/api';
 
-async function create(resource, data, auth=true) {
+async function create(resource, data, auth=true, formData=false) {
     const url = `${domain}${resource}`;
 
     const config = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        body: formData ? data : JSON.stringify(data),
+        headers: {},
     };
+
+    if (!formData) {
+        config.headers['Content-Type'] = 'application/json; charset=UTF-8';
+    }
+
 
     if (auth) {
         config.headers.Authorization = `Bearer ${Auth.getToken()}`;
@@ -48,16 +51,21 @@ async function read(resource, auth = true) {
 }
 
 
-async function update(resource, data, auth = true) {
+async function update(resource, data, auth = true, formData = false) {
     const url = `${domain}${resource}`;
 
     const config = {
         method: 'PUT',
+        body: formData ? data : JSON.stringify(data),
         headers: {
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${Auth.getToken()}`,
         },
-        body: JSON.stringify(data)
     };
+
+    if (!formData) {
+        config.headers['Content-Type'] = 'application/json; charset=UTF-8';
+    }
+
 
     if (auth) {
         config.headers.Authorization = `Bearer ${Auth.getToken()}`;

@@ -127,6 +127,19 @@ async function readById(id) {
     const user = await prisma.usuario.findUnique({
         where: {
             cod: id
+        },
+        select: {
+            cod: true,
+            nome: true,
+            email: true,
+            dt_nascimento: true,
+            pais: true,
+            estado: true,
+            cidade: true,
+            bairro: true,
+            rua: true,
+            num_casa: true,
+            foto_de_perfil: true
         }
     })
     if (!user) {
@@ -203,7 +216,7 @@ async function readAvaliadores(id_user) {
                         select: {
                             cod: true,
                             nome: true,
-                            foto_perfil: true,
+                            foto_de_perfil: true,
                             cod: true
                             
                         }
@@ -226,7 +239,7 @@ async function readDenuncias(id_user) {
                     descricao: true,
                     denunciadoRef: {
                         select: {
-                            foto_perfil: true,
+                            foto_de_perfil: true,
                             nome: true,
                             cod: true
                         }

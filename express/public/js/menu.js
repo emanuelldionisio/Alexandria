@@ -180,7 +180,7 @@ botao_avaliacoes.onclick = async function() {
         const nome = avaliador.avaliador.nome;
         container_avaliacao.insertAdjacentHTML(`beforeend`, `
             <div class="avaliacao-item">
-                <img src="../imgs/usuario/${avaliador.avaliador.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
+                <img src="${avaliador.avaliador.foto_de_perfil.path}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${avaliador.avaliador.cod}'">
                 <div class="avaliacao-conteudo">
                     <span class="avaliacao-nome">${nome}</span>
                     <span class="avaliacao-nota">⭐ ${avaliador.nota}</span>
@@ -216,7 +216,7 @@ botao_denuncias.onclick = async function() {
     for (const denuncia of denuncias) {
         container_denuncia.insertAdjacentHTML(`beforeend`, `
             <div class="denuncia-item">
-                <img src="../imgs/usuario/${denuncia.denunciadoRef.foto_perfil}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${denuncia.denunciadoRef.cod}'">
+                <img src="${denuncia.denunciadoRef.foto_de_perfil.path}" alt="Foto do usuário" onclick="window.location.href='perfil.html?id=${denuncia.denunciadoRef.cod}'">
                 <div class="denuncia-conteudo">
                     <span class="denuncia-nome">${denuncia.denunciadoRef.nome}</span>
                     <span class="denuncia-texto">${denuncia.descricao}</span>
@@ -239,6 +239,27 @@ botao_uploadfoto.addEventListener("change", async function() {
     foto_de_perfil.src = URL.createObjectURL(botao_uploadfoto.files[0]);
     novafoto = true;
 });
+
+botao_alterarfoto.onclick = async function() {
+    const image = new FormData();
+    image.append("image", botao_uploadfoto.files[0]);
+
+    const usuario = await api.read(`/usuario/me`);
+    let newImage;
+    
+    try {
+        if (usuario.foto_de_perfil) {
+            newImage = await api.update("/usuario/me/img", image, true, true);
+        } else {
+            newImage = await api.create("/usuario/me/img", image, true, true);
+        }
+    } catch (error) {
+        showToast(error.message || "Erro ao atualizar foto de perfil");
+        return;
+    }
+    
+    document.getElementById("foto-de-perfil").src = newImage.path;
+}
 
 document.querySelector(".botao-logout").onclick = function() {
     Auth.signout();

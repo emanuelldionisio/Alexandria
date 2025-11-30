@@ -18,10 +18,12 @@ export async function menu_perfil(id, pagina) {
     //Adicionar a foto de perfil
     let img_fotodeperfil = document.getElementById("foto-de-perfil");
     const path_foto = await API.read(`/usuario/${id}/img`);
-    img_fotodeperfil.src = `imgs/usuario/${path_foto}`;
-    img_fotodeperfil.onerror = () => {
+    if (path_foto) {
+        img_fotodeperfil.src = `${path_foto}`;
+    } else {
         img_fotodeperfil.src = "imgs/usuario/0.jpg";
-    };
+    }
+    
 
     renderizarProdutos(produtos);
     renderizarPalavras(palavras, id, pagina);

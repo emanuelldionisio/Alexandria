@@ -46,8 +46,14 @@ model Usuario {
   desejos_livro desejos_livro[]
   carrinho_disco carrinho_disco[]
   carrinho_livro carrinho_livro[]
-  foto_perfil String?
+  foto_de_perfil ImagemUsuario?
+}
 
+model ImagemUsuario {
+  id String @id @default(uuid())
+  path String
+  id_usuario String @unique
+  usuario Usuario @relation(fields: [id_usuario], references: [cod])
 }
 
 model Denuncia {

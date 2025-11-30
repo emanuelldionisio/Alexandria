@@ -2,11 +2,12 @@
 @token = 
 
 ###
-get {{host}}/api/usuario/3/mediaavaliacao
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzU3NDc1MDgzLCJleHAiOjE3NTc0Nzg2ODN9.XOLeJU6TJn-XKTSWLN_WRAvRLx6cm6IjqNnE-0CXZzc
+get {{host}}/api/usuario/3f988b44-a034-45e0-9e6b-07b949b28b74
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZjk4OGI0NC1hMDM0LTQ1ZTAtOWU2Yi0wN2I5NDliMjhiNzQiLCJpYXQiOjE3NjQ0NjQ3ODQsImV4cCI6MTc2NDQ2ODM4NH0.QKVtGhZzl0v1-JmGz74U3suKpc-Lcf0lx-6cLlcQfv8
+
 ###
-get {{host}}/api/usuario/2/avaliadores
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM2OTFkZC1iNWFhLTRhNzktOTliNy00ZjRkYTFlYTNjZDAiLCJpYXQiOjE3NTc0NzA5OTgsImV4cCI6MTc1NzQ3NDU5OH0.u9MSG7ZERh2CGLMB7joo1y1PuSB2ypJ8NiyOjLOis2A
+get {{host}}/api/usuario/3f988b44-a034-45e0-9e6b-07b949b28b74/avaliadores
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZjk4OGI0NC1hMDM0LTQ1ZTAtOWU2Yi0wN2I5NDliMjhiNzQiLCJpYXQiOjE3NjQ0NjQ3ODQsImV4cCI6MTc2NDQ2ODM4NH0.QKVtGhZzl0v1-JmGz74U3suKpc-Lcf0lx-6cLlcQfv8
 
 ###
 post {{host}}/api/signin
