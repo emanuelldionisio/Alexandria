@@ -1,24 +1,26 @@
 import prisma from "../database/database.js";
-
-async function create(cod_usuario, path) {
-    try {
-        const imagemUsuario = await prisma.imagemUsuario.create({
-            data: {
-                id_usuario: cod_usuario,
-                path
-            }
-        });
-        return imagemUsuario;
-    } catch (error) {
-        throw new Error(`Erro ao adicionar desejo: ${error.message}`);
-    }
-}
+import fs from 'node:fs/promises';
+import pathLib from 'node:path';
 
 async function update(cod_usuario, path) {
     try {
-        const imagemUsuario = await prisma.imagemUsuario.update({
+        const existingImage = await prisma.imagemUsuario.findUnique({
+            where: { id_usuario: cod_usuario }
+        });
+        
+        if (existingImage) {
+            const filename = pathLib.basename(existingImage.path);
+            const oldPath = pathLib.resolve('public', 'imgs', filename);
+            fs.unlink(oldPath).catch((err) => {
+                //console.log(oldPath);
+                console.error(`Erro ao deletar a imagem antiga: ${err.message}`);
+            });
+        }
+
+        const imagemUsuario = await prisma.imagemUsuario.upsert({
             where: { id_usuario: cod_usuario },
-            data: { path }
+            update: { path },
+            create: { id_usuario: cod_usuario, path }
         });
         return imagemUsuario;
     } catch (error) {
@@ -26,4 +28,4 @@ async function update(cod_usuario, path) {
     }
 }
 
-export default { create, update };
+export default { update };

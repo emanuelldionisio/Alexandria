@@ -509,22 +509,6 @@ router.post("/usuario/:id_user/:obj/criarproduto", isAuthenticated, validate(
     }
 })
 
-router.post("/usuario/:id_user/img", isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
-    try {
-        const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
-        if (!req.file) {
-            return res.status(400).json({ status: 'error', message: 'Arquivo de imagem não fornecido' });
-        }
-        const path = `/imgs/${req.file.filename}`;
-        await ImagemUsuario.create(id_user, path);    
-        const user = await Usuario.readById(id_user);
-        return res.status(201).json({ status: 'ok', path: user.foto_de_perfil.path });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
-    }
-});
-
 router.put("/usuario/:id_user/img", isAuthenticated, multer(uploadConfig).single('image'), async (req, res) => {
     try {
         const id_user = req.params.id_user == "me" ? req.userId : req.params.id_user;
@@ -571,6 +555,14 @@ router.post("/carrinho", async (req, res) => {
     console.error("ERRO NO CONTROLLER DO CARRINHO:", error);
     return res.status(400).json({ message: error.message });
   }
+});
+
+router.use((err, req, res, next) => {
+    if (err.message.includes('Invalid file type.')) {
+        return res.status(400).json({ status: 'error', message: 'Tipo de arquivo inválido. Apenas imagens JPEG, PNG e GIF são permitidas.' });
+    }
+    console.error('Erro não tratado:', err);
+    return res.status(500).json({ status: 'error', message: 'Erro interno do servidor' });
 });
 
 export default router;

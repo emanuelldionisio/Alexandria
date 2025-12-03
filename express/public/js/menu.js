@@ -261,19 +261,7 @@ botao_alterarfoto.onclick = async function() {
 
     image.append("image", botao_uploadfoto.files[0]);
 
-    const usuario = await api.read(`/usuario/me`);
-    let newImage;
-    
-    try {
-        if (usuario.foto_de_perfil) {
-            newImage = await api.update("/usuario/me/img", image, true, true);
-        } else {
-            newImage = await api.create("/usuario/me/img", image, true, true);
-        }
-    } catch (error) {
-        showToast("Erro ao atualizar foto de perfil");
-        return;
-    }
+    let newImage = await api.update("/usuario/me/img", image, true, true);
     
     if (newImage.status != "ok") {
         showToast(newImage.message || "Erro ao atualizar foto de perfil");
